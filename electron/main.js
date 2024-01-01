@@ -16,7 +16,6 @@ const createWindow = () => {
 
   mainWindow.loadURL("http://localhost:3000");
   mainWindow.maximize();
-  mainWindow.webContents.openDevTools();
 };
 
 app.whenReady().then(() => {
@@ -34,7 +33,6 @@ app.whenReady().then(() => {
     });
   ipcMain.handle("getDeparments", async () => {
     const res = await getDepartments();
-    console.log(res);
     return res;
   });
 });
