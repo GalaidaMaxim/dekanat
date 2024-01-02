@@ -11,7 +11,7 @@ const StyledButtonList = styled.ul`
 export const Departments = () => {
   const [deps, setDeps] = useState([]);
   useEffect(() => {
-    window.mainApi.getDepartments().then((result) => {
+    window.mainApi.invokeMain("getDeparments").then((result) => {
       if (!result) {
         return;
       }

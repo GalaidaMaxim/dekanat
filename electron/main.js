@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const mongoose = require("mongoose");
-const { getDepartments } = require("./DBActions");
+const { getDepartments, createStudent } = require("./API");
 const path = require("path");
 
 console.log(path.join(__dirname, "preload.js"));
@@ -31,10 +31,7 @@ app.whenReady().then(() => {
     .catch((err) => {
       console.log(err);
     });
-  ipcMain.handle("getDeparments", async () => {
-    const res = await getDepartments();
-    return res;
-  });
+  ipcMain.handle("getDeparments", getDepartments);
 });
 
 app.on("window-all-closed", () => {

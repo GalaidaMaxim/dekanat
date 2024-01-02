@@ -2,5 +2,5 @@ const { contextBridge, ipcRenderer } = require("electron");
 console.log("presload scripet");
 
 contextBridge.exposeInMainWorld("mainApi", {
-  getDepartments: () => ipcRenderer.invoke("getDeparments"),
+  invokeMain: (pipe, data = {}) => ipcRenderer.invoke(pipe, data),
 });
