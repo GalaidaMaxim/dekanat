@@ -1,4 +1,6 @@
+const { createStudent } = require("../DBActions");
+
 module.exports = async (event, student) => {
-  console.log(student);
-  return { message: "OK from server" };
+  const result = await createStudent(student);
+  return { result };
 };

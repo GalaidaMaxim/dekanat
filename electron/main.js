@@ -32,6 +32,7 @@ app.whenReady().then(() => {
       console.log(err);
     });
   ipcMain.handle("getDeparments", getDepartments);
+  ipcMain.handle("createStudent", createStudent);
 });
 
 app.on("window-all-closed", () => {
