@@ -1,6 +1,12 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const mongoose = require("mongoose");
-const { getDepartments, createStudent } = require("./API");
+const {
+  getDepartments,
+  createStudent,
+  getStudentByDepartment,
+  getAllStudents,
+  getStudentById,
+} = require("./API");
 const path = require("path");
 
 console.log(path.join(__dirname, "preload.js"));
@@ -20,7 +26,7 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   createWindow();
-  mongoose.set("strictQuery", false);
+  mongoose.set("strictQuery", true);
   mongoose
     .connect(
       "mongodb+srv://User:53435343@cluster0.amztsfk.mongodb.net/Gliera?retryWrites=true&w=majority"
@@ -33,6 +39,9 @@ app.whenReady().then(() => {
     });
   ipcMain.handle("getDeparments", getDepartments);
   ipcMain.handle("createStudent", createStudent);
+  ipcMain.handle("getStudentByDepartment", getStudentByDepartment);
+  ipcMain.handle("getAllStudents", getAllStudents);
+  ipcMain.handle("getStudentById", getStudentById);
 });
 
 app.on("window-all-closed", () => {

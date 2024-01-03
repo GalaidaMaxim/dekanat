@@ -15,6 +15,8 @@ export const CreateStudent = () => {
   const [secondName, setSecondName] = useState("");
   const [sername, setSername] = useState("");
   const [depID, setdepID] = useState("");
+  const [level, setLevel] = useState("бакалавр");
+  const [course, setCourse] = useState(1);
 
   const [deps, setDeps] = useState([]);
   useEffect(() => {
@@ -22,25 +24,37 @@ export const CreateStudent = () => {
       if (!result) {
         return;
       }
-      setDeps(result.map((item) => item._doc));
+      setDeps(result);
     });
   }, []);
 
   const handleDep = (event) => {
     setdepID(event.target.value);
-    console.log(event.target.value);
   };
-
+  const handleLevel = (event) => {
+    setLevel(event.target.value);
+    setCourse(1);
+  };
+  const reset = () => {
+    setName("");
+    setSecondName("");
+    setdepID("");
+    setSername("");
+  };
   const onSubmit = async (event) => {
     event.preventDefault();
     const student = {
       name,
       secondName,
       sername,
+      level,
+      course,
       depID: depID.toString(),
     };
     const result = await window.mainApi.invokeMain("createStudent", student);
-    console.log(result);
+    if (result) {
+      reset();
+    }
   };
   return (
     <form onSubmit={onSubmit}>
@@ -70,17 +84,45 @@ export const CreateStudent = () => {
           </Grid>
         </Grid>
       </Box>
-      <Box padding={1} width={300}>
-        <FormControl fullWidth>
-          <InputLabel>відділення</InputLabel>
-          <Select value={depID} onChange={handleDep} label="відділення">
-            {deps.map((item) => (
-              <MenuItem value={item.name} key={item.name}>
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+      <Box padding={1}>
+        <Grid container columnSpacing={{ xs: 2 }}>
+          <Grid item xs={2}>
+            <FormControl fullWidth>
+              <InputLabel>відділення</InputLabel>
+              <Select value={depID} onChange={handleDep} label="відділення">
+                {deps.map((item) => (
+                  <MenuItem value={item.name} key={item.name}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={4}>
+            <FormControl fullWidth>
+              <InputLabel>ОС</InputLabel>
+              <Select value={level} onChange={handleLevel} label="відділення">
+                <MenuItem value={"бакалавр"}>бакалавр</MenuItem>
+                <MenuItem value={"магістр"}>магістр</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
+            <FormControl fullWidth>
+              <InputLabel>Курс</InputLabel>
+              <Select
+                value={course}
+                onChange={(event) => setCourse(event.target.value)}
+                label="відділення"
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
         <Button type="submit" sx={{ marginTop: 2 }} variant="contained">
           Створити
         </Button>

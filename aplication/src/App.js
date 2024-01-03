@@ -1,8 +1,10 @@
 import { Button, Box, Paper } from "@mui/material";
 import { useNavigate, Routes, Route } from "react-router-dom";
-import { AllStudents } from "./pages/AllStudents";
 import { Departments } from "./pages/Departments";
 import { CreateStudent } from "./pages/CreateStudent";
+import { StudentList } from "./pages/StudentList";
+import { AllStudentList } from "./pages/AllStudentList";
+import { StudentInfo } from "./pages/StudentInfo";
 import { NavLink } from "react-router-dom";
 
 function App() {
@@ -15,17 +17,34 @@ function App() {
           <Box borderBottom={1}>
             <h1>Деканат</h1>
           </Box>
-          <Button onClick={() => navigate("/")}>Відділення</Button>
-          <Button onClick={() => navigate("/create_student")}>
-            Додати студента
-          </Button>
+          <Box padding={1} display={"flex"} flexDirection={"column"} gap={1}>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => navigate("/students")}
+            >
+              Всі студинти
+            </Button>
+            <Button fullWidth variant="outlined" onClick={() => navigate("/")}>
+              Відділення
+            </Button>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => navigate("/create_student")}
+            >
+              Додати студента
+            </Button>
+          </Box>
         </Box>
         <Box padding={"20px"} width={"100%"}>
           <Paper elevation={3} width={"100%"}>
             <Box padding="20px" minHeight={"calc(100vh - 80px)"}>
               <Routes>
                 <Route element={<Departments />} path="/" />
-                <Route element={<AllStudents />} path="/students" />
+                <Route element={<StudentInfo />} path="/students_info/:id" />
+                <Route element={<StudentList />} path="/students/:id" />
+                <Route element={<AllStudentList />} path="/students" />
                 <Route element={<CreateStudent />} path="/create_student" />
               </Routes>
             </Box>

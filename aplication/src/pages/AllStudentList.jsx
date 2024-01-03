@@ -6,19 +6,19 @@ import {
   TableCell,
   Button,
 } from "@mui/material";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { CiCirclePlus } from "react-icons/ci";
+import { useNavigate, useLocation } from "react-router-dom";
 
-export const StudentList = () => {
-  const { id } = useParams();
+export const AllStudentList = () => {
   const [students, setStudents] = useState([]);
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    window.mainApi.invokeMain("getStudentByDepartment", id).then((students) => {
+    window.mainApi.invokeMain("getAllStudents").then((students) => {
       setStudents(JSON.parse(students));
+      console.log(students);
     });
   }, []);
 
@@ -29,30 +29,31 @@ export const StudentList = () => {
           <TableCell>Прізвище</TableCell>
           <TableCell>Ім'я</TableCell>
           <TableCell>Курс</TableCell>
+          <TableCell>Відділення</TableCell>
           <TableCell>Освітній ступінь</TableCell>
-          <TableCell> </TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {students.map((item) => (
-          <TableRow onClick={() => console.log(item._id)} key={item._id}>
+          <TableRow key={item._id}>
             <TableCell>{item.sername}</TableCell>
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.course}</TableCell>
+            <TableCell>{item.department.name}</TableCell>
             <TableCell>{item.level}</TableCell>
             <TableCell>
               <Button
-                onClick={() =>
-                  navigate(`/students_info/${item._id}`, {
-                    state: { from: location.pathname },
-                  })
-                }
                 sx={{
                   padding: 0,
                   minWidth: 0,
                   borderRadius: "50%",
                   height: "30px",
                 }}
+                onClick={() =>
+                  navigate(`/student_info/${item._id}`, {
+                    state: { from: location.pathname },
+                  })
+                }
               >
                 <CiCirclePlus style={{ width: "100%", height: "100%" }} />
               </Button>

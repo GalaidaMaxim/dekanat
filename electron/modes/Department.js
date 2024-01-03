@@ -6,4 +6,4 @@ const Department = new Schema({
   },
 });
 
-module.exports = model("departments", Department);
+module.exports = model("department", Department);
