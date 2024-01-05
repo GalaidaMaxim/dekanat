@@ -24,7 +24,7 @@ export const CreateStudent = () => {
       if (!result) {
         return;
       }
-      setDeps(result);
+      setDeps(JSON.parse(result));
     });
   }, []);
 

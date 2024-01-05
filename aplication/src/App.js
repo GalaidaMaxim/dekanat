@@ -5,6 +5,7 @@ import { CreateStudent } from "./pages/CreateStudent";
 import { StudentList } from "./pages/StudentList";
 import { AllStudentList } from "./pages/AllStudentList";
 import { StudentInfo } from "./pages/StudentInfo";
+import { CreateSubject } from "./pages/CreateSybject";
 import { NavLink } from "react-router-dom";
 
 function App() {
@@ -35,6 +36,13 @@ function App() {
             >
               Додати студента
             </Button>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => navigate("/create_subject")}
+            >
+              Додати предмет
+            </Button>
           </Box>
         </Box>
         <Box padding={"20px"} width={"100%"}>
@@ -46,6 +54,7 @@ function App() {
                 <Route element={<StudentList />} path="/students/:id" />
                 <Route element={<AllStudentList />} path="/students" />
                 <Route element={<CreateStudent />} path="/create_student" />
+                <Route element={<CreateSubject />} path="/create_subject" />
               </Routes>
             </Box>
           </Paper>
