@@ -6,6 +6,7 @@ const {
   getStudentByDepartment,
   getAllStudents,
   getStudentById,
+  createSubject,
 } = require("./API");
 const path = require("path");
 
@@ -42,6 +43,7 @@ app.whenReady().then(() => {
   ipcMain.handle("getStudentByDepartment", getStudentByDepartment);
   ipcMain.handle("getAllStudents", getAllStudents);
   ipcMain.handle("getStudentById", getStudentById);
+  ipcMain.handle("createSubject", createSubject);
 });
 
 app.on("window-all-closed", () => {

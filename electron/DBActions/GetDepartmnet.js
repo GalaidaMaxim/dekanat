@@ -1,4 +1,4 @@
-const { Departments } = require("../modes");
+const { Departments } = require("../models");
 
 const getDepartments = async () => {
   try {

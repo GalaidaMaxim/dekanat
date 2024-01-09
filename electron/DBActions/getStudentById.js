@@ -1,4 +1,4 @@
-const { Students } = require("../modes");
+const { Students } = require("../models");
 
 module.exports = async (id) => {
   try {

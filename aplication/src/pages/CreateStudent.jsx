@@ -49,7 +49,7 @@ export const CreateStudent = () => {
       sername,
       level,
       course,
-      depID: depID.toString(),
+      department: depID.toString(),
     };
     const result = await window.mainApi.invokeMain("createStudent", student);
     if (result) {
@@ -101,7 +101,7 @@ export const CreateStudent = () => {
           <Grid item xs={4}>
             <FormControl fullWidth>
               <InputLabel>ОС</InputLabel>
-              <Select value={level} onChange={handleLevel} label="відділення">
+              <Select value={level} onChange={handleLevel} label="ОС">
                 <MenuItem value={"бакалавр"}>бакалавр</MenuItem>
                 <MenuItem value={"магістр"}>магістр</MenuItem>
               </Select>

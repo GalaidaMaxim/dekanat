@@ -1,4 +1,4 @@
-const { Students, Departments } = require("../modes");
+const { Students, Departments } = require("../models");
 
 const createStudent = async ({
   name,

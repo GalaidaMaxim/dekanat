@@ -36,7 +36,8 @@ export const CreateSubject = () => {
   const [creadits, setCredits] = useState(0);
   const [gos, setGos] = useState(false);
   const [mandatory, setMandatory] = useState(false);
-
+  const [level, setLevel] = useState("бакалавр");
+  const [name, setName] = useState("");
   const [deps, setDeps] = useState([]);
   useEffect(() => {
     window.mainApi.invokeMain("getDeparments").then((result) => {
@@ -59,10 +60,26 @@ export const CreateSubject = () => {
       });
     };
   };
+  const onSubmit = async () => {
+    const subject = {
+      name,
+      semesters,
+      department: depID.toString(),
+      gos,
+      mandatory,
+      level,
+    };
+    const result = await window.mainApi.invokeMain("createSubject", subject);
+    console.log(JSON.parse(result));
+  };
   return (
     <Box>
       <h2>Додати предмет</h2>
-      <TextField label="Назва" />
+      <TextField
+        value={name}
+        label="Назва"
+        onChange={(event) => setName(event.target.value)}
+      />
       <Box>
         <h3>Семестри</h3>
         <Table>
@@ -123,10 +140,24 @@ export const CreateSubject = () => {
           <InputLabel>відділення</InputLabel>
           <Select value={depID} onChange={handleDep} label="відділення">
             {deps.map((item) => (
-              <MenuItem value={item.name} key={item.name}>
+              <MenuItem value={item._id} key={item.name}>
                 {item.name}
               </MenuItem>
             ))}
+          </Select>
+        </FormControl>
+      </Box>
+
+      <Box width={"300px"} marginTop={2}>
+        <FormControl fullWidth>
+          <InputLabel>ОС</InputLabel>
+          <Select
+            value={level}
+            onChange={(event) => setLevel(event.target.value)}
+            label="ОС"
+          >
+            <MenuItem value={"бакалавр"}>бакалавр</MenuItem>
+            <MenuItem value={"магістр"}>магістр</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -152,8 +183,9 @@ export const CreateSubject = () => {
           control={<Switch />}
         />
       </Box>
+
       <Box marginTop={2}>
-        <Button>Створити</Button>
+        <Button onClick={onSubmit}>Створити</Button>
       </Box>
     </Box>
   );
