@@ -42,6 +42,17 @@ const SubjectSchema = new Schema({
     type: Boolean,
     require: true,
   },
+  special: {
+    type: Boolean,
+    require: true,
+  },
+  coach: {
+    type: String,
+    default: "",
+  },
 });
 
-module.exports = model("Subject", SubjectSchema);
+module.exports = {
+  Subjects: model("Subject", SubjectSchema),
+  SubjectSchema,
+};

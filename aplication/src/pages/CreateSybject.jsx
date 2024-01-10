@@ -39,6 +39,7 @@ export const CreateSubject = () => {
   const [level, setLevel] = useState("бакалавр");
   const [name, setName] = useState("");
   const [deps, setDeps] = useState([]);
+  const [special, setSpesial] = useState(false);
   useEffect(() => {
     window.mainApi.invokeMain("getDeparments").then((result) => {
       if (!result) {
@@ -60,6 +61,21 @@ export const CreateSubject = () => {
       });
     };
   };
+
+  const reset = () => {
+    setName("");
+    setCredits(0);
+    setSemesters([
+      createSemesters(),
+      createSemesters(),
+      createSemesters(),
+      createSemesters(),
+      createSemesters(),
+      createSemesters(),
+      createSemesters(),
+      createSemesters(),
+    ]);
+  };
   const onSubmit = async () => {
     const subject = {
       name,
@@ -68,10 +84,14 @@ export const CreateSubject = () => {
       gos,
       mandatory,
       level,
+      special,
     };
     const result = await window.mainApi.invokeMain("createSubject", subject);
-    console.log(JSON.parse(result));
+    if (JSON.parse(result)) {
+      reset();
+    }
   };
+
   return (
     <Box>
       <h2>Додати предмет</h2>
@@ -180,6 +200,12 @@ export const CreateSubject = () => {
           label="Обов'язковий"
           value={mandatory}
           onChange={() => setMandatory((prev) => !prev)}
+          control={<Switch />}
+        />
+        <FormControlLabel
+          label="Спеціальний"
+          value={special}
+          onChange={() => setSpesial((prev) => !prev)}
           control={<Switch />}
         />
       </Box>

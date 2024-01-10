@@ -50,7 +50,7 @@ export const AllStudentList = () => {
                   height: "30px",
                 }}
                 onClick={() =>
-                  navigate(`/student_info/${item._id}`, {
+                  navigate(`/students_info/${item._id}`, {
                     state: { from: location.pathname },
                   })
                 }

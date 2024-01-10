@@ -4,6 +4,7 @@ const getStudentByDepartment = require("./getStudentByDepartment");
 const getAllStudents = require("./getAllStudents");
 const getStudentById = require("./getStudentById");
 const createSubject = require("./createSubject");
+const getSubjecByDepartment = require("./getSubjectByDepartment");
 module.exports = {
   getDepartments,
   createStudent,
@@ -11,4 +12,5 @@ module.exports = {
   getAllStudents,
   getStudentById,
   createSubject,
+  getSubjecByDepartment,
 };

@@ -8,6 +8,7 @@ const createSubject = async ({
   semesters,
   gos,
   mandatory,
+  special,
 }) => {
   try {
     const dep = await Departments.findById(department);
@@ -19,6 +20,7 @@ const createSubject = async ({
       semesters,
       gos,
       mandatory,
+      special,
     });
     if (!result) {
       return null;

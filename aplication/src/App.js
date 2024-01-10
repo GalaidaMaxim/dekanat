@@ -6,6 +6,7 @@ import { StudentList } from "./pages/StudentList";
 import { AllStudentList } from "./pages/AllStudentList";
 import { StudentInfo } from "./pages/StudentInfo";
 import { CreateSubject } from "./pages/CreateSybject";
+import { SubjectList } from "./pages/SubjectList";
 import { NavLink } from "react-router-dom";
 
 function App() {
@@ -14,7 +15,12 @@ function App() {
   return (
     <div className="App">
       <Box sx={{ display: "flex" }}>
-        <Box borderRight={1} width={300} textAlign={"center"}>
+        <Box
+          className="noPrint"
+          borderRight={1}
+          width={300}
+          textAlign={"center"}
+        >
           <Box borderBottom={1}>
             <h1>Деканат</h1>
           </Box>
@@ -43,6 +49,13 @@ function App() {
             >
               Додати предмет
             </Button>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => navigate("/plans")}
+            >
+              Індивідуальні плани
+            </Button>
           </Box>
         </Box>
         <Box padding={"20px"} width={"100%"}>
@@ -55,6 +68,7 @@ function App() {
                 <Route element={<AllStudentList />} path="/students" />
                 <Route element={<CreateStudent />} path="/create_student" />
                 <Route element={<CreateSubject />} path="/create_subject" />
+                <Route element={<SubjectList />} path="/plans" />
               </Routes>
             </Box>
           </Paper>

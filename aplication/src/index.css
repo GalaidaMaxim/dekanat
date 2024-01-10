@@ -18,3 +18,27 @@ li {
   margin: 0;
   padding: 0;
 }
+
+@media print {
+  .noPrint {
+    display: none;
+  }
+}
+
+@media screen {
+  .print {
+    display: none;
+  }
+}
+
+@page {
+  size: A4;
+}
+
+@page :left {
+  margin-left: 0;
+}
+
+@page :right {
+  margin-left: 0;
+}

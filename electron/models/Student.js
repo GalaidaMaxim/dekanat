@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const { SubjectSchema } = require("./Subject");
 
 const StudentSchema = new Schema({
   name: {
@@ -28,6 +29,7 @@ const StudentSchema = new Schema({
     type: Number,
     default: 1,
   },
+  subjects: [SubjectSchema],
 });
 
 module.exports = model("student", StudentSchema);
