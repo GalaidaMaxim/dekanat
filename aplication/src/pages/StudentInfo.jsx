@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { intToABC, intToNational } from "../serivce/formulas";
 
 export const StudentInfo = () => {
   const { id } = useParams();
@@ -52,11 +53,21 @@ export const StudentInfo = () => {
   const markInputHandle = (name) => {
     return async (event) => {
       const mark = Number.parseInt(event.target.value);
-      if (mark != event.target.value) {
+      if (mark != event.target.value && event.target.value !== "") {
         console.log("not a number");
         return;
       }
-      console.log(student);
+      window.mainApi
+        .invokeMain("updateStudent", {
+          id,
+          info: {
+            subjects: student.subjects,
+          },
+        })
+        .then((result) => {
+          setStudent(JSON.parse(result));
+          console.log(JSON.parse(result));
+        });
     };
   };
 
@@ -67,11 +78,6 @@ export const StudentInfo = () => {
         obj.subjects.find((item) => item.name === name).semesters[
           semester - 1
         ].mark = event.target.value;
-        console.log(
-          prev.subjects.find((item) => item.name === name).semesters[
-            semester - 1
-          ].mark
-        );
         return obj;
       });
     };
@@ -112,7 +118,9 @@ export const StudentInfo = () => {
           <TableHead>
             <TableRow>
               <TableCell width={"300px"}>Назва</TableCell>
-              <TableCell>Оцінка</TableCell>
+              <TableCell width={"50px"}>Оцінка</TableCell>
+              <TableCell>ECTS</TableCell>
+              <TableCell>Нацыональна шкала</TableCell>
               <TableCell>Викладач</TableCell>
             </TableRow>
           </TableHead>
@@ -124,11 +132,27 @@ export const StudentInfo = () => {
                   <TextField
                     onChange={markChageHandle(item.name)}
                     value={
-                      student.subjects[index].semesters[semester - 1].mark || ""
+                      student.subjects.find((i) => i.name === item.name)
+                        .semesters[semester - 1].mark || ""
                     }
                     size="small"
                     onBlur={markInputHandle()}
                   />
+                </TableCell>
+                <TableCell>
+                  {intToABC(
+                    student.subjects.find((i) => i.name === item.name)
+                      .semesters[semester - 1].mark
+                  )}
+                </TableCell>
+                <TableCell>
+                  {intToNational(
+                    student.subjects.find((i) => i.name === item.name)
+                      .semesters[semester - 1].mark
+                  )}
+                </TableCell>
+                <TableCell>
+                  {intToNational(student.subjects[index].coach)}
                 </TableCell>
               </TableRow>
             ))}

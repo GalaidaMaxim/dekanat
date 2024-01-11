@@ -10,7 +10,6 @@ const createStudent = async ({
   department,
 }) => {
   try {
-    console.log(department);
     const departmentObj = await Departments.findOne({ name: department });
     const newStudent = await Students.create({
       name,
