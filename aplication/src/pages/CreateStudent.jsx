@@ -56,6 +56,7 @@ export const CreateStudent = () => {
       reset();
     }
   };
+  console.log(depID);
   return (
     <form onSubmit={onSubmit}>
       <h2>Додати студента</h2>

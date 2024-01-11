@@ -5,19 +5,20 @@ const createStudent = async ({
   name,
   sername,
   secondName,
-  depID,
   level,
   course,
+  department,
 }) => {
   try {
-    const department = await Departments.findOne({ name: depID });
+    console.log(department);
+    const departmentObj = await Departments.findOne({ name: department });
     const newStudent = await Students.create({
       name,
       sername,
       secondName,
       level,
       course,
-      department: department._id,
+      department: departmentObj._id,
     });
     if (!newStudent) {
       return null;
