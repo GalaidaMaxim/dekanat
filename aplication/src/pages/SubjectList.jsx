@@ -20,7 +20,6 @@ export const SubjectList = () => {
         setSubjects(JSON.parse(result));
       });
   }, [depID, level]);
-  console.log(subjects);
   return (
     <Box>
       <h1>Індивідуальні плани</h1>

@@ -10,6 +10,9 @@ const semester = new Schema({
     enum: [1, 2, 3],
     require: true,
   },
+  mark: {
+    type: Schema.Types.Mixed,
+  },
 });
 
 const SubjectSchema = new Schema({

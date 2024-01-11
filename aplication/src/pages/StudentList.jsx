@@ -38,7 +38,7 @@ export const StudentList = () => {
         </TableHead>
         <TableBody>
           {students.map((item) => (
-            <TableRow onClick={() => console.log(item._id)} key={item._id}>
+            <TableRow key={item._id}>
               <TableCell>{item.sername}</TableCell>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.course}</TableCell>

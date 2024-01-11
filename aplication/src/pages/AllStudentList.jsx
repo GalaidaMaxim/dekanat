@@ -18,7 +18,6 @@ export const AllStudentList = () => {
   useEffect(() => {
     window.mainApi.invokeMain("getAllStudents").then((students) => {
       setStudents(JSON.parse(students));
-      console.log(students);
     });
   }, []);
 

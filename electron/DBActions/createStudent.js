@@ -1,4 +1,5 @@
 const { Students, Departments } = require("../models");
+const addMandatorySubejct = require("./addMandatorySubjects");
 
 const createStudent = async ({
   name,
@@ -21,7 +22,8 @@ const createStudent = async ({
     if (!newStudent) {
       return null;
     }
-    return newStudent;
+    const processed = await addMandatorySubejct(newStudent._id);
+    return processed;
   } catch (err) {
     console.log(err);
     return null;

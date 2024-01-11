@@ -5,6 +5,12 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Table,
+  TableRow,
+  TableBody,
+  TableHead,
+  TableCell,
+  TextField,
 } from "@mui/material";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -13,6 +19,8 @@ export const StudentInfo = () => {
   const { id } = useParams();
   const [student, setStudent] = useState({});
   const [semester, setSemester] = useState(1);
+  const [subjects, setSubjects] = useState([]);
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -25,7 +33,50 @@ export const StudentInfo = () => {
       setStudent(JSON.parse(result));
     });
   }, [id]);
-  console.log(student);
+  useEffect(() => {
+    if (!student.subjects) {
+      return;
+    }
+
+    const arr = student.subjects.filter(
+      (item) => item.semesters[semester - 1].include
+    );
+    setSubjects(arr);
+  }, [student, semester]);
+  const mandatoryAdd = async () => {
+    window.mainApi.invokeMain("addMandatorySubjects", id).then((result) => {
+      setStudent(JSON.parse(result));
+    });
+  };
+
+  const markInputHandle = (name) => {
+    return async (event) => {
+      const mark = Number.parseInt(event.target.value);
+      if (mark != event.target.value) {
+        console.log("not a number");
+        return;
+      }
+      console.log(student);
+    };
+  };
+
+  const markChageHandle = (name) => {
+    return (event) => {
+      setStudent((prev) => {
+        const obj = JSON.parse(JSON.stringify(prev));
+        obj.subjects.find((item) => item.name === name).semesters[
+          semester - 1
+        ].mark = event.target.value;
+        console.log(
+          prev.subjects.find((item) => item.name === name).semesters[
+            semester - 1
+          ].mark
+        );
+        return obj;
+      });
+    };
+  };
+
   return (
     <Box>
       <Button onClick={() => navigate(location.state.from)}>Назад</Button>
@@ -38,7 +89,7 @@ export const StudentInfo = () => {
       </Box>
       <Box borderTop={1}>
         <h2>Предмети</h2>
-        <Box>
+        <Box width={"300px"}>
           <FormControl fullWidth>
             <InputLabel>Ceместер</InputLabel>
             <Select
@@ -57,6 +108,33 @@ export const StudentInfo = () => {
             </Select>
           </FormControl>
         </Box>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell width={"300px"}>Назва</TableCell>
+              <TableCell>Оцінка</TableCell>
+              <TableCell>Викладач</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {subjects.map((item, index) => (
+              <TableRow>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>
+                  <TextField
+                    onChange={markChageHandle(item.name)}
+                    value={
+                      student.subjects[index].semesters[semester - 1].mark || ""
+                    }
+                    size="small"
+                    onBlur={markInputHandle()}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <Button onClick={mandatoryAdd}>Додати обов'язкові предмети</Button>
       </Box>
     </Box>
   );

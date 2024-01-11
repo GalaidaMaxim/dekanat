@@ -1,12 +1,12 @@
 const { Students } = require("../models");
 
-module.exports = async (id) => {
+module.exports = async (id, info) => {
   try {
-    const student = await Students.findById(id);
-    if (!student) {
+    const result = await Students.findByIdAndUpdate(id, info);
+    if (!result) {
       return null;
     }
-    return student;
+    return reuslt;
   } catch (err) {
     console.log(err);
     return null;
