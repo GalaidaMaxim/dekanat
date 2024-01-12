@@ -65,7 +65,9 @@ export const SubjectList = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: 600 }}>Назва</TableCell>
+                <TableCell width={"500px"} sx={{ fontWeight: 600 }}>
+                  Назва
+                </TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Кредити</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Семестри</TableCell>
               </TableRow>
@@ -89,7 +91,9 @@ export const SubjectList = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: 600 }}>Назва</TableCell>
+                <TableCell width={"500px"} sx={{ fontWeight: 600 }}>
+                  Назва
+                </TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Кредити</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Семестри</TableCell>
               </TableRow>
@@ -97,6 +101,32 @@ export const SubjectList = () => {
             <TableBody>
               {subjects
                 .filter((item) => item.mandatory && item.special)
+                .map((item) => {
+                  return (
+                    <TableRow key={item.name}>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.credits}</TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TableContainer marginTop={2} component={Paper}>
+          <h3>Вибіркові</h3>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell width={"500px"} sx={{ fontWeight: 600 }}>
+                  Назва
+                </TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Кредити</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Семестри</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {subjects
+                .filter((item) => !item.mandatory)
                 .map((item) => {
                   return (
                     <TableRow key={item.name}>
