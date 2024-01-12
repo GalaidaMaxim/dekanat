@@ -9,6 +9,8 @@ import {
   Button,
 } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { show } from "../redux/slices";
 
 export const CreateStudent = () => {
   const [name, setName] = useState("");
@@ -21,7 +23,7 @@ export const CreateStudent = () => {
   const [deps, setDeps] = useState([]);
   useEffect(() => {
     window.mainApi.invokeMain("getDeparments").then((result) => {
-      if (!result) {
+      if (!JSON.parse(result)) {
         return;
       }
       setDeps(JSON.parse(result));

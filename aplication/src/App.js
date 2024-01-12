@@ -7,13 +7,19 @@ import { AllStudentList } from "./pages/AllStudentList";
 import { StudentInfo } from "./pages/StudentInfo";
 import { CreateSubject } from "./pages/CreateSybject";
 import { SubjectList } from "./pages/SubjectList";
+import { useAlert, useLoading } from "./redux/selector";
+import { Loader } from "./componetns/Loader";
+import { AlertMy } from "./componetns/alert";
 import { NavLink } from "react-router-dom";
 
 function App() {
   const navigate = useNavigate();
+  const loading = useLoading();
+  const alert = useAlert();
 
   return (
     <div className="App">
+      {alert.enable && <AlertMy />}
       <Box sx={{ display: "flex" }}>
         <Box
           className="noPrint"
@@ -58,7 +64,8 @@ function App() {
             </Button>
           </Box>
         </Box>
-        <Box padding={"20px"} width={"100%"}>
+        <Box position={"relative"} padding={"20px"} width={"100%"}>
+          {loading && <Loader />}
           <Paper elevation={3} width={"100%"}>
             <Box padding="20px" minHeight={"calc(100vh - 80px)"}>
               <Routes>

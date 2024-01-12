@@ -17,6 +17,8 @@ import {
   Button,
 } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { show, enable, disable } from "../redux/slices";
 
 const createSemesters = (include = false, assessmentType = 2) => {
   return { include, assessmentType };
@@ -40,13 +42,21 @@ export const CreateSubject = () => {
   const [name, setName] = useState("");
   const [deps, setDeps] = useState([]);
   const [special, setSpesial] = useState(false);
+  const dispatch = useDispatch();
   useEffect(() => {
-    window.mainApi.invokeMain("getDeparments").then((result) => {
-      if (!result) {
-        return;
-      }
-      setDeps(JSON.parse(result));
-    });
+    dispatch(enable());
+    window.mainApi
+      .invokeMain("getDeparments")
+      .then((result) => {
+        if (!JSON.parse(result)) {
+          dispatch(show({ text: "помилка завантаження", type: "error" }));
+          return;
+        }
+        setDeps(JSON.parse(result));
+      })
+      .finally(() => {
+        dispatch(disable());
+      });
   }, []);
 
   const handleDep = (event) => {
@@ -85,11 +95,20 @@ export const CreateSubject = () => {
       mandatory,
       level,
       special,
+      credits: creadits,
     };
+    dispatch(enable());
     const result = await window.mainApi.invokeMain("createSubject", subject);
+    if (!JSON.parse(result)) {
+      dispatch(disable());
+      dispatch(show({ title: "Помилка додавання предмету", type: "error" }));
+    }
     if (JSON.parse(result)) {
       reset();
+      dispatch(disable());
+      dispatch(show({ title: "Предмет успішно доданий", type: "success" }));
     }
+    dispatch(disable());
   };
 
   return (

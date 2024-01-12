@@ -7,6 +7,7 @@ const createSubjecet = require("./createSubject");
 const getSubjectByDepartmant = require("./getSubjectsByDepartment");
 const addMandatorySubjects = require("./addMandatorySubjects");
 const updateStudent = require("./updateStudent");
+
 module.exports = {
   getDepartments,
   createStudent,
