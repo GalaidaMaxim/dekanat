@@ -86,12 +86,30 @@ export const StudentInfo = () => {
   return (
     <Box>
       <Button onClick={() => navigate(location.state.from)}>Назад</Button>
-      <Box display="flex" gap={3}>
-        <h1>{student.sername}</h1>
-        <h1>{student.name}</h1>
-      </Box>
-      <Box marginBottom={10}>
-        <h1>{student.secondName}</h1>
+      <Box>
+        <Box>
+          <Box display="flex" gap={3}>
+            <h1>{student.sername}</h1>
+            <h1>{student.name}</h1>
+          </Box>
+          <Box marginBottom={10}>
+            <h1>{student.secondName}</h1>
+          </Box>
+        </Box>
+        <Box display={"flex"} gap={20}>
+          <Box>
+            <p>відділення: </p>
+            <h3>{student.department && student.department.name}</h3>
+          </Box>
+          <Box>
+            <p>освітній ступінь: </p>
+            <h3>{student.level}</h3>
+          </Box>
+          <Box>
+            <p>курс: </p>
+            <h3>{student.course}</h3>
+          </Box>
+        </Box>
       </Box>
       <Box borderTop={1}>
         <h2>Предмети</h2>
@@ -126,7 +144,7 @@ export const StudentInfo = () => {
           </TableHead>
           <TableBody>
             {subjects.map((item, index) => (
-              <TableRow>
+              <TableRow key={item.name}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>
                   <TextField
@@ -158,7 +176,29 @@ export const StudentInfo = () => {
             ))}
           </TableBody>
         </Table>
-        <Button onClick={mandatoryAdd}>Додати обов'язкові предмети</Button>
+        <Box paddingTop={10}>
+          <h2>Операції</h2>
+          <Box
+            alignItems={"flex-start"}
+            display={"flex"}
+            flexDirection={"column"}
+            gap={2}
+          >
+            <Button variant="contained" onClick={mandatoryAdd}>
+              Додати обов'язкові предмети
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() =>
+                navigate(`/edit_student/${student._id}`, {
+                  state: location.state,
+                })
+              }
+            >
+              Редагувати
+            </Button>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

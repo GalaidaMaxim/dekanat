@@ -11,6 +11,7 @@ import { useAlert, useLoading } from "./redux/selector";
 import { Loader } from "./componetns/Loader";
 import { AlertMy } from "./componetns/alert";
 import { NavLink } from "react-router-dom";
+import { EditStudent } from "./pages/EditStudent";
 
 function App() {
   const navigate = useNavigate();
@@ -76,6 +77,7 @@ function App() {
                 <Route element={<CreateStudent />} path="/create_student" />
                 <Route element={<CreateSubject />} path="/create_subject" />
                 <Route element={<SubjectList />} path="/plans" />
+                <Route element={<EditStudent />} path="/edit_student/:id" />
               </Routes>
             </Box>
           </Paper>
