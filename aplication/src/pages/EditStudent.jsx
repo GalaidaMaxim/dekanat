@@ -1,12 +1,25 @@
-import { Box, Button, FormControl, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  TextField,
+  Table,
+  MenuItem,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+} from "@mui/material";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { enable, disable, show } from "../redux/slices";
 import { useDispatch } from "react-redux";
+import { MyAcordion } from "../componetns/Acordion";
 
 export const EditStudent = () => {
   const { id } = useParams();
   const [student, setStudent] = useState({});
+  const [subjects, setSubjects] = useState([]);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -23,8 +36,33 @@ export const EditStudent = () => {
       .finally(() => {
         dispatch(disable());
       });
-  }, [id]);
+  }, [id, dispatch]);
 
+  useEffect(() => {
+    if (!student.department || !student.level) {
+      return;
+    }
+    window.mainApi
+      .invokeMain("getSubjecByDepartment", {
+        department: student.department,
+        level: student.level,
+      })
+      .then((result) => {
+        dispatch(enable());
+        const allSubjects = JSON.parse(result);
+        setSubjects(
+          allSubjects.filter(
+            (item) =>
+              !item.mandatory &&
+              student.subjects.every((sub) => sub._id !== item._id)
+          )
+        );
+      })
+      .finally(() => {
+        dispatch(disable());
+      });
+  }, [student.department, student.level, dispatch, student.subjects]);
+  console.log(subjects);
   const chageHandle = (field) => {
     return (event) => {
       setStudent((prev) => {
@@ -43,6 +81,41 @@ export const EditStudent = () => {
           id,
           info: {
             [field]: student[field],
+          },
+        })
+        .then((result) => {
+          dispatch(show({ title: "Студент оновлений" }));
+          setStudent(JSON.parse(result));
+        });
+    };
+  };
+
+  const addSubject = (subject) => {
+    return async () => {
+      const arr = student.subjects;
+      arr.push(subject);
+      window.mainApi
+        .invokeMain("updateStudent", {
+          id,
+          info: {
+            subjects: arr,
+          },
+        })
+        .then((result) => {
+          dispatch(show({ title: "Студент оновлений" }));
+          setStudent(JSON.parse(result));
+        });
+    };
+  };
+
+  const removeSubject = (subjectId) => {
+    return async () => {
+      const arr = student.subjects.filter((item) => item._id !== subjectId);
+      window.mainApi
+        .invokeMain("updateStudent", {
+          id,
+          info: {
+            subjects: arr,
           },
         })
         .then((result) => {
@@ -104,6 +177,67 @@ export const EditStudent = () => {
             <h3>{student.course}</h3>
           </Box>
         </Box>
+      </Box>
+
+      <Box borderTop={1}>
+        <h2>Предмети</h2>
+        <MyAcordion title={"Індивідульний план студента"}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell width={"300px"}>Назва</TableCell>
+                <TableCell width={"50px"}>Кредити</TableCell>
+                <TableCell>Викладач</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {student.subjects &&
+                student.subjects.map((item, index) => (
+                  <TableRow key={item.name}>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{student.subjects[index].credits}</TableCell>
+                    <TableCell>
+                      {student.subjects[index].coach || "невідомо"}
+                    </TableCell>
+                    <TableCell>
+                      {!student.subjects[index].mandatory && (
+                        <Button
+                          onClick={removeSubject(student.subjects[index]._id)}
+                        >
+                          Видалити
+                        </Button>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </MyAcordion>
+
+        <MyAcordion title={"Вибіркові предмети"}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell width={"300px"}>Назва</TableCell>
+                <TableCell>Кредити</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {subjects &&
+                subjects.map((item, index) => (
+                  <TableRow key={item.name}>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{student.subjects[index].credits}</TableCell>
+                    <TableCell>
+                      <Button onClick={addSubject(item)}>Додати предмет</Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </MyAcordion>
       </Box>
     </Box>
   );

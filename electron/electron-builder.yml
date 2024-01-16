@@ -1,0 +1,4 @@
+appId: com.yourcompany.yourapp
+productName: YourAppName
+directories:
+  output: ./dist
