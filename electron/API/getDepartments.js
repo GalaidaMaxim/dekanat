@@ -1,6 +1,6 @@
 const { getDepartments } = require("../DBActions");
 
-module.exports = async () => {
-  const res = await getDepartments();
+module.exports = async (event, id) => {
+  const res = await getDepartments(id);
   return JSON.stringify(res);
 };

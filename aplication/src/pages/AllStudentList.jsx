@@ -7,7 +7,6 @@ import {
   Button,
   TableContainer,
   Paper,
-  Alert,
   Box,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -32,12 +31,11 @@ export const AllStudentList = () => {
           return;
         }
         setStudents(JSON.parse(students));
-        dispatch(show({ text: "Завантажено", type: "warning" }));
       })
       .finally(() => {
         dispatch(disable());
       });
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box>

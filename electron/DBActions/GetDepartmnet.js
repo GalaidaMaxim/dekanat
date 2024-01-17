@@ -1,8 +1,12 @@
 const { Departments } = require("../models");
 
-const getDepartments = async () => {
+const getDepartments = async ({ id = null }) => {
   try {
-    const result = await Departments.find();
+    if (!id) {
+      const result = await Departments.find();
+      return result;
+    }
+    const result = await Departments.findById(id);
     return result;
   } catch (err) {
     console.log(err);

@@ -1,5 +1,5 @@
 import { Button, Box, Paper } from "@mui/material";
-import { useNavigate, Routes, Route } from "react-router-dom";
+import { useNavigate, Routes, Route, useLocation } from "react-router-dom";
 import { Departments } from "./pages/Departments";
 import { CreateStudent } from "./pages/CreateStudent";
 import { StudentList } from "./pages/StudentList";
@@ -17,6 +17,7 @@ function App() {
   const navigate = useNavigate();
   const loading = useLoading();
   const alert = useAlert();
+  const location = useLocation();
 
   return (
     <div className="App">
