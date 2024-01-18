@@ -21,6 +21,7 @@ export const SubjectList = () => {
   const [depID, setdepID] = useState("");
   const [subjects, setSubjects] = useState([]);
   const [level, setLevel] = useState("бакалавр");
+  const [kredits, setKredits] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!depID) {
@@ -38,8 +39,19 @@ export const SubjectList = () => {
       .finally(() => {
         dispatch(disable());
       });
-  }, [depID, level]);
-  console.log(subjects);
+  }, [depID, level, dispatch]);
+
+  useEffect(() => {
+    if (subjects.length === 0) {
+      return;
+    }
+    let sum = 0;
+    for (let i = 0; i < subjects.length; i++) {
+      sum += subjects[i].credits;
+    }
+    setKredits(sum);
+  }, [subjects]);
+
   return (
     <Box>
       <h1>Індивідуальні плани</h1>
@@ -80,6 +92,11 @@ export const SubjectList = () => {
                     <TableRow key={item.name}>
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.credits}</TableCell>
+                      <TableCell>
+                        {item.semesters.map(
+                          (sem, index) => sem.include && index + 1 + " "
+                        )}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -106,6 +123,11 @@ export const SubjectList = () => {
                     <TableRow key={item.name}>
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.credits}</TableCell>
+                      <TableCell>
+                        {item.semesters.map(
+                          (sem, index) => sem.include && index + 1 + " "
+                        )}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -132,12 +154,22 @@ export const SubjectList = () => {
                     <TableRow key={item.name}>
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.credits}</TableCell>
+                      <TableCell>
+                        {item.semesters.map(
+                          (sem, index) => sem.include && index + 1 + " "
+                        )}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
             </TableBody>
           </Table>
         </TableContainer>
+        {kredits && (
+          <h3>
+            Кредити: <span>{kredits}</span>
+          </h3>
+        )}
       </Box>
     </Box>
   );
