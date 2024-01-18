@@ -23,21 +23,34 @@ export const StudentList = () => {
   const location = useLocation();
   const [department, setDepartment] = useState({});
   const [course, setCourse] = useState("Всі");
+  const [level, setLevel] = useState("Всі");
 
   console.log(course);
   useEffect(() => {
-    window.mainApi.invokeMain("getStudentByDepartment", id).then((students) => {
-      setStudents(JSON.parse(students));
+    window.mainApi.invokeMain("getStudentByDepartment", id).then((result) => {
+      let students = JSON.parse(result);
+      if (!students) {
+        return;
+      }
+      if (course !== "Всі") {
+        students = students.filter((item) => item.course === course);
+      }
+      if (level !== "Всі") {
+        students = students.filter((item) => item.level === level);
+      }
+
+      students.sort((a, b) => a.sername.localeCompare(b.sername));
+      setStudents(students);
     });
     window.mainApi.invokeMain("getDeparments", { id }).then((result) => {
       setDepartment(JSON.parse(result));
     });
-  }, [id]);
+  }, [id, course, level]);
 
   return (
     <Box>
       <h1>{department.name}</h1>
-      <Grid container>
+      <Grid container columnGap={3}>
         <Grid xs={1}>
           <FormControl fullWidth>
             <InputLabel>Курс</InputLabel>
@@ -51,6 +64,20 @@ export const StudentList = () => {
               <MenuItem value={2}>2</MenuItem>
               <MenuItem value={3}>3</MenuItem>
               <MenuItem value={4}>4</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid xs={2}>
+          <FormControl fullWidth>
+            <InputLabel>ОС</InputLabel>
+            <Select
+              value={level}
+              onChange={(event) => setLevel(event.target.value)}
+              label="ОС"
+            >
+              <MenuItem value={"Всі"}>Всі</MenuItem>
+              <MenuItem value={"бакалавр"}>бакалавр</MenuItem>
+              <MenuItem value={"магістр"}>магістр</MenuItem>
             </Select>
           </FormControl>
         </Grid>

@@ -8,6 +8,11 @@ import {
   TableContainer,
   Paper,
   Box,
+  Grid,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { CiCirclePlus } from "react-icons/ci";
@@ -21,6 +26,11 @@ export const AllStudentList = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [course, setCourse] = useState("Всі");
+  const [level, setLevel] = useState("Всі");
+  const [department, setDepartment] = useState("Всі");
+  const [depList, setDepList] = useState([]);
+
   useEffect(() => {
     dispatch(enable());
     window.mainApi
@@ -30,15 +40,82 @@ export const AllStudentList = () => {
           dispatch(show({ text: "помилка завантаження", type: "warning" }));
           return;
         }
-        setStudents(JSON.parse(students));
+        let studentsArr = JSON.parse(students);
+        if (!students) {
+          return;
+        }
+        if (course !== "Всі") {
+          studentsArr = studentsArr.filter((item) => item.course === course);
+        }
+        if (level !== "Всі") {
+          studentsArr = studentsArr.filter((item) => item.level === level);
+        }
+        if (department !== "Всі") {
+          studentsArr = studentsArr.filter(
+            (item) => item.department.name === department
+          );
+        }
+
+        studentsArr.sort((a, b) => a.sername.localeCompare(b.sername));
+        setStudents(studentsArr);
       })
       .finally(() => {
         dispatch(disable());
       });
-  }, [dispatch]);
+    window.mainApi.invokeMain("getDeparments").then((result) => {
+      setDepList(JSON.parse(result));
+    });
+  }, [dispatch, course, level, department]);
 
   return (
     <Box>
+      <Grid container columnGap={3}>
+        <Grid xs={1}>
+          <FormControl fullWidth>
+            <InputLabel>Курс</InputLabel>
+            <Select
+              value={course}
+              onChange={(event) => setCourse(event.target.value)}
+              label="відділення"
+            >
+              <MenuItem value={"Всі"}>Всі</MenuItem>
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={4}>4</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid xs={2}>
+          <FormControl fullWidth>
+            <InputLabel>ОС</InputLabel>
+            <Select
+              value={level}
+              onChange={(event) => setLevel(event.target.value)}
+              label="ОС"
+            >
+              <MenuItem value={"Всі"}>Всі</MenuItem>
+              <MenuItem value={"бакалавр"}>бакалавр</MenuItem>
+              <MenuItem value={"магістр"}>магістр</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid xs={2}>
+          <FormControl fullWidth>
+            <InputLabel>Відділення</InputLabel>
+            <Select
+              value={department}
+              onChange={(event) => setDepartment(event.target.value)}
+              label="Відділення"
+            >
+              <MenuItem value={"Всі"}>Всі</MenuItem>
+              {depList.map((item) => (
+                <MenuItem value={item.name}>{item.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+      </Grid>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
