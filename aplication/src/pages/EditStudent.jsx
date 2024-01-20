@@ -229,7 +229,7 @@ export const EditStudent = () => {
                 subjects.map((item, index) => (
                   <TableRow key={item.name}>
                     <TableCell>{item.name}</TableCell>
-                    <TableCell>{student.subjects[index].credits}</TableCell>
+                    <TableCell>{item.credits}</TableCell>
                     <TableCell>
                       <Button onClick={addSubject(item)}>Додати предмет</Button>
                     </TableCell>

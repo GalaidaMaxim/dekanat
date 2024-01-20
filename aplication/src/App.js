@@ -38,7 +38,7 @@ function App() {
               variant="outlined"
               onClick={() => navigate("/students")}
             >
-              Всі студинти
+              Всі студенти
             </Button>
             <Button fullWidth variant="outlined" onClick={() => navigate("/")}>
               Відділення

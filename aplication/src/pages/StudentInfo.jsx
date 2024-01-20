@@ -138,7 +138,7 @@ export const StudentInfo = () => {
               <TableCell width={"300px"}>Назва</TableCell>
               <TableCell width={"50px"}>Оцінка</TableCell>
               <TableCell>ECTS</TableCell>
-              <TableCell>Нацыональна шкала</TableCell>
+              <TableCell>Національна шкала</TableCell>
               <TableCell>Викладач</TableCell>
             </TableRow>
           </TableHead>
