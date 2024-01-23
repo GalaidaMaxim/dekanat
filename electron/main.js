@@ -10,6 +10,7 @@ const {
   getSubjecByDepartment,
   addMandatorySubjects,
   updateStudent,
+  createColedgeMarkTable,
 } = require("./API");
 const path = require("path");
 
@@ -25,7 +26,6 @@ const createWindow = () => {
   });
 
   mainWindow.loadURL("http://localhost:3000");
-  // mainWindow.loadFile("../aplication/build/index.html");
   mainWindow.maximize();
   mainWindow;
 };
@@ -52,6 +52,7 @@ app.whenReady().then(() => {
   ipcMain.handle("getSubjecByDepartment", getSubjecByDepartment);
   ipcMain.handle("addMandatorySubjects", addMandatorySubjects);
   ipcMain.handle("updateStudent", updateStudent);
+  ipcMain.handle("createColedgeMarkTable", createColedgeMarkTable);
 });
 
 app.on("window-all-closed", () => {

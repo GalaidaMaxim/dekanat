@@ -4,7 +4,6 @@ const path = require("path");
 const checkOutputDerectory = require("./checkOutputDerectory");
 const filePath = path.join(require("os").homedir(), "Деканат Файли");
 const replaseBracers = require("./replaseBracers");
-const { log } = require("console");
 
 const main = async (
   fileName,
@@ -19,7 +18,9 @@ const main = async (
     SEMSTER: "",
     HOURS: "",
     COACH: "",
-    COACH2: "",
+    COACHCONTROL: "",
+    students: [],
+    DECAN: "",
   }
 ) => {
   try {
@@ -33,23 +34,21 @@ const main = async (
     Object.keys(options).forEach((item) => {
       replaseBracers(workBook.getWorksheet(1), `{${item}}`, options[item]);
     });
-    console.log(workBook.getWorksheet(1).getCell("A43").value);
     checkOutputDerectory(filePath);
+    options.students.forEach((item, index) => {
+      if (index + 1 === options.students.length) {
+        return;
+      }
+      workBook.getWorksheet(1).duplicateRow(29, 1, true);
+    });
+    options.students.forEach((item, index) => {
+      workBook.getWorksheet(1).getCell(`A${index + 29}`).value = index + 1;
+      workBook.getWorksheet(1).getCell(`B${index + 29}`).value = item;
+    });
     workBook.xlsx.writeFile(path.resolve(filePath, fileName));
   } catch (err) {
     console.log(err);
   }
 };
-main("Vido.xlsx", {
-  DEPARTMENT: "Коледж",
-  OS: "Молодший бакалавр",
-  PROFILE: "ФЛЕЙТА",
-  COURSE: "II",
-  BEGIN_YEAR: "2024",
-  END_YEAR: "2025",
-  SEMSTER: 3,
-  SUBJECT: "Оркестр",
-  CONTROL_TYPE: "екзамен",
-  COACH: "Бодіна В. В.",
-  HOURS: 16,
-});
+
+module.exports = main;
