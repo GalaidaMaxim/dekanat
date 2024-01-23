@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "exceljs": "^4.4.0",
     "mongoose": "^8.0.3"
   },
   "devDependencies": {
