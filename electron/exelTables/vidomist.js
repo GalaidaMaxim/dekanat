@@ -1,22 +1,21 @@
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
-const main = async () => {
-  const workBook = new ExcelJS.Workbook();
-  await workBook.xlsx.readFile(
-    path.resolve(__dirname, "templates", "TempColedgVidom.xlsx")
-  );
-  console.log(workBook.getWorksheet(1).getCell("A7").value);
-  console.log(
-    path.resolve(require("os").homedir(), "Desktop", "TempColedgVidom.xlsx")
-  );
-  await workBook.xlsx.writeFile(
-    path.join(
-      require("os").homedir(),
-      "Documents",
-      "Деканат Файли",
-      "TempColedgVidom.xlsx"
-    )
-  );
+const checkOutputDerectory = require("./checkOutputDerectory");
+const filePath = path.join(require("os").homedir(), "Деканат Файли");
+const replaseBracers = require("./replaseBracers");
+const main = async (fileName) => {
+  try {
+    const workBook = new ExcelJS.Workbook();
+    await workBook.xlsx.readFile(
+      path.resolve(__dirname, "templates", "TempColedgVidom.xlsx")
+    );
+    replaseBracers(workBook.getWorksheet(1), "{OS}", "Магістр");
+    console.log(workBook.getWorksheet(1).getCell("A4").set);
+    checkOutputDerectory(filePath);
+    workBook.xlsx.writeFile(path.resolve(filePath, fileName));
+  } catch (err) {
+    console.log(err);
+  }
 };
-main();
+main("Vido.xlsx");
