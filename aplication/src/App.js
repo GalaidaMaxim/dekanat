@@ -1,5 +1,5 @@
 import { Button, Box, Paper } from "@mui/material";
-import { useNavigate, Routes, Route, useLocation } from "react-router-dom";
+import { useNavigate, Routes, Route } from "react-router-dom";
 import { Departments } from "./pages/Departments";
 import { CreateStudent } from "./pages/CreateStudent";
 import { StudentList } from "./pages/StudentList";
@@ -11,14 +11,13 @@ import { useAlert, useLoading } from "./redux/selector";
 import { Loader } from "./componetns/Loader";
 import { AlertMy } from "./componetns/alert";
 import { CreateEducationPlan } from "./pages/CreateEducationPlan";
-import { NavLink } from "react-router-dom";
+
 import { EditStudent } from "./pages/EditStudent";
 
 function App() {
   const navigate = useNavigate();
   const loading = useLoading();
   const alert = useAlert();
-  const location = useLocation();
 
   return (
     <div className="App">
@@ -81,7 +80,7 @@ function App() {
               <Routes>
                 <Route element={<Departments />} path="/" />
                 <Route element={<StudentInfo />} path="/students_info/:id" />
-                <Route element={<StudentList />} path="/students/:id" />
+                <Route element={<StudentList />} path="/students/:id/:level" />
                 <Route element={<AllStudentList />} path="/students" />
                 <Route element={<CreateStudent />} path="/create_student" />
                 <Route element={<CreateSubject />} path="/create_subject" />

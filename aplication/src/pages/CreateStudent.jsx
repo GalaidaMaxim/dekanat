@@ -9,8 +9,6 @@ import {
   Button,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { show } from "../redux/slices";
 
 export const CreateStudent = () => {
   const [name, setName] = useState("");

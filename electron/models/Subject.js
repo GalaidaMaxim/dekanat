@@ -36,7 +36,7 @@ const SubjectSchema = new Schema({
   },
   level: {
     type: String,
-    enum: ["бакалавр", "магістр", "молодший бакаловр"],
+    enum: ["бакалавр", "магістр", "молодший бакалавр"],
     default: "бакалавр",
   },
   credits: {
@@ -59,6 +59,10 @@ const SubjectSchema = new Schema({
     require: true,
   },
   coach: {
+    type: String,
+    default: "",
+  },
+  aditionalSpecialityName: {
     type: String,
     default: "",
   },

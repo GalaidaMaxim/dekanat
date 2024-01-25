@@ -17,13 +17,13 @@ import { useEffect, useState } from "react";
 import { CiCirclePlus } from "react-icons/ci";
 
 export const StudentList = () => {
-  const { id } = useParams();
+  const { id, level } = useParams();
   const [students, setStudents] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const [department, setDepartment] = useState({});
   const [course, setCourse] = useState("Всі");
-  const [level, setLevel] = useState("Всі");
+  // const [level, setLevel] = useState("Всі");
 
   console.log(course);
   useEffect(() => {
@@ -43,13 +43,16 @@ export const StudentList = () => {
       setStudents(students);
     });
     window.mainApi.invokeMain("getDeparments", { id }).then((result) => {
+      console.log(id);
       setDepartment(JSON.parse(result));
     });
   }, [id, course, level]);
 
   return (
     <Box>
-      <h1>{department.name}</h1>
+      <h1>
+        {department.name} {level}
+      </h1>
       <Grid container columnGap={3}>
         <Grid xs={1}>
           <FormControl fullWidth>
@@ -67,7 +70,7 @@ export const StudentList = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={2}>
+        {/* <Grid xs={2}>
           <FormControl fullWidth>
             <InputLabel>ОС</InputLabel>
             <Select
@@ -80,7 +83,7 @@ export const StudentList = () => {
               <MenuItem value={"магістр"}>магістр</MenuItem>
             </Select>
           </FormControl>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Box marginTop={10}>
         <Table>

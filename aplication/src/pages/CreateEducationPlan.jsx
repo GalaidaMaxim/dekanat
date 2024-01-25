@@ -30,7 +30,7 @@ export const CreateEducationPlan = () => {
       }
       setEducationPlanes(JSON.parse(result));
     });
-  }, []);
+  }, [dispatch]);
   const createPlan = async () => {
     if (!name) {
       return;

@@ -12,7 +12,7 @@ module.exports = async ({ id = null }) => {
     if (!result) {
       return null;
     }
-    console.log("there");
+
     return result;
   } catch (err) {
     console.log(err);

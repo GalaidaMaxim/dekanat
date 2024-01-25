@@ -19,6 +19,7 @@ import {
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { show, enable, disable } from "../redux/slices";
+import { DepartmentSelector } from "../componetns/DepartmentSelector";
 
 const createSemesters = (include = false, assessmentType = 2) => {
   return { include, assessmentType };
@@ -36,30 +37,17 @@ export const CreateSubject = () => {
   ]);
   const [plans, setPlans] = useState([]);
   const [depID, setdepID] = useState("");
+  const [code, setCode] = useState("");
   const [creadits, setCredits] = useState(0);
   const [gos, setGos] = useState(false);
   const [mandatory, setMandatory] = useState(false);
+  const [aditionalSpecialityName, setditionalSpecialityName] = useState("");
   const [level, setLevel] = useState("бакалавр");
   const [name, setName] = useState("");
-  const [deps, setDeps] = useState([]);
   const [special, setSpesial] = useState(false);
+  const [asn, setASN] = useState(false);
   const [plansID, setPlansID] = useState("");
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(enable());
-    window.mainApi
-      .invokeMain("getDeparments")
-      .then((result) => {
-        if (!JSON.parse(result)) {
-          dispatch(show({ text: "помилка завантаження", type: "error" }));
-          return;
-        }
-        setDeps(JSON.parse(result));
-      })
-      .finally(() => {
-        dispatch(disable());
-      });
-  }, [dispatch]);
 
   useEffect(() => {
     dispatch(enable());
@@ -75,10 +63,13 @@ export const CreateSubject = () => {
         dispatch(disable());
       });
   }, [dispatch, level]);
-  console.log(plans);
-  const handleDep = (event) => {
-    setdepID(event.target.value);
-  };
+
+  useEffect(() => {
+    if (!special) {
+      setdepID("");
+    }
+  }, [special]);
+
   const radioChage = (index) => {
     return (event) => {
       setSemesters((prev) => {
@@ -88,7 +79,6 @@ export const CreateSubject = () => {
       });
     };
   };
-
   const reset = () => {
     setName("");
     setCredits(0);
@@ -113,7 +103,15 @@ export const CreateSubject = () => {
       level,
       special,
       credits: creadits,
+      code,
+      educationPlan: plansID.toString(),
+      aditionalSpecialityName,
     };
+
+    if (!name || !code || !plansID) {
+      dispatch(show({ title: "Переврте дані", type: "error" }));
+      return;
+    }
     dispatch(enable());
     const result = await window.mainApi.invokeMain("createSubject", subject);
     if (!JSON.parse(result)) {
@@ -127,7 +125,6 @@ export const CreateSubject = () => {
     }
     dispatch(disable());
   };
-
   return (
     <Box>
       <h2>Додати предмет</h2>
@@ -135,6 +132,11 @@ export const CreateSubject = () => {
         value={name}
         label="Назва"
         onChange={(event) => setName(event.target.value)}
+      />
+      <TextField
+        value={code}
+        label="Код"
+        onChange={(event) => setCode(event.target.value)}
       />
       <Box>
         <h3>Семестри</h3>
@@ -197,16 +199,12 @@ export const CreateSubject = () => {
       </Box>
 
       <Box width={"300px"} marginTop={4}>
-        <FormControl fullWidth>
-          <InputLabel>відділення</InputLabel>
-          <Select value={depID} onChange={handleDep} label="відділення">
-            {deps.map((item) => (
-              <MenuItem value={item._id} key={item.name}>
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <DepartmentSelector
+          setdepID={setdepID}
+          depID={depID}
+          level={level}
+          disabled={!special}
+        />
       </Box>
 
       <Box width={"300px"} marginTop={4}>
@@ -224,6 +222,15 @@ export const CreateSubject = () => {
             ))}
           </Select>
         </FormControl>
+      </Box>
+      <Box width={300} marginTop={4}>
+        <TextField
+          label="спеціалізація"
+          fullWidth
+          disabled={!asn}
+          value={aditionalSpecialityName}
+          onChange={(event) => setditionalSpecialityName(event.target.value)}
+        />
       </Box>
 
       <Box width={"300px"} marginTop={2}>
@@ -265,6 +272,12 @@ export const CreateSubject = () => {
           label="Спеціальний"
           value={special}
           onChange={() => setSpesial((prev) => !prev)}
+          control={<Switch />}
+        />
+        <FormControlLabel
+          label="Предмет додаткової спеціалізації"
+          value={asn}
+          onChange={() => setASN((prev) => !prev)}
           control={<Switch />}
         />
       </Box>

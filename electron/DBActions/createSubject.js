@@ -11,25 +11,47 @@ const createSubject = async ({
   mandatory,
   special,
   educationPlan,
+  aditionalSpecialityName,
 }) => {
   try {
-    const dep = await Departments.findById(department);
-    const plan = await EducationPlan.findById(educationPlan);
-    if (!plan || plan.level !== level) {
-      return null;
+    let result;
+    if (department) {
+      dep = await Departments.findById(department);
+      const plan = await EducationPlan.findById(educationPlan);
+      if (!plan || plan.level !== level) {
+        return null;
+      }
+      result = await Subjects.create({
+        name,
+        code,
+        department: dep._id,
+        level,
+        credits,
+        semesters,
+        gos,
+        mandatory,
+        special,
+        educationPlan: plan._id,
+        aditionalSpecialityName,
+      });
+    } else {
+      const plan = await EducationPlan.findById(educationPlan);
+      if (!plan || plan.level !== level) {
+        return null;
+      }
+      result = await Subjects.create({
+        name,
+        code,
+        department: null,
+        level,
+        credits,
+        semesters,
+        gos,
+        mandatory,
+        special,
+        educationPlan: plan._id,
+      });
     }
-    const result = await Subjects.create({
-      name,
-      code,
-      department: dep._id !== "Всі" ? dep._id : null,
-      level,
-      credits,
-      semesters,
-      gos,
-      mandatory,
-      special,
-      educationPlan: plan._id,
-    });
     if (!result) {
       return null;
     }

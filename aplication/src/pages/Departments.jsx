@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
@@ -31,18 +31,59 @@ export const Departments = () => {
       .finally(() => {
         dispatch(disable());
       });
-  }, []);
+  }, [dispatch]);
   return (
-    <StyledButtonList>
-      {deps.map((item) => (
-        <Button
-          variant="contained"
-          key={item.name}
-          onClick={() => navigate(`/students/${item._id}`)}
-        >
-          {item.name}
-        </Button>
-      ))}
-    </StyledButtonList>
+    <Box>
+      <Box>
+        <h2>Коледж</h2>
+        <StyledButtonList>
+          {deps
+            .filter((item) => item.level === "молодший бакалавр")
+            .map((item) => (
+              <Button
+                variant="contained"
+                key={item.name}
+                onClick={() =>
+                  navigate(`/students/${item._id}/молодший бакалавр`)
+                }
+              >
+                {item.name}
+              </Button>
+            ))}
+        </StyledButtonList>
+      </Box>
+      <Box>
+        <h2>Бакалавр</h2>
+        <StyledButtonList>
+          {deps
+            .filter((item) => item.level === "бакалавр")
+            .map((item) => (
+              <Button
+                variant="contained"
+                key={item.name}
+                onClick={() => navigate(`/students/${item._id}/бакалавр`)}
+              >
+                {item.name}
+              </Button>
+            ))}
+        </StyledButtonList>
+      </Box>
+      <Box>
+        <h2>Магістр</h2>
+        <StyledButtonList>
+          {deps
+            .filter((item) => item.level === "бакалавр")
+            .map((item) => (
+              <Button
+                variant="contained"
+                key={item.name}
+                onClick={() => navigate(`/students/${item._id}/магістр`)}
+              >
+                {item.name}
+              </Button>
+            ))}
+        </StyledButtonList>
+      </Box>
+    </Box>
   );
 };

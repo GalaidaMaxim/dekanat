@@ -21,13 +21,14 @@ export const SubjectList = () => {
   const [depID, setdepID] = useState("");
   const [subjects, setSubjects] = useState([]);
   const [level, setLevel] = useState("бакалавр");
-  const [kredits, setKredits] = useState(null);
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (!depID) {
       return;
     }
     dispatch(enable());
+
     window.mainApi
       .invokeMain("getSubjecByDepartment", {
         department: depID.toString(),
@@ -41,17 +42,6 @@ export const SubjectList = () => {
       });
   }, [depID, level, dispatch]);
 
-  useEffect(() => {
-    if (subjects.length === 0) {
-      return;
-    }
-    let sum = 0;
-    for (let i = 0; i < subjects.length; i++) {
-      sum += subjects[i].credits;
-    }
-    setKredits(sum);
-  }, [subjects]);
-
   return (
     <Box>
       <h1>Індивідуальні плани</h1>
@@ -63,13 +53,14 @@ export const SubjectList = () => {
             onChange={(event) => setLevel(event.target.value)}
             label="ОС"
           >
+            <MenuItem value={"молодший бакалавр"}>молодший бакалавр</MenuItem>
             <MenuItem value={"бакалавр"}>бакалавр</MenuItem>
             <MenuItem value={"магістр"}>магістр</MenuItem>
           </Select>
         </FormControl>
       </Box>
       <Box width={"300px"} marginTop={4}>
-        <DepartmentSelector setdepID={setdepID} depID={depID} />
+        <DepartmentSelector setdepID={setdepID} depID={depID} level={level} />
       </Box>
       <Box>
         <TableContainer marginTop={2} component={Paper}>
@@ -165,11 +156,6 @@ export const SubjectList = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        {kredits && (
-          <h3>
-            Кредити: <span>{kredits}</span>
-          </h3>
-        )}
       </Box>
     </Box>
   );
