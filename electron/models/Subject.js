@@ -7,7 +7,7 @@ const semester = new Schema({
   },
   assessmentType: {
     type: Number,
-    enum: [1, 2, 3],
+    enum: [1, 2, 3, 4],
     require: true,
   },
   mark: {
@@ -21,13 +21,22 @@ const SubjectSchema = new Schema({
     trim: true,
     require: true,
   },
-  department: {
+  code: {
+    type: String,
+    require: true,
+  },
+  educationPlan: {
     type: Schema.Types.ObjectId,
+    ref: "educationPlan",
+  },
+  department: {
+    type: Schema.Types.ObjectId || null,
     ref: "department",
+    default: null,
   },
   level: {
     type: String,
-    enum: ["бакалавр", "магістр"],
+    enum: ["бакалавр", "магістр", "молодший бакаловр"],
     default: "бакалавр",
   },
   credits: {

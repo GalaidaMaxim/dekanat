@@ -10,6 +10,7 @@ import { SubjectList } from "./pages/SubjectList";
 import { useAlert, useLoading } from "./redux/selector";
 import { Loader } from "./componetns/Loader";
 import { AlertMy } from "./componetns/alert";
+import { CreateEducationPlan } from "./pages/CreateEducationPlan";
 import { NavLink } from "react-router-dom";
 import { EditStudent } from "./pages/EditStudent";
 
@@ -64,6 +65,13 @@ function App() {
             >
               Індивідуальні плани
             </Button>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => navigate("/educationPlan")}
+            >
+              Навчальні плани
+            </Button>
           </Box>
         </Box>
         <Box position={"relative"} padding={"20px"} width={"100%"}>
@@ -79,6 +87,10 @@ function App() {
                 <Route element={<CreateSubject />} path="/create_subject" />
                 <Route element={<SubjectList />} path="/plans" />
                 <Route element={<EditStudent />} path="/edit_student/:id" />
+                <Route
+                  element={<CreateEducationPlan />}
+                  path="/educationPlan"
+                />
               </Routes>
             </Box>
           </Paper>

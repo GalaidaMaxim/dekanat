@@ -34,6 +34,7 @@ export const CreateSubject = () => {
     createSemesters(),
     createSemesters(),
   ]);
+  const [plans, setPlans] = useState([]);
   const [depID, setdepID] = useState("");
   const [creadits, setCredits] = useState(0);
   const [gos, setGos] = useState(false);
@@ -42,6 +43,7 @@ export const CreateSubject = () => {
   const [name, setName] = useState("");
   const [deps, setDeps] = useState([]);
   const [special, setSpesial] = useState(false);
+  const [plansID, setPlansID] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(enable());
@@ -57,8 +59,23 @@ export const CreateSubject = () => {
       .finally(() => {
         dispatch(disable());
       });
-  }, []);
+  }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(enable());
+    window.mainApi
+      .invokeMain("getEducationPlan")
+      .then((result) => {
+        if (!JSON.parse(result)) {
+          return;
+        }
+        setPlans(JSON.parse(result).filter((item) => item.level === level));
+      })
+      .finally(() => {
+        dispatch(disable());
+      });
+  }, [dispatch, level]);
+  console.log(plans);
   const handleDep = (event) => {
     setdepID(event.target.value);
   };
@@ -165,6 +182,11 @@ export const CreateSubject = () => {
                         value={3}
                         control={<Radio />}
                       />
+                      <FormControlLabel
+                        label="П"
+                        value={4}
+                        control={<Radio />}
+                      />
                     </RadioGroup>
                   </FormControl>
                 </TableCell>
@@ -187,6 +209,23 @@ export const CreateSubject = () => {
         </FormControl>
       </Box>
 
+      <Box width={"300px"} marginTop={4}>
+        <FormControl fullWidth>
+          <InputLabel>Навчальний план</InputLabel>
+          <Select
+            value={plansID}
+            onChange={(event) => setPlansID(event.target.value)}
+            label="Навчальний план"
+          >
+            {plans.map((item) => (
+              <MenuItem value={item._id} key={item.name}>
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+
       <Box width={"300px"} marginTop={2}>
         <FormControl fullWidth>
           <InputLabel>ОС</InputLabel>
@@ -195,6 +234,7 @@ export const CreateSubject = () => {
             onChange={(event) => setLevel(event.target.value)}
             label="ОС"
           >
+            <MenuItem value={"молодший бакалавр"}>молодший бакалавр</MenuItem>
             <MenuItem value={"бакалавр"}>бакалавр</MenuItem>
             <MenuItem value={"магістр"}>магістр</MenuItem>
           </Select>

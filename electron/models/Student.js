@@ -22,7 +22,7 @@ const StudentSchema = new Schema({
   },
   level: {
     type: String,
-    enum: ["бакалавр", "магістр"],
+    enum: ["бакалавр", "магістр, молодший бакалавр"],
     default: "бакалавр",
   },
   course: {

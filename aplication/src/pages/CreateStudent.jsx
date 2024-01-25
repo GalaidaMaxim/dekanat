@@ -105,6 +105,9 @@ export const CreateStudent = () => {
             <FormControl fullWidth>
               <InputLabel>ОС</InputLabel>
               <Select value={level} onChange={handleLevel} label="ОС">
+                <MenuItem value={"молодший бакалавр"}>
+                  молодший бакалавр
+                </MenuItem>
                 <MenuItem value={"бакалавр"}>бакалавр</MenuItem>
                 <MenuItem value={"магістр"}>магістр</MenuItem>
               </Select>
