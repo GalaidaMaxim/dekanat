@@ -4,35 +4,33 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell,
   TableContainer,
   Paper,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
+import { PlanSelector } from "../componetns/PlanSelector";
 import { useDispatch } from "react-redux";
 import { enable, disable } from "../redux/slices";
+import { MyAcordion } from "../componetns/Acordion";
+import { SubjectTable } from "../componetns/SubjectTable";
 
 export const SubjectList = () => {
   const [depID, setdepID] = useState("");
   const [subjects, setSubjects] = useState([]);
   const [level, setLevel] = useState("бакалавр");
+  const [planID, setPlanID] = useState("");
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!depID) {
+    if (!depID || !level || !planID) {
       return;
     }
     dispatch(enable());
-
     window.mainApi
       .invokeMain("getSubjecByDepartment", {
         department: depID.toString(),
-        level,
+        educationPlan: planID.toString(),
       })
       .then((result) => {
         setSubjects(JSON.parse(result));
@@ -40,7 +38,7 @@ export const SubjectList = () => {
       .finally(() => {
         dispatch(disable());
       });
-  }, [depID, level, dispatch]);
+  }, [depID, planID, level, dispatch]);
 
   return (
     <Box>
@@ -60,102 +58,29 @@ export const SubjectList = () => {
         </FormControl>
       </Box>
       <Box width={"300px"} marginTop={4}>
+        <PlanSelector setPlanID={setPlanID} level={level} planID={planID} />
+      </Box>
+      <Box width={"300px"} marginTop={4}>
         <DepartmentSelector setdepID={setdepID} depID={depID} level={level} />
       </Box>
+
       <Box>
-        <TableContainer marginTop={2} component={Paper}>
-          <h3>Обов'язкові предмети</h3>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell width={"500px"} sx={{ fontWeight: 600 }}>
-                  Назва
-                </TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>Кредити</TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>Семестри</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {subjects
-                .filter((item) => item.mandatory && !item.special)
-                .map((item) => {
-                  return (
-                    <TableRow key={item.name}>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.credits}</TableCell>
-                      <TableCell>
-                        {item.semesters.map(
-                          (sem, index) => sem.include && index + 1 + " "
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TableContainer marginTop={2} component={Paper}>
-          <h3> ОСВІТНІ КОМПОНЕНТИ, ЩО ФОРМУЮТЬ СПЕЦІАЛЬНІ КОМПЕТЕНТНОСТІ</h3>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell width={"500px"} sx={{ fontWeight: 600 }}>
-                  Назва
-                </TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>Кредити</TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>Семестри</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {subjects
-                .filter((item) => item.mandatory && item.special)
-                .map((item) => {
-                  return (
-                    <TableRow key={item.name}>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.credits}</TableCell>
-                      <TableCell>
-                        {item.semesters.map(
-                          (sem, index) => sem.include && index + 1 + " "
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TableContainer marginTop={2} component={Paper}>
-          <h3>Вибіркові</h3>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell width={"500px"} sx={{ fontWeight: 600 }}>
-                  Назва
-                </TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>Кредити</TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>Семестри</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {subjects
-                .filter((item) => !item.mandatory)
-                .map((item) => {
-                  return (
-                    <TableRow key={item.name}>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.credits}</TableCell>
-                      <TableCell>
-                        {item.semesters.map(
-                          (sem, index) => sem.include && index + 1 + " "
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <h3>I. ОБОВ’ЯЗКОВІ ОСВІТНІ КОМПОНЕНТИ</h3>
+        <MyAcordion title={`I. ОБОВ’ЯЗКОВІ ОСВІТНІ КОМПОНЕНТИ `}>
+          <TableContainer marginTop={2} component={Paper}>
+            <SubjectTable subjects={subjects} filterChar="1" />
+          </TableContainer>
+        </MyAcordion>
+      </Box>
+      <Box>
+        <h3>ІІ. ВИБІРКОВІ ОСВІТНІ КОМПОНЕНТИ</h3>
+        <MyAcordion
+          title={`ЦИКЛ ФАХОВОЇ, ПРОФЕСІЙНОЇ ПІДГОТОВКИ ЗА ПРОФІЛІЗАЦІЄЮ `}
+        >
+          <TableContainer marginTop={2} component={Paper}>
+            <SubjectTable subjects={subjects} filterChar="2" />
+          </TableContainer>
+        </MyAcordion>
       </Box>
     </Box>
   );

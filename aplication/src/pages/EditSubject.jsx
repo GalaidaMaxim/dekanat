@@ -24,7 +24,7 @@ import { DepartmentSelector } from "../componetns/DepartmentSelector";
 const createSemesters = (include = false, assessmentType = 2) => {
   return { include, assessmentType };
 };
-export const CreateSubject = () => {
+export const EditSubject = () => {
   const [semesters, setSemesters] = useState([
     createSemesters(),
     createSemesters(),
@@ -48,8 +48,6 @@ export const CreateSubject = () => {
   const [asn, setASN] = useState(false);
   const [plansID, setPlansID] = useState("");
   const dispatch = useDispatch();
-
-  console.log(special);
 
   useEffect(() => {
     dispatch(enable());

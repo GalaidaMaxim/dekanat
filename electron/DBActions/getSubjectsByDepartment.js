@@ -1,17 +1,34 @@
 const { Subjects } = require("../models");
 
-module.exports = async ({ department, level }) => {
+module.exports = async ({ educationPlan, department }) => {
   try {
-    const changable = await Subjects.find({
+    const specialSubject = await Subjects.find({
+      educationPlan,
       department,
-      level,
-      mandatory: false,
     });
-    const mandatory = await Subjects.find({ level, mandatory: true });
-    if (!changable || !mandatory) {
+    const allSubject = await Subjects.find({
+      educationPlan,
+      department: null,
+    });
+    if (!specialSubject || !allSubject) {
       return null;
     }
-    return [...mandatory, ...changable];
+    const subectsListAll = [...allSubject, ...specialSubject];
+
+    const finalList = [];
+    finalList.push(
+      ...subectsListAll.filter((item) => item.code.charAt(0) === "1")
+    );
+    finalList.push(
+      ...subectsListAll.filter((item) => item.code.charAt(0) === "2")
+    );
+    finalList.push(
+      ...subectsListAll.filter((item) => item.code.charAt(0) === "3")
+    );
+    finalList.push(
+      ...subectsListAll.filter((item) => item.code.charAt(0) === "4")
+    );
+    return finalList;
   } catch (err) {
     console.log(err);
     return null;
