@@ -12,6 +12,8 @@ import { Loader } from "./componetns/Loader";
 import { AlertMy } from "./componetns/alert";
 import { CreateEducationPlan } from "./pages/CreateEducationPlan";
 import { EditSubject } from "./pages/EditSubject";
+import { useState } from "react";
+import { LaounchWindow } from "./componetns/LaunchWindow";
 
 import { EditStudent } from "./pages/EditStudent";
 
@@ -19,11 +21,13 @@ function App() {
   const navigate = useNavigate();
   const loading = useLoading();
   const alert = useAlert();
+  const [type, setType] = useState(null);
 
   return (
     <div className="App">
       {alert.enable && <AlertMy />}
       <Box sx={{ display: "flex" }}>
+        {!type && <LaounchWindow setType={setType} />}
         <Box
           className="noPrint"
           borderRight={1}
@@ -34,23 +38,32 @@ function App() {
             <h1>Деканат</h1>
           </Box>
           <Box padding={1} display={"flex"} flexDirection={"column"} gap={1}>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => navigate("/students")}
-            >
-              Всі студенти
-            </Button>
-            <Button fullWidth variant="outlined" onClick={() => navigate("/")}>
-              Відділення
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => navigate("/create_student")}
-            >
-              Додати студента
-            </Button>
+            {type === "Developer" && (
+              <>
+                {" "}
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={() => navigate("/students")}
+                >
+                  Всі студенти
+                </Button>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={() => navigate("/")}
+                >
+                  Відділення
+                </Button>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={() => navigate("/create_student")}
+                >
+                  Додати студента
+                </Button>
+              </>
+            )}
             <Button
               fullWidth
               variant="outlined"
@@ -71,6 +84,9 @@ function App() {
               onClick={() => navigate("/educationPlan")}
             >
               Навчальні плани
+            </Button>
+            <Button fullWidth variant="outlined" onClick={() => setType(null)}>
+              На стартовий екран
             </Button>
           </Box>
         </Box>
