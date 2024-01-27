@@ -6,6 +6,7 @@ const {
   getStudentByDepartment,
   getAllStudents,
   getStudentById,
+  updateSubject,
   createSubject,
   getSubjecByDepartment,
   addMandatorySubjects,
@@ -13,6 +14,7 @@ const {
   createColedgeMarkTable,
   createEducationPlan,
   getEducationPlan,
+  getSubjectByID,
 } = require("./API");
 const path = require("path");
 
@@ -57,6 +59,8 @@ app.whenReady().then(() => {
   ipcMain.handle("createColedgeMarkTable", createColedgeMarkTable);
   ipcMain.handle("createEducationPlan", createEducationPlan);
   ipcMain.handle("getEducationPlan", getEducationPlan);
+  ipcMain.handle("getSubjectByID", getSubjectByID);
+  ipcMain.handle("updateSubject", updateSubject);
 });
 
 app.on("window-all-closed", () => {

@@ -11,6 +11,7 @@ import { useAlert, useLoading } from "./redux/selector";
 import { Loader } from "./componetns/Loader";
 import { AlertMy } from "./componetns/alert";
 import { CreateEducationPlan } from "./pages/CreateEducationPlan";
+import { EditSubject } from "./pages/EditSubject";
 
 import { EditStudent } from "./pages/EditStudent";
 
@@ -90,6 +91,7 @@ function App() {
                   element={<CreateEducationPlan />}
                   path="/educationPlan"
                 />
+                <Route element={<EditSubject />} path="/plans/:id" />
               </Routes>
             </Box>
           </Paper>

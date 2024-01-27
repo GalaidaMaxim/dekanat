@@ -10,6 +10,8 @@ const updateStudent = require("./updateStudent");
 const addSubjectToStudent = require("./addSubjectToStudent");
 const createEducationPlan = require("./createEducationPlan");
 const getEducationPlan = require("./getEducationPlanes");
+const getSubjectByID = require("./getSubjectByID");
+const updateSubject = require("./updateSubject");
 
 module.exports = {
   getDepartments,
@@ -24,4 +26,6 @@ module.exports = {
   updateStudent,
   addSubjectToStudent,
   getEducationPlan,
+  getSubjectByID,
+  updateSubject,
 };

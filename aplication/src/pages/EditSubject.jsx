@@ -20,11 +20,17 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { show, enable, disable } from "../redux/slices";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
+import { PlanSelector } from "../componetns/PlanSelector";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 
 const createSemesters = (include = false, assessmentType = 2) => {
   return { include, assessmentType };
 };
 export const EditSubject = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   const [semesters, setSemesters] = useState([
     createSemesters(),
     createSemesters(),
@@ -35,7 +41,6 @@ export const EditSubject = () => {
     createSemesters(),
     createSemesters(),
   ]);
-  const [plans, setPlans] = useState([]);
   const [depID, setdepID] = useState("");
   const [code, setCode] = useState("");
   const [creadits, setCredits] = useState(0);
@@ -50,19 +55,25 @@ export const EditSubject = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(enable());
-    window.mainApi
-      .invokeMain("getEducationPlan")
-      .then((result) => {
-        if (!JSON.parse(result)) {
-          return;
-        }
-        setPlans(JSON.parse(result).filter((item) => item.level === level));
-      })
-      .finally(() => {
-        dispatch(disable());
-      });
-  }, [dispatch, level]);
+    window.mainApi.invokeMain("getSubjectByID", { id }).then((data) => {
+      const subject = JSON.parse(data);
+      if (!subject) {
+        return;
+      }
+      setName(subject.name);
+      setCode(subject.code);
+      setLevel(subject.level);
+      setSemesters(subject.semesters);
+      setPlansID(subject.educationPlan);
+      setdepID(subject.department || "");
+      setGos(subject.gos);
+      setMandatory(subject.mandatory);
+      setCredits(subject.credits);
+      setSpesial(subject.special);
+      setditionalSpecialityName(subject.aditionalSpecialityName);
+      setASN(subject.aditionalSpecialityName);
+    });
+  }, [id]);
 
   useEffect(() => {
     if (!special) {
@@ -79,22 +90,10 @@ export const EditSubject = () => {
       });
     };
   };
-  const reset = () => {
-    setName("");
-    setCredits(0);
-    setSemesters([
-      createSemesters(),
-      createSemesters(),
-      createSemesters(),
-      createSemesters(),
-      createSemesters(),
-      createSemesters(),
-      createSemesters(),
-      createSemesters(),
-    ]);
-  };
+
   const onSubmit = async () => {
     const subject = {
+      id,
       name,
       semesters,
       department: depID.toString(),
@@ -108,25 +107,22 @@ export const EditSubject = () => {
       aditionalSpecialityName,
     };
 
-    if (!name || !code || !plansID) {
-      dispatch(show({ title: "Переврте дані", type: "error" }));
-      return;
-    }
     dispatch(enable());
-    const result = await window.mainApi.invokeMain("createSubject", subject);
+    const result = await window.mainApi.invokeMain("updateSubject", subject);
     if (!JSON.parse(result)) {
       dispatch(disable());
       dispatch(show({ title: "Помилка додавання предмету", type: "error" }));
     }
     if (JSON.parse(result)) {
-      reset();
       dispatch(disable());
       dispatch(show({ title: "Предмет успішно доданий", type: "success" }));
     }
     dispatch(disable());
+    navigate(location.state.from);
   };
   return (
     <Box>
+      <Button onClick={() => navigate(location.state.from)}>Назад</Button>
       <h2>Додати предмет</h2>
       <TextField
         value={name}
@@ -208,20 +204,7 @@ export const EditSubject = () => {
       </Box>
 
       <Box width={"300px"} marginTop={4}>
-        <FormControl fullWidth>
-          <InputLabel>Навчальний план</InputLabel>
-          <Select
-            value={plansID}
-            onChange={(event) => setPlansID(event.target.value)}
-            label="Навчальний план"
-          >
-            {plans.map((item) => (
-              <MenuItem value={item._id} key={item.name}>
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <PlanSelector planID={plansID} setPlanID={setPlansID} level={level} />
       </Box>
       <Box width={300} marginTop={4}>
         <TextField
@@ -287,7 +270,7 @@ export const EditSubject = () => {
       </Box>
 
       <Box marginTop={2}>
-        <Button onClick={onSubmit}>Створити</Button>
+        <Button onClick={onSubmit}>Оновити предмет</Button>
       </Box>
     </Box>
   );
