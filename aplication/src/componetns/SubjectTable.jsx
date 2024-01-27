@@ -35,7 +35,7 @@ export const SubjectTable = ({
           .map((item) => {
             return (
               <TableRow key={item.name}>
-                <TableCell>{`${mandatory ? "ОК" : "ВК"} ${
+                <TableCell>{`${item.mandatory ? "ОК" : "ВК"} ${
                   item.code
                 }`}</TableCell>
                 <TableCell>{item.name}</TableCell>
