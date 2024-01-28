@@ -20,6 +20,7 @@ export const SubjectList = () => {
   const [subjects, setSubjects] = useState([]);
   const [level, setLevel] = useState("бакалавр");
   const [planID, setPlanID] = useState("");
+  const [qualifications, setQualifications] = useState([]);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -39,6 +40,22 @@ export const SubjectList = () => {
         dispatch(disable());
       });
   }, [depID, planID, level, dispatch]);
+
+  useEffect(() => {
+    if (subjects.length === 0) {
+      return;
+    }
+    const arr = subjects
+      .filter((item) => item.aditionalSpecialityName)
+      .map((item) => item.aditionalSpecialityName)
+      .reduce((result, item) => {
+        if (!result.includes(item)) {
+          result.push(item);
+        }
+        return result;
+      }, []);
+    setQualifications(arr);
+  }, [subjects]);
 
   return (
     <Box>
@@ -80,6 +97,24 @@ export const SubjectList = () => {
           <TableContainer marginTop={2} component={Paper}>
             <SubjectTable subjects={subjects} filterChar="2" />
           </TableContainer>
+        </MyAcordion>
+
+        <MyAcordion
+          title={`ІІІ. ОСВІТНІ КОМПОНЕНТИ ЗА ВИБОРОМ ЗДОБУВАЧА ОСВІТИ ОТРИМАННЯ ВИБІРКОВОЇ ПРОФЕСІЙНОЇ КВАЛІФІКАЦІЇ`}
+        >
+          {qualifications.map((item) => (
+            <Box key={item}>
+              <h3>{item}</h3>
+              <TableContainer marginTop={2} component={Paper}>
+                <SubjectTable
+                  subjects={subjects.filter(
+                    (sub) => sub.aditionalSpecialityName === item
+                  )}
+                  filterChar="3"
+                />
+              </TableContainer>
+            </Box>
+          ))}
         </MyAcordion>
       </Box>
     </Box>

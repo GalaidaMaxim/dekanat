@@ -1,8 +1,22 @@
 import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export const LaounchWindow = ({ setType }) => {
   const navigate = useNavigate();
+  const [updated, setUpdated] = useState(true);
+  const version = "0.0.0";
+  useEffect(() => {
+    window.mainApi.invokeMain("getVersion").then((data) => {
+      const result = JSON.parse(data);
+      if (!result || result.current !== version) {
+        setUpdated(false);
+        return;
+      }
+      setUpdated(true);
+    });
+  }, []);
+
   return (
     <Box
       position={"fixed"}
@@ -15,24 +29,35 @@ export const LaounchWindow = ({ setType }) => {
       alignItems={"center"}
       flexDirection={"column"}
     >
-      <h1>Стартовий екран</h1>
-      <Box textAlign={"center"}>
-        <p>увійти як: </p>
-        <Box display={"flex"} justifyContent={"center"} gap={2}>
-          <Button
-            onClick={() => {
-              setType("User");
-              navigate("/plans");
-            }}
-            variant="contained"
-          >
-            Користувач
-          </Button>
-          <Button onClick={() => setType("Developer")} variant="outlined">
-            Розробник
-          </Button>
-        </Box>
-      </Box>
+      {updated && (
+        <>
+          <h1>Стартовий екран</h1>
+          <Box textAlign={"center"}>
+            <p>увійти як: </p>
+            <Box display={"flex"} justifyContent={"center"} gap={2}>
+              <Button
+                onClick={() => {
+                  setType("User");
+                  navigate("/plans");
+                }}
+                variant="contained"
+              >
+                Користувач
+              </Button>
+              <Button onClick={() => setType("Developer")} variant="outlined">
+                Розробник
+              </Button>
+            </Box>
+          </Box>
+        </>
+      )}
+      {!updated && (
+        <>
+          <Box>
+            <h2>Застаріла версія, оновіть додаток</h2>
+          </Box>
+        </>
+      )}
     </Box>
   );
 };

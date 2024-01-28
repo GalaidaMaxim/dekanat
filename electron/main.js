@@ -15,6 +15,7 @@ const {
   createEducationPlan,
   getEducationPlan,
   getSubjectByID,
+  getVersion,
 } = require("./API");
 const path = require("path");
 
@@ -61,6 +62,7 @@ app.whenReady().then(() => {
   ipcMain.handle("getEducationPlan", getEducationPlan);
   ipcMain.handle("getSubjectByID", getSubjectByID);
   ipcMain.handle("updateSubject", updateSubject);
+  ipcMain.handle("getVersion", getVersion);
 });
 
 app.on("window-all-closed", () => {
