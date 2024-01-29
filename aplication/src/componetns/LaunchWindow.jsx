@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export const LaounchWindow = ({ setType }) => {
   const navigate = useNavigate();
   const [updated, setUpdated] = useState(true);
-  const version = "0.0.0";
+  const version = "0.0.1";
   useEffect(() => {
     window.mainApi.invokeMain("getVersion").then((data) => {
       const result = JSON.parse(data);

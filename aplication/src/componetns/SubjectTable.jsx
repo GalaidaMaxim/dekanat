@@ -9,19 +9,17 @@ import {
 import { CiCirclePlus } from "react-icons/ci";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export const SubjectTable = ({
-  subjects,
-  filterChar = "1",
-  mandatory = false,
-}) => {
+export const SubjectTable = ({ subjects, filterChar = "1", from = null }) => {
   const location = useLocation();
   const navigate = useNavigate();
   return (
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell sx={{ fontWeight: 600 }}>Код</TableCell>
-          <TableCell width={"500px"} sx={{ fontWeight: 600 }}>
+          <TableCell width={"100px"} sx={{ fontWeight: 600 }}>
+            Код
+          </TableCell>
+          <TableCell width={"450px"} sx={{ fontWeight: 600 }}>
             Назва
           </TableCell>
           <TableCell sx={{ fontWeight: 600 }}>Кредити</TableCell>
@@ -49,7 +47,7 @@ export const SubjectTable = ({
                   <Button
                     onClick={() =>
                       navigate(`/plans/${item._id}`, {
-                        state: { from: location.pathname },
+                        state: { from: location.pathname, data: from },
                       })
                     }
                     sx={{

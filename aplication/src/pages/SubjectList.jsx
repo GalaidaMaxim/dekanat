@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { enable, disable } from "../redux/slices";
 import { MyAcordion } from "../componetns/Acordion";
 import { SubjectTable } from "../componetns/SubjectTable";
+import { useLocation } from "react-router-dom";
 
 export const SubjectList = () => {
   const [depID, setdepID] = useState("");
@@ -21,12 +22,24 @@ export const SubjectList = () => {
   const [level, setLevel] = useState("бакалавр");
   const [planID, setPlanID] = useState("");
   const [qualifications, setQualifications] = useState([]);
+  const location = useLocation();
 
   const dispatch = useDispatch();
   useEffect(() => {
+    if (
+      location.state &&
+      location.state.data &&
+      (!depID || !level || !planID)
+    ) {
+      console.log(location.state.data);
+      setdepID(location.state.data.depID);
+      setLevel(location.state.data.level);
+      setPlanID(location.state.data.planID);
+    }
     if (!depID || !level || !planID) {
       return;
     }
+
     dispatch(enable());
     window.mainApi
       .invokeMain("getSubjecByDepartment", {
@@ -39,7 +52,7 @@ export const SubjectList = () => {
       .finally(() => {
         dispatch(disable());
       });
-  }, [depID, planID, level, dispatch]);
+  }, [depID, planID, level, dispatch, location]);
 
   useEffect(() => {
     if (subjects.length === 0) {
@@ -85,7 +98,11 @@ export const SubjectList = () => {
         <h3>I. ОБОВ’ЯЗКОВІ ОСВІТНІ КОМПОНЕНТИ</h3>
         <MyAcordion title={`I. ОБОВ’ЯЗКОВІ ОСВІТНІ КОМПОНЕНТИ `}>
           <TableContainer marginTop={2} component={Paper}>
-            <SubjectTable subjects={subjects} filterChar="1" />
+            <SubjectTable
+              subjects={subjects}
+              filterChar="1"
+              from={{ depID, level, planID }}
+            />
           </TableContainer>
         </MyAcordion>
       </Box>
@@ -95,7 +112,11 @@ export const SubjectList = () => {
           title={`ЦИКЛ ФАХОВОЇ, ПРОФЕСІЙНОЇ ПІДГОТОВКИ ЗА ПРОФІЛІЗАЦІЄЮ `}
         >
           <TableContainer marginTop={2} component={Paper}>
-            <SubjectTable subjects={subjects} filterChar="2" />
+            <SubjectTable
+              subjects={subjects}
+              filterChar="2"
+              from={{ depID, level, planID }}
+            />
           </TableContainer>
         </MyAcordion>
 
@@ -111,10 +132,23 @@ export const SubjectList = () => {
                     (sub) => sub.aditionalSpecialityName === item
                   )}
                   filterChar="3"
+                  from={{ depID, level, planID }}
                 />
               </TableContainer>
             </Box>
           ))}
+        </MyAcordion>
+        <MyAcordion
+          title={`ІV. ОСВІТНІ КОМПОНЕНТИ ЗА ВИБОРОМ ЗДОБУВАЧА ОСВІТИ
+КАТАЛОГ ВИБІРКОВИХ ДИСЦИПЛІН `}
+        >
+          <TableContainer marginTop={2} component={Paper}>
+            <SubjectTable
+              subjects={subjects}
+              filterChar="4"
+              from={{ depID, level, planID }}
+            />
+          </TableContainer>
         </MyAcordion>
       </Box>
     </Box>

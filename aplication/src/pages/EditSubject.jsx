@@ -118,11 +118,19 @@ export const EditSubject = () => {
       dispatch(show({ title: "Предмет успішно доданий", type: "success" }));
     }
     dispatch(disable());
-    navigate(location.state.from);
+    navigate(location.state.from, { state: { data: location.state.data } });
   };
   return (
     <Box>
-      <Button onClick={() => navigate(location.state.from)}>Назад</Button>
+      <Button
+        onClick={() =>
+          navigate(location.state.from, {
+            state: { data: location.state.data },
+          })
+        }
+      >
+        Назад
+      </Button>
       <h2>Додати предмет</h2>
       <TextField
         value={name}
