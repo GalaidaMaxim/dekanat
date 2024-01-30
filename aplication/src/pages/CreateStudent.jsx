@@ -8,7 +8,10 @@ import {
   InputLabel,
   Button,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { DepartmentSelector } from "../componetns/DepartmentSelector";
+import { LevelSelector } from "../componetns/LevelSelector";
+import { PlanSelector } from "../componetns/PlanSelector";
 
 export const CreateStudent = () => {
   const [name, setName] = useState("");
@@ -17,24 +20,8 @@ export const CreateStudent = () => {
   const [depID, setdepID] = useState("");
   const [level, setLevel] = useState("бакалавр");
   const [course, setCourse] = useState(1);
+  const [planID, setPlanID] = useState("");
 
-  const [deps, setDeps] = useState([]);
-  useEffect(() => {
-    window.mainApi.invokeMain("getDeparments").then((result) => {
-      if (!JSON.parse(result)) {
-        return;
-      }
-      setDeps(JSON.parse(result));
-    });
-  }, []);
-
-  const handleDep = (event) => {
-    setdepID(event.target.value);
-  };
-  const handleLevel = (event) => {
-    setLevel(event.target.value);
-    setCourse(1);
-  };
   const reset = () => {
     setName("");
     setSecondName("");
@@ -50,6 +37,7 @@ export const CreateStudent = () => {
       level,
       course,
       department: depID.toString(),
+      educationPlan: planID.toString(),
     };
     const result = await window.mainApi.invokeMain("createStudent", student);
     if (result) {
@@ -86,30 +74,16 @@ export const CreateStudent = () => {
         </Grid>
       </Box>
       <Box padding={1}>
-        <Grid container columnSpacing={{ xs: 2 }}>
+        <Grid container columnSpacing={{ xs: 2 }} rowGap={2}>
           <Grid item xs={2}>
-            <FormControl fullWidth>
-              <InputLabel>відділення</InputLabel>
-              <Select value={depID} onChange={handleDep} label="відділення">
-                {deps.map((item) => (
-                  <MenuItem value={item.name} key={item.name}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <DepartmentSelector
+              level={level}
+              depID={depID}
+              setdepID={setdepID}
+            />
           </Grid>
           <Grid item xs={4}>
-            <FormControl fullWidth>
-              <InputLabel>ОС</InputLabel>
-              <Select value={level} onChange={handleLevel} label="ОС">
-                <MenuItem value={"молодший бакалавр"}>
-                  молодший бакалавр
-                </MenuItem>
-                <MenuItem value={"бакалавр"}>бакалавр</MenuItem>
-                <MenuItem value={"магістр"}>магістр</MenuItem>
-              </Select>
-            </FormControl>
+            <LevelSelector level={level} setLevel={setLevel} />
           </Grid>
           <Grid item xs={2}>
             <FormControl fullWidth>
@@ -125,6 +99,9 @@ export const CreateStudent = () => {
                 <MenuItem value={4}>4</MenuItem>
               </Select>
             </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <PlanSelector setPlanID={setPlanID} planID={planID} level={level} />
           </Grid>
         </Grid>
         <Button type="submit" sx={{ marginTop: 2 }} variant="contained">

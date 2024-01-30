@@ -8,21 +8,22 @@ const createStudent = async ({
   level,
   course,
   department,
+  educationPlan,
 }) => {
   try {
-    const departmentObj = await Departments.findOne({ name: department });
     const newStudent = await Students.create({
       name,
       sername,
       secondName,
       level,
       course,
-      department: departmentObj._id,
+      department,
+      educationPlan,
     });
     if (!newStudent) {
       return null;
     }
-    const processed = await addMandatorySubejct(newStudent._id);
+    const processed = await addMandatorySubejct(newStudent);
     return processed;
   } catch (err) {
     console.log(err);

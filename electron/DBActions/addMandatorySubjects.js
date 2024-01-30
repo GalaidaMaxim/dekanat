@@ -1,16 +1,10 @@
-const { Subjects, Departments, Students } = require("../models");
+const { createPlanForDepartment } = require("../service");
 
-module.exports = async (studentId) => {
-  const student = await Students.findById(studentId).populate("department");
-  const madatorySubjects = await Subjects.find({
-    mandatory: true,
-    level: student.level,
-  });
-  madatorySubjects.forEach((item) => {
-    if (student.subjects.every((sub) => sub.name !== item.name)) {
-      student.subjects.push(item);
-    }
-  });
+module.exports = async (student) => {
+  const { department, educationPlan } = student;
+  const subject = await createPlanForDepartment({ department, educationPlan });
+  const mandatorySubejct = subject.filter((item) => item.mandatory);
+  student.subjects.push(...mandatorySubejct);
   await student.save();
   return student;
 };

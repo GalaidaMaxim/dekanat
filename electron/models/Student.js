@@ -15,15 +15,23 @@ const StudentSchema = new Schema({
   secondName: {
     type: String,
     trim: true,
+    require: true,
   },
   department: {
     type: Schema.Types.ObjectId,
     ref: "department",
+    require: true,
+  },
+  educationPlan: {
+    type: Schema.Types.ObjectId,
+    ref: "educationPlan",
+    require: true,
   },
   level: {
     type: String,
-    enum: ["бакалавр", "магістр, молодший бакалавр"],
+    enum: ["бакалавр", "магістр", "молодший бакалавр"],
     default: "бакалавр",
+    require: true,
   },
   course: {
     type: Number,
