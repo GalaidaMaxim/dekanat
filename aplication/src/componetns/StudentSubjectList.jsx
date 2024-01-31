@@ -17,6 +17,7 @@ export const StudentSubjectList = ({
     <Table>
       <TableHead>
         <TableRow>
+          <TableCell width={"100px"}>Код предмету</TableCell>
           <TableCell width={"300px"}>Назва</TableCell>
           <TableCell width={"50px"}>Кредити</TableCell>
           <TableCell></TableCell>
@@ -28,6 +29,7 @@ export const StudentSubjectList = ({
             .filter((item) => item.code.charAt(0) === filterChar)
             .map((item, index) => (
               <TableRow key={item.name}>
+                <TableCell>{item.code}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.credits}</TableCell>
                 <TableCell>

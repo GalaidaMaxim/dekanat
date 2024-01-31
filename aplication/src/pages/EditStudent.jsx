@@ -50,7 +50,7 @@ export const EditStudent = () => {
       .finally(() => {
         dispatch(disable());
       });
-  }, [student.department, student.eudactionPlan, student.subjects, dispatch]);
+  }, [student.department, student.educationPlan, student.subjects, dispatch]);
 
   const chageHandle = (field) => {
     return (event) => {
@@ -81,7 +81,7 @@ export const EditStudent = () => {
   const addSubject = (subject) => {
     return async () => {
       const arr = student.subjects;
-      arr.push(subject);
+      arr.push(subjects.find((item) => item._id === subject));
       window.mainApi
         .invokeMain("updateStudent", {
           id,
@@ -174,8 +174,82 @@ export const EditStudent = () => {
             <h3>Обов'язкові предмети</h3>
             <StudentSubjectList
               subjects={student.subjects}
-              callback={removeSubject}
+              callback={(id) => {
+                return () => {
+                  dispatch(
+                    enableAlertAction({
+                      callback: removeSubject(id),
+                      title: "Видалити обов'язковий предмет?",
+                      discription:
+                        "цей предмет є обов'язковим для вивчення в рамках навчального плану",
+                    })
+                  );
+                };
+              }}
               filterChar="1"
+            />
+          </Box>
+          <Box>
+            <h3>ЦИКЛ ФАХОВОЇ, ПРОФЕСІЙНОЇ ПІДГОТОВКИ ЗА ПРОФІЛІЗАЦІЄЮ </h3>
+            <StudentSubjectList
+              subjects={student.subjects}
+              callback={(id) => {
+                return () => {
+                  dispatch(
+                    enableAlertAction({
+                      callback: removeSubject(id),
+                      title: "Видалити предмет?",
+                      discription:
+                        "це спричинить врату даних про оцінювання за цим предметом",
+                    })
+                  );
+                };
+              }}
+              filterChar="2"
+            />
+          </Box>
+          <Box>
+            <h3>
+              ОСВІТНІ КОМПОНЕНТИ ЗА ВИБОРОМ ЗДОБУВАЧА ОСВІТИ ОТРИМАННЯ
+              ВИБІРКОВОЇ ПРОФЕСІЙНОЇ КВАЛІФІКАЦІЇ
+            </h3>
+            <StudentSubjectList
+              subjects={student.subjects}
+              callback={(id) => {
+                return () => {
+                  dispatch(
+                    enableAlertAction({
+                      callback: removeSubject(id),
+                      title: "Видалити предмет?",
+                      discription:
+                        "це спричинить врату даних про оцінювання за цим предметом",
+                    })
+                  );
+                };
+              }}
+              filterChar="3"
+            />
+          </Box>
+          <Box>
+            <h3>
+              ОСВІТНІ КОМПОНЕНТИ ЗА ВИБОРОМ ЗДОБУВАЧА ОСВІТИ КАТАЛОГ ВИБІРКОВИХ
+              ДИСЦИПЛІН
+            </h3>
+            <StudentSubjectList
+              subjects={student.subjects}
+              callback={(id) => {
+                return () => {
+                  dispatch(
+                    enableAlertAction({
+                      callback: removeSubject(id),
+                      title: "Видалити предмет?",
+                      discription:
+                        "це спричинить врату даних про оцінювання за цим предметом",
+                    })
+                  );
+                };
+              }}
+              filterChar="4"
             />
           </Box>
         </MyAcordion>
@@ -187,6 +261,39 @@ export const EditStudent = () => {
               subjects={subjects}
               callback={addSubject}
               filterChar="1"
+              buttonText="додати"
+            />
+          </Box>
+          <Box>
+            <h3>ЦИКЛ ФАХОВОЇ, ПРОФЕСІЙНОЇ ПІДГОТОВКИ ЗА ПРОФІЛІЗАЦІЄЮ </h3>
+            <StudentSubjectList
+              subjects={subjects}
+              callback={addSubject}
+              filterChar="2"
+              buttonText="додати"
+            />
+          </Box>
+          <Box>
+            <h3>
+              ОСВІТНІ КОМПОНЕНТИ ЗА ВИБОРОМ ЗДОБУВАЧА ОСВІТИ ОТРИМАННЯ
+              ВИБІРКОВОЇ ПРОФЕСІЙНОЇ КВАЛІФІКАЦІЇ
+            </h3>
+            <StudentSubjectList
+              subjects={subjects}
+              callback={addSubject}
+              filterChar="3"
+              buttonText="додати"
+            />
+          </Box>
+          <Box>
+            <h3>
+              ОСВІТНІ КОМПОНЕНТИ ЗА ВИБОРОМ ЗДОБУВАЧА ОСВІТИ КАТАЛОГ ВИБІРКОВИХ
+              ДИСЦИПЛІН
+            </h3>
+            <StudentSubjectList
+              subjects={subjects}
+              callback={addSubject}
+              filterChar="4"
               buttonText="додати"
             />
           </Box>
