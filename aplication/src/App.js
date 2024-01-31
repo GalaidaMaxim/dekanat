@@ -14,6 +14,8 @@ import { CreateEducationPlan } from "./pages/CreateEducationPlan";
 import { EditSubject } from "./pages/EditSubject";
 import { useState } from "react";
 import { LaounchWindow } from "./componetns/LaunchWindow";
+import { ActionAlert } from "./componetns/ActionAlert";
+import { useAlertAction } from "./redux/selector";
 
 import { EditStudent } from "./pages/EditStudent";
 
@@ -21,11 +23,12 @@ function App() {
   const navigate = useNavigate();
   const loading = useLoading();
   const alert = useAlert();
+  const alertAction = useAlertAction();
   const [type, setType] = useState(null);
-
   return (
     <div className="App">
       {alert.enable && <AlertMy />}
+      {alertAction.enable && <ActionAlert />}
       <Box sx={{ display: "flex" }}>
         {!type && <LaounchWindow setType={setType} />}
         <Box

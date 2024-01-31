@@ -36,5 +36,34 @@ export const alertSlice = createSlice({
   },
 });
 
+export const alertActionSlice = createSlice({
+  name: "alertAction",
+  initialState: {
+    enable: false,
+    title: "",
+    discription: "",
+    callback: null,
+  },
+  reducers: {
+    enableAlertAction: (state, { payload }) => {
+      state.enable = true;
+      state.title = payload.title;
+      state.discription = payload.discription;
+      state.callback = payload.callback;
+    },
+    confirmAlertAction: (state) => {
+      state.enable = false;
+      state.callback();
+      state.callback = false;
+    },
+    cancelAlertAction: (state) => {
+      state.enable = false;
+      state.callback = null;
+    },
+  },
+});
+
 export const { enable, disable } = loaderSlice.actions;
 export const { show, hide } = alertSlice.actions;
+export const { enableAlertAction, confirmAlertAction, cancelAlertAction } =
+  alertActionSlice.actions;

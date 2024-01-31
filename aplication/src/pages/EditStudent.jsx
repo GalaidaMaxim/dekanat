@@ -1,20 +1,10 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  TextField,
-  Table,
-  MenuItem,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-} from "@mui/material";
+import { Box, Button, FormControl, TextField } from "@mui/material";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { enable, disable, show } from "../redux/slices";
+import { enable, disable, show, enableAlertAction } from "../redux/slices";
 import { useDispatch } from "react-redux";
 import { MyAcordion } from "../componetns/Acordion";
+import { StudentSubjectList } from "../componetns/StudentSubjectList";
 
 export const EditStudent = () => {
   const { id } = useParams();
@@ -39,36 +29,34 @@ export const EditStudent = () => {
   }, [id, dispatch]);
 
   useEffect(() => {
-    if (!student.department || !student.level) {
+    if (!student.department || !student.educationPlan) {
       return;
     }
     window.mainApi
       .invokeMain("getSubjecByDepartment", {
         department: student.department,
-        level: student.level,
+        educationPlan: student.educationPlan,
       })
       .then((result) => {
         dispatch(enable());
         const allSubjects = JSON.parse(result);
+        console.log(allSubjects);
         setSubjects(
-          allSubjects.filter(
-            (item) =>
-              !item.mandatory &&
-              student.subjects.every((sub) => sub._id !== item._id)
+          allSubjects.filter((item) =>
+            student.subjects.every((sub) => sub._id !== item._id)
           )
         );
       })
       .finally(() => {
         dispatch(disable());
       });
-  }, [student.department, student.level, dispatch, student.subjects]);
-  console.log(subjects);
+  }, [student.department, student.eudactionPlan, student.subjects, dispatch]);
+
   const chageHandle = (field) => {
     return (event) => {
       setStudent((prev) => {
         const newStudent = JSON.parse(JSON.stringify(prev));
         newStudent[field] = event.target.value;
-        console.log(event.target.value);
         return newStudent;
       });
     };
@@ -182,61 +170,26 @@ export const EditStudent = () => {
       <Box borderTop={1}>
         <h2>Предмети</h2>
         <MyAcordion title={"Індивідульний план студента"}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell width={"300px"}>Назва</TableCell>
-                <TableCell width={"50px"}>Кредити</TableCell>
-                <TableCell>Викладач</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {student.subjects &&
-                student.subjects.map((item, index) => (
-                  <TableRow key={item.name}>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{student.subjects[index].credits}</TableCell>
-                    <TableCell>
-                      {student.subjects[index].coach || "невідомо"}
-                    </TableCell>
-                    <TableCell>
-                      {!student.subjects[index].mandatory && (
-                        <Button
-                          onClick={removeSubject(student.subjects[index]._id)}
-                        >
-                          Видалити
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
+          <Box>
+            <h3>Обов'язкові предмети</h3>
+            <StudentSubjectList
+              subjects={student.subjects}
+              callback={removeSubject}
+              filterChar="1"
+            />
+          </Box>
         </MyAcordion>
 
-        <MyAcordion title={"Вибіркові предмети"}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell width={"300px"}>Назва</TableCell>
-                <TableCell>Кредити</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {subjects &&
-                subjects.map((item, index) => (
-                  <TableRow key={item.name}>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.credits}</TableCell>
-                    <TableCell>
-                      <Button onClick={addSubject(item)}>Додати предмет</Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
+        <MyAcordion title={"Предмети навчального плану"}>
+          <Box>
+            <h3>Обов'язкові предмети</h3>
+            <StudentSubjectList
+              subjects={subjects}
+              callback={addSubject}
+              filterChar="1"
+              buttonText="додати"
+            />
+          </Box>
         </MyAcordion>
       </Box>
     </Box>

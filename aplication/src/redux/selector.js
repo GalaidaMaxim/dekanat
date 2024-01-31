@@ -7,3 +7,7 @@ export const useLoading = () => {
 export const useAlert = () => {
   return useSelector((state) => state.alert);
 };
+
+export const useAlertAction = () => {
+  return useSelector((state) => state.alertAction);
+};

@@ -38,7 +38,6 @@ export const StudentInfo = () => {
     if (!student.subjects) {
       return;
     }
-
     const arr = student.subjects.filter(
       (item) => item.semesters[semester - 1].include
     );
@@ -85,7 +84,13 @@ export const StudentInfo = () => {
 
   return (
     <Box>
-      <Button onClick={() => navigate(location.state.from)}>Назад</Button>
+      <Button
+        onClick={() => {
+          navigate(location.state.from);
+        }}
+      >
+        Назад
+      </Button>
       <Box>
         <Box>
           <Box display="flex" gap={3}>
@@ -189,11 +194,11 @@ export const StudentInfo = () => {
             </Button>
             <Button
               variant="contained"
-              onClick={() =>
+              onClick={() => {
                 navigate(`/edit_student/${student._id}`, {
                   state: location.state,
-                })
-              }
+                });
+              }}
             >
               Редагувати
             </Button>

@@ -105,11 +105,11 @@ export const StudentList = () => {
                 <TableCell>{item.level}</TableCell>
                 <TableCell>
                   <Button
-                    onClick={() =>
+                    onClick={() => {
                       navigate(`/students_info/${item._id}`, {
                         state: { from: location.pathname },
-                      })
-                    }
+                      });
+                    }}
                     sx={{
                       padding: 0,
                       minWidth: 0,
