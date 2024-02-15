@@ -31,6 +31,7 @@ const createWindow = () => {
   });
 
   mainWindow.loadURL("http://localhost:3000");
+  // mainWindow.loadFile("../aplication/build/index.html");
   mainWindow.maximize();
   mainWindow;
 };
