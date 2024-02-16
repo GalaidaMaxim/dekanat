@@ -19,7 +19,7 @@ const {
   getVersion,
 } = require("./API");
 
-const { deleteStudent } = require("./DBActions");
+const { deleteStudent, deleteEducationPlan } = require("./DBActions");
 const path = require("path");
 
 console.log(path.join(__dirname, "preload.js"));
@@ -68,6 +68,7 @@ app.whenReady().then(() => {
   ipcMain.handle("updateSubject", updateSubject);
   ipcMain.handle("getVersion", getVersion);
   ipcMain.handle("deleteStudent", apiMidlvare(deleteStudent));
+  ipcMain.handle("deleteEducationPlan", apiMidlvare(deleteEducationPlan));
 });
 
 app.on("window-all-closed", () => {
