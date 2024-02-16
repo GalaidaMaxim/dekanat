@@ -67,9 +67,11 @@ export const SubjectList = () => {
         }
         return result;
       }, []);
+    console.log(arr);
     setQualifications(arr);
   }, [subjects]);
 
+  console.log(qualifications);
   return (
     <Box>
       <h1>Індивідуальні плани</h1>

@@ -16,6 +16,8 @@ import { useState } from "react";
 import { LaounchWindow } from "./componetns/LaunchWindow";
 import { ActionAlert } from "./componetns/ActionAlert";
 import { useAlertAction } from "./redux/selector";
+import { DocumentCreation } from "./pages/DocumentCration";
+import { CreateStatemntDocument } from "./pages/CreateStatementDocument";
 
 import { EditStudent } from "./pages/EditStudent";
 
@@ -50,6 +52,13 @@ function App() {
                   onClick={() => navigate("/students")}
                 >
                   Всі студенти
+                </Button>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={() => navigate("/documentCreation")}
+                >
+                  Документи
                 </Button>
                 <Button
                   fullWidth
@@ -110,7 +119,15 @@ function App() {
                   element={<CreateEducationPlan />}
                   path="/educationPlan"
                 />
+                <Route
+                  element={<DocumentCreation />}
+                  path="/documentCreation"
+                />
                 <Route element={<EditSubject />} path="/plans/:id" />
+                <Route
+                  element={<CreateStatemntDocument />}
+                  path="/create_statemnt_document"
+                />
               </Routes>
             </Box>
           </Paper>

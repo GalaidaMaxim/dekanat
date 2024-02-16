@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const mongoose = require("mongoose");
+const { apiMidlvare } = require("./service");
 const {
   getDepartments,
   createStudent,
@@ -17,6 +18,8 @@ const {
   getSubjectByID,
   getVersion,
 } = require("./API");
+
+const { deleteStudent } = require("./DBActions");
 const path = require("path");
 
 console.log(path.join(__dirname, "preload.js"));
@@ -64,6 +67,7 @@ app.whenReady().then(() => {
   ipcMain.handle("getSubjectByID", getSubjectByID);
   ipcMain.handle("updateSubject", updateSubject);
   ipcMain.handle("getVersion", getVersion);
+  ipcMain.handle("deleteStudent", apiMidlvare(deleteStudent));
 });
 
 app.on("window-all-closed", () => {

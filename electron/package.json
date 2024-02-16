@@ -24,6 +24,9 @@
   "build": {
     "directories": {
       "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
     }
   }
 }

@@ -13,8 +13,10 @@ const getEducationPlan = require("./getEducationPlanes");
 const getSubjectByID = require("./getSubjectByID");
 const updateSubject = require("./updateSubject");
 const getVersion = require("./getVersion");
+const deleteStudent = require("./deleteStudent");
 
 module.exports = {
+  deleteStudent,
   getDepartments,
   createStudent,
   getStudentByDepartmant,

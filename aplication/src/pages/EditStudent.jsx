@@ -113,6 +113,18 @@ export const EditStudent = () => {
     };
   };
 
+  const removeStudent = () => {
+    window.mainApi
+      .invokeMain("deleteStudent", {
+        id,
+      })
+      .then((result) => {
+        dispatch(show({ title: "Студент видалений" }));
+        setStudent(JSON.parse(result));
+        navigate("/students");
+      });
+  };
+
   return (
     <Box>
       <Button
@@ -298,6 +310,23 @@ export const EditStudent = () => {
             />
           </Box>
         </MyAcordion>
+      </Box>
+      <Box marginTop={4}>
+        <Button
+          onClick={() => {
+            dispatch(
+              enableAlertAction({
+                callback: removeStudent,
+                title: "Видалити студента?",
+                discription: "це може спричинити втрату корисних даних!",
+              })
+            );
+          }}
+          variant="outlined"
+          color="error"
+        >
+          Видалити студента
+        </Button>
       </Box>
     </Box>
   );
