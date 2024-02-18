@@ -16,6 +16,7 @@ const getVersion = require("./getVersion");
 const deleteStudent = require("./deleteStudent");
 const getSubejctsByEducationPlan = require("./getSubjectsByEducationPlan");
 const deleteEducationPlan = require("./deleteEducationPlan");
+const getStudentsByParams = require("./getStudentsByParams");
 
 module.exports = {
   deleteStudent,
@@ -36,4 +37,5 @@ module.exports = {
   updateSubject,
   getSubejctsByEducationPlan,
   deleteEducationPlan,
+  getStudentsByParams,
 };

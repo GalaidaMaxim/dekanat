@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { LevelSelector } from "../componetns/LevelSelector";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
 import { PlanSelector } from "../componetns/PlanSelector";
 import { CourseSelector } from "../componetns/CourseSelector";
@@ -21,7 +21,35 @@ export const CreateStatemntDocument = () => {
   const [planID, setPlanID] = useState("");
   const [cource, setCource] = useState("");
   const [subjectID, setSubjectID] = useState("");
-  const [students, setStudents] = useState("");
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+    if (!level || !depID || !cource || !subjectID || !planID) {
+      return;
+    }
+    window.mainApi
+      .invokeMain("getStudentsByParams", {
+        level,
+        department: depID,
+        educationPlan: planID,
+        cource,
+      })
+      .then((result) => {
+        const data = JSON.parse(result);
+        console.log(data);
+        if (!data) {
+          return;
+        }
+        setStudents(
+          data.filter((item) =>
+            item.subjects.some((sub) => sub._id === subjectID)
+          )
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [level, planID, depID, cource, subjectID]);
 
   return (
     <Box>
@@ -48,7 +76,7 @@ export const CreateStatemntDocument = () => {
           />
         </Box>
         <Box>
-          <StudentList />
+          <StudentList stuents={students} />
         </Box>
       </Box>
     </Box>
