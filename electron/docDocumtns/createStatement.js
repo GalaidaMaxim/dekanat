@@ -17,7 +17,12 @@ const doc = new Docxtemplater(zip, {
   linebreaks: true,
 });
 
-doc.render({ OS: "магістр" });
+let students = ["Максим Кучерявий", "Руслана Кучерява", "Марина Кучерява"];
+students = students.map((item, index) => {
+  return { name: item, number: index + 1 };
+});
+
+doc.render({ OS: "магістр", students });
 
 const buf = doc.getZip().generate({
   type: "nodebuffer",
