@@ -1,4 +1,4 @@
-import { FormControl, TextField, Autocomplete } from "@mui/material";
+import { TextField, Autocomplete } from "@mui/material";
 import { useState, useEffect } from "react";
 
 export const SubjectSelector = ({
@@ -53,7 +53,7 @@ export const SubjectSelector = ({
       options={subjects.map((item) => `${item.code} ${item.name}`)}
       sx={{ width: 300 }}
       renderInput={(params) => {
-        return <TextField fullWidth {...params} label="Controllable" />;
+        return <TextField fullWidth {...params} label="Предмет" />;
       }}
     />
   );

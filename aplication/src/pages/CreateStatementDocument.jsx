@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Table,
-  TableBody,
-  TableHead,
-  TableCell,
-  TableRow,
-} from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { LevelSelector } from "../componetns/LevelSelector";
 import { useEffect, useState } from "react";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
@@ -14,14 +6,16 @@ import { PlanSelector } from "../componetns/PlanSelector";
 import { CourseSelector } from "../componetns/CourseSelector";
 import { SubjectSelector } from "../componetns/SubjectSelector";
 import { StudentList } from "../componetns/StudentList";
+import { SemesterSelector } from "../componetns/SemesterSelector";
 
 export const CreateStatemntDocument = () => {
   const [level, setLevel] = useState("");
   const [depID, setDepID] = useState("");
   const [planID, setPlanID] = useState("");
   const [cource, setCource] = useState("");
-  const [subjectID, setSubjectID] = useState("");
+  const [subjectID, setSubjectID] = useState(null);
   const [students, setStudents] = useState([]);
+  const [semester, setSemester] = useState(null);
 
   useEffect(() => {
     if (!level || !depID || !cource || !subjectID || !planID) {
@@ -51,6 +45,17 @@ export const CreateStatemntDocument = () => {
       });
   }, [level, planID, depID, cource, subjectID]);
 
+  const createSatement = () => {
+    window.mainApi.invokeMain("createStatment", {
+      OS: level,
+      students,
+      OOP: depID,
+      c: cource,
+      S: semester,
+      subject: subjectID,
+    });
+  };
+
   return (
     <Box>
       <h1>Створення оціночних відомостей</h1>
@@ -75,8 +80,20 @@ export const CreateStatemntDocument = () => {
             department={depID}
           />
         </Box>
+        <Box marginTop={2}>
+          <SemesterSelector
+            cource={cource}
+            setSemester={setSemester}
+            semester={semester}
+          />
+        </Box>
         <Box>
           <StudentList stuents={students} />
+        </Box>
+        <Box marginTop={2}>
+          <Button onClick={createSatement} variant="contained">
+            Створити відомість
+          </Button>
         </Box>
       </Box>
     </Box>

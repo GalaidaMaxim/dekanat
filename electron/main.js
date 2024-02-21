@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const mongoose = require("mongoose");
 const { apiMidlvare } = require("./service");
+const createStatment = require("./docDocumtns/createStatement");
 const {
   getDepartments,
   createStudent,
@@ -74,6 +75,7 @@ app.whenReady().then(() => {
   ipcMain.handle("deleteStudent", apiMidlvare(deleteStudent));
   ipcMain.handle("deleteEducationPlan", apiMidlvare(deleteEducationPlan));
   ipcMain.handle("getStudentsByParams", apiMidlvare(getStudentsByParams));
+  ipcMain.handle("createStatment", createStatment);
 });
 
 app.on("window-all-closed", () => {
