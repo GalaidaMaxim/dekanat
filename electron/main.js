@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const mongoose = require("mongoose");
-const { apiMidlvare } = require("./service");
+const { apiMidlvare, openFolderSelector } = require("./service");
 const createStatment = require("./docDocumtns/createStatement");
 const {
   getDepartments,
@@ -28,9 +28,10 @@ const {
 const path = require("path");
 
 console.log(path.join(__dirname, "preload.js"));
+let mainWindow;
 
 const createWindow = () => {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -41,7 +42,7 @@ const createWindow = () => {
   mainWindow.loadURL("http://localhost:3000");
   // mainWindow.loadFile("../aplication/build/index.html");
   mainWindow.maximize();
-  mainWindow;
+  return mainWindow;
 };
 
 app.whenReady().then(() => {
@@ -76,6 +77,7 @@ app.whenReady().then(() => {
   ipcMain.handle("deleteEducationPlan", apiMidlvare(deleteEducationPlan));
   ipcMain.handle("getStudentsByParams", apiMidlvare(getStudentsByParams));
   ipcMain.handle("createStatment", createStatment);
+  ipcMain.handle("selectFolder", openFolderSelector(mainWindow));
 });
 
 app.on("window-all-closed", () => {

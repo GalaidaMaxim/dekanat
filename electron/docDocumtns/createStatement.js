@@ -55,13 +55,13 @@ module.exports = async (
       name: `${item.sername} ${item.name.charAt(0)}. ${item.secondName.charAt(
         0
       )}.`,
-      number: index + 1,
+      s: index + 1,
     };
   });
 
   doc.render({
     OS,
-    students,
+    m: students,
     decan,
     OOP,
     c,
@@ -81,5 +81,5 @@ module.exports = async (
 
   // buf is a nodejs Buffer, you can either write it to a
   // file or res.send it with express for example.
-  fs.writeFileSync(path.resolve(__dirname, "output.docx"), buf);
+  fs.writeFileSync(path.resolve(filePath, "output.docx"), buf);
 };

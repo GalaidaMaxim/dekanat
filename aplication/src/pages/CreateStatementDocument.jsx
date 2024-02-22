@@ -16,6 +16,7 @@ export const CreateStatemntDocument = () => {
   const [subjectID, setSubjectID] = useState(null);
   const [students, setStudents] = useState([]);
   const [semester, setSemester] = useState(null);
+  const [filePath, setFilePath] = useState("");
 
   useEffect(() => {
     if (!level || !depID || !cource || !subjectID || !planID) {
@@ -53,9 +54,19 @@ export const CreateStatemntDocument = () => {
       c: cource,
       S: semester,
       subject: subjectID,
+      filePath,
     });
   };
 
+  const setSavePath = () => {
+    window.mainApi.invokeMain("selectFolder").then((data) => {
+      const result = JSON.parse(data);
+      if (!result) {
+        return;
+      }
+      setFilePath(result);
+    });
+  };
   return (
     <Box>
       <h1>Створення оціночних відомостей</h1>
@@ -86,6 +97,13 @@ export const CreateStatemntDocument = () => {
             setSemester={setSemester}
             semester={semester}
           />
+        </Box>
+        <Box marginTop={2}>
+          <Button onClick={setSavePath}>Вибрати шлях для збереження</Button>
+          <p>
+            Шлях для збереження файлу:{" "}
+            <span style={{ fontWeight: 700 }}>{filePath}</span>
+          </p>
         </Box>
         <Box>
           <StudentList stuents={students} />
