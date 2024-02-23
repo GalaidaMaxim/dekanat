@@ -10,6 +10,8 @@ export const EditStudent = () => {
   const { id } = useParams();
   const [student, setStudent] = useState({});
   const [subjects, setSubjects] = useState([]);
+  const [Sas, setSas] = useState([]);
+  const [As, setAs] = useState([]);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,7 +42,6 @@ export const EditStudent = () => {
       .then((result) => {
         dispatch(enable());
         const allSubjects = JSON.parse(result);
-        console.log(allSubjects);
         setSubjects(
           allSubjects.filter((item) =>
             student.subjects.every((sub) => sub._id !== item._id)
@@ -51,6 +52,30 @@ export const EditStudent = () => {
         dispatch(disable());
       });
   }, [student.department, student.educationPlan, student.subjects, dispatch]);
+
+  useEffect(() => {
+    if (!student || !subjects) {
+      return;
+    }
+    const addAss = subjects
+      .filter((sub) => sub.code.charAt(0) === "3")
+      .reduce((prev, item) => {
+        if (!prev.includes(item.aditionalSpecialityName)) {
+          prev.push(item.aditionalSpecialityName);
+        }
+        return prev;
+      }, []);
+    const stAss = student.subjects
+      .filter((sub) => sub.code.charAt(0) === "3")
+      .reduce((prev, item) => {
+        if (!prev.includes(item.aditionalSpecialityName)) {
+          prev.push(item.aditionalSpecialityName);
+        }
+        return prev;
+      }, []);
+    setAs(addAss);
+    setSas(stAss);
+  }, [student, subjects]);
 
   const chageHandle = (field) => {
     return (event) => {
@@ -225,22 +250,27 @@ export const EditStudent = () => {
               ОСВІТНІ КОМПОНЕНТИ ЗА ВИБОРОМ ЗДОБУВАЧА ОСВІТИ ОТРИМАННЯ
               ВИБІРКОВОЇ ПРОФЕСІЙНОЇ КВАЛІФІКАЦІЇ
             </h3>
-            <StudentSubjectList
-              subjects={student.subjects}
-              callback={(id) => {
-                return () => {
-                  dispatch(
-                    enableAlertAction({
-                      callback: removeSubject(id),
-                      title: "Видалити предмет?",
-                      discription:
-                        "це спричинить врату даних про оцінювання за цим предметом",
-                    })
-                  );
-                };
-              }}
-              filterChar="3"
-            />
+            {Sas.map((item) => (
+              <Box key={item}>
+                <h4>{item}</h4>
+                <StudentSubjectList
+                  subjects={student.subjects}
+                  callback={(id) => {
+                    return () => {
+                      dispatch(
+                        enableAlertAction({
+                          callback: removeSubject(id),
+                          title: "Видалити предмет?",
+                          discription:
+                            "це спричинить врату даних про оцінювання за цим предметом",
+                        })
+                      );
+                    };
+                  }}
+                  filterChar="3"
+                />
+              </Box>
+            ))}
           </Box>
           <Box>
             <h3>
@@ -290,12 +320,19 @@ export const EditStudent = () => {
               ОСВІТНІ КОМПОНЕНТИ ЗА ВИБОРОМ ЗДОБУВАЧА ОСВІТИ ОТРИМАННЯ
               ВИБІРКОВОЇ ПРОФЕСІЙНОЇ КВАЛІФІКАЦІЇ
             </h3>
-            <StudentSubjectList
-              subjects={subjects}
-              callback={addSubject}
-              filterChar="3"
-              buttonText="додати"
-            />
+            {As.map((item) => (
+              <Box key={item}>
+                <h4>{item}</h4>
+                <StudentSubjectList
+                  subjects={subjects.filter(
+                    (sub) => sub.aditionalSpecialityName === item
+                  )}
+                  callback={addSubject}
+                  filterChar="3"
+                  buttonText="додати"
+                />
+              </Box>
+            ))}
           </Box>
           <Box>
             <h3>

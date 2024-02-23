@@ -28,7 +28,7 @@ export const StudentSubjectList = ({
           subjects
             .filter((item) => item.code.charAt(0) === filterChar)
             .map((item, index) => (
-              <TableRow key={item.name}>
+              <TableRow key={item.name + item.code}>
                 <TableCell>{item.code}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.credits}</TableCell>

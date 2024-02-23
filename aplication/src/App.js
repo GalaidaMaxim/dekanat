@@ -45,14 +45,6 @@ function App() {
           <Box padding={1} display={"flex"} flexDirection={"column"} gap={1}>
             {type === "Developer" && (
               <>
-                {" "}
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  onClick={() => navigate("/students")}
-                >
-                  Всі студенти
-                </Button>
                 <Button
                   fullWidth
                   variant="outlined"
@@ -60,22 +52,25 @@ function App() {
                 >
                   Документи
                 </Button>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  onClick={() => navigate("/")}
-                >
-                  Відділення
-                </Button>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  onClick={() => navigate("/create_student")}
-                >
-                  Додати студента
-                </Button>
               </>
             )}
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => navigate("/students")}
+            >
+              Всі студенти
+            </Button>
+            <Button fullWidth variant="outlined" onClick={() => navigate("/")}>
+              Відділення
+            </Button>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => navigate("/create_student")}
+            >
+              Додати студента
+            </Button>
             <Button
               fullWidth
               variant="outlined"

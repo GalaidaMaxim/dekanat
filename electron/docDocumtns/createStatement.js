@@ -78,8 +78,11 @@ module.exports = async (
     // For a 50MB output document, expect 500ms additional CPU time
     compression: "DEFLATE",
   });
-
+  const fileName = `${c} ${OOP} ${OS} ${subject.name} ${new Date(
+    Date.now()
+  ).getFullYear()}.docx`;
+  console.log(fileName);
   // buf is a nodejs Buffer, you can either write it to a
   // file or res.send it with express for example.
-  fs.writeFileSync(path.resolve(filePath, "output.docx"), buf);
+  fs.writeFileSync(path.resolve(filePath, fileName), buf);
 };

@@ -189,9 +189,9 @@ export const StudentInfo = () => {
             flexDirection={"column"}
             gap={2}
           >
-            <Button variant="contained" onClick={mandatoryAdd}>
+            {/* <Button variant="contained" onClick={mandatoryAdd}>
               Додати обов'язкові предмети
-            </Button>
+            </Button> */}
             <Button
               variant="contained"
               onClick={() => {
