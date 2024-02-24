@@ -54,7 +54,7 @@ export const EditStudent = () => {
   }, [student.department, student.educationPlan, student.subjects, dispatch]);
 
   useEffect(() => {
-    if (!student || !subjects) {
+    if (!student.subjects || !subjects) {
       return;
     }
     const addAss = subjects
