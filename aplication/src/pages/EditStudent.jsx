@@ -254,7 +254,9 @@ export const EditStudent = () => {
               <Box key={item}>
                 <h4>{item}</h4>
                 <StudentSubjectList
-                  subjects={student.subjects}
+                  subjects={student.subjects.filter(
+                    (sub) => sub.aditionalSpecialityName === item
+                  )}
                   callback={(id) => {
                     return () => {
                       dispatch(

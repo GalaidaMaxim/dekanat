@@ -27,7 +27,7 @@ export const CreateStatemntDocument = () => {
         level,
         department: depID,
         educationPlan: planID,
-        cource,
+        course: cource,
       })
       .then((result) => {
         const data = JSON.parse(result);
@@ -36,9 +36,11 @@ export const CreateStatemntDocument = () => {
           return;
         }
         setStudents(
-          data.filter((item) =>
-            item.subjects.some((sub) => sub._id === subjectID)
-          )
+          data
+            .filter((item) =>
+              item.subjects.some((sub) => sub._id === subjectID)
+            )
+            .sort((a, b) => a.sername.localeCompare(b.sername))
         );
       })
       .catch((err) => {
