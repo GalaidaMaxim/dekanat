@@ -41,6 +41,7 @@ export const SubjectSelector = ({
   return (
     <Autocomplete
       fullWidth
+      disabled={educationPlan === ""}
       value={value}
       onChange={(event, newValue) => {
         setValue(newValue);

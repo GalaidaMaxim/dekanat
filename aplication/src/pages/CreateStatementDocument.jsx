@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { LevelSelector } from "../componetns/LevelSelector";
 import { useEffect, useState } from "react";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
@@ -17,6 +17,8 @@ export const CreateStatemntDocument = () => {
   const [students, setStudents] = useState([]);
   const [semester, setSemester] = useState(null);
   const [filePath, setFilePath] = useState("");
+  const [examenator, setExamenator] = useState("");
+  const [decan, setDecan] = useState("");
 
   useEffect(() => {
     if (!level || !depID || !cource || !subjectID || !planID) {
@@ -57,6 +59,8 @@ export const CreateStatemntDocument = () => {
       S: semester,
       subject: subjectID,
       filePath,
+      teacher: examenator,
+      decan,
     });
   };
 
@@ -73,45 +77,91 @@ export const CreateStatemntDocument = () => {
     <Box>
       <h1>Створення оціночних відомостей</h1>
       <Box>
-        <Box>
-          <LevelSelector level={level} setLevel={setLevel} />
+        <Box display={"flex"} justifyContent={"space-between"}>
+          <Box width={"47%"}>
+            <LevelSelector level={level} setLevel={setLevel} />
+          </Box>
+          <Box width={"47%"}>
+            <DepartmentSelector
+              level={level}
+              depID={depID}
+              setdepID={setDepID}
+              disabled={!level}
+            />
+          </Box>
+        </Box>
+        <Box marginTop={2} display={"flex"} justifyContent={"space-between"}>
+          <Box width={"47%"}>
+            <PlanSelector
+              level={level}
+              planID={planID}
+              setPlanID={setPlanID}
+              disabled={!depID}
+            />
+          </Box>
+          <Box width={"47%"}>
+            <SubjectSelector
+              subjectID={subjectID}
+              setSubjectID={setSubjectID}
+              educationPlan={planID}
+              department={depID}
+            />
+          </Box>
+        </Box>
+
+        <Box marginTop={2} display={"flex"} justifyContent={"space-between"}>
+          <Box width={"47%"}>
+            <CourseSelector setCource={setCource} course={cource} />
+          </Box>
+          <Box width={"47%"}>
+            <SemesterSelector
+              cource={cource}
+              setSemester={setSemester}
+              semester={semester}
+            />
+          </Box>
+        </Box>
+
+        <Box>{students.length !== 0 && <StudentList stuents={students} />}</Box>
+        <Box display={"flex"} justifyContent={"space-between"} mt={2}>
+          <Box width={"47%"}>
+            <TextField
+              fullWidth
+              label={"екзаменатор"}
+              value={examenator}
+              onChange={(event) => setExamenator(event.target.value)}
+            />
+          </Box>
+          <Box width={"47%"}>
+            <TextField
+              fullWidth
+              label={"декан"}
+              value={decan}
+              onChange={(event) => setDecan(event.target.value)}
+            />
+          </Box>
         </Box>
         <Box marginTop={2}>
-          <DepartmentSelector level={level} depID={depID} setdepID={setDepID} />
-        </Box>
-        <Box marginTop={2}>
-          <PlanSelector level={level} planID={planID} setPlanID={setPlanID} />
-        </Box>
-        <Box marginTop={2}>
-          <CourseSelector setCource={setCource} course={cource} />
-        </Box>
-        <Box marginTop={2}>
-          <SubjectSelector
-            subjectID={subjectID}
-            setSubjectID={setSubjectID}
-            educationPlan={planID}
-            department={depID}
-          />
-        </Box>
-        <Box marginTop={2}>
-          <SemesterSelector
-            cource={cource}
-            setSemester={setSemester}
-            semester={semester}
-          />
-        </Box>
-        <Box marginTop={2}>
-          <Button onClick={setSavePath}>Вибрати шлях для збереження</Button>
-          <p>
+          <Button variant="contained" onClick={setSavePath}>
+            Вибрати шлях для збереження
+          </Button>
+          <Box marginTop={2} borderRadius={2} border={1} padding={1}>
             Шлях для збереження файлу:{" "}
             <span style={{ fontWeight: 700 }}>{filePath}</span>
-          </p>
-        </Box>
-        <Box>
-          <StudentList stuents={students} />
+          </Box>
         </Box>
         <Box marginTop={2}>
-          <Button onClick={createSatement} variant="contained">
+          <Button
+            disabled={
+              students.length === 0 ||
+              !semester ||
+              !decan ||
+              !examenator ||
+              !filePath
+            }
+            onClick={createSatement}
+            variant="contained"
+          >
             Створити відомість
           </Button>
         </Box>
