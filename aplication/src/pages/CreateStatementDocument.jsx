@@ -7,6 +7,8 @@ import { CourseSelector } from "../componetns/CourseSelector";
 import { SubjectSelector } from "../componetns/SubjectSelector";
 import { StudentList } from "../componetns/StudentList";
 import { SemesterSelector } from "../componetns/SemesterSelector";
+import { useDispatch } from "react-redux";
+import { show } from "../redux/slices";
 
 export const CreateStatemntDocument = () => {
   const [level, setLevel] = useState("");
@@ -19,6 +21,7 @@ export const CreateStatemntDocument = () => {
   const [filePath, setFilePath] = useState("");
   const [examenator, setExamenator] = useState("");
   const [decan, setDecan] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!level || !depID || !cource || !subjectID || !planID) {
@@ -51,17 +54,22 @@ export const CreateStatemntDocument = () => {
   }, [level, planID, depID, cource, subjectID]);
 
   const createSatement = () => {
-    window.mainApi.invokeMain("createStatment", {
-      OS: level,
-      students,
-      OOP: depID,
-      c: cource,
-      S: semester,
-      subject: subjectID,
-      filePath,
-      teacher: examenator,
-      decan,
-    });
+    window.mainApi
+      .invokeMain("createStatment", {
+        OS: level,
+        students,
+        OOP: depID,
+        c: cource,
+        S: semester,
+        subject: subjectID,
+        filePath,
+        teacher: examenator,
+        decan,
+      })
+      .then(() => {
+        dispatch(show({ title: "Відомість створено", type: "success" }));
+      })
+      .catch(() => {});
   };
 
   const setSavePath = () => {
@@ -73,6 +81,7 @@ export const CreateStatemntDocument = () => {
       setFilePath(result);
     });
   };
+
   return (
     <Box>
       <h1>Створення оціночних відомостей</h1>
@@ -122,7 +131,6 @@ export const CreateStatemntDocument = () => {
           </Box>
         </Box>
 
-        <Box>{students.length !== 0 && <StudentList stuents={students} />}</Box>
         <Box display={"flex"} justifyContent={"space-between"} mt={2}>
           <Box width={"47%"}>
             <TextField
@@ -150,6 +158,7 @@ export const CreateStatemntDocument = () => {
             <span style={{ fontWeight: 700 }}>{filePath}</span>
           </Box>
         </Box>
+        <Box>{students.length !== 0 && <StudentList stuents={students} />}</Box>
         <Box marginTop={2}>
           <Button
             disabled={
