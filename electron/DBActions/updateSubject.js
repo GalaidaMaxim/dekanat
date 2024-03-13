@@ -1,4 +1,4 @@
-const { Subjects, Departments, EducationPlan } = require("../models");
+const { Subjects, Departments, EducationPlan, Students } = require("../models");
 
 const updateSubject = async ({
   id,
@@ -16,9 +16,9 @@ const updateSubject = async ({
 }) => {
   try {
     let result;
+    const plan = await EducationPlan.findById(educationPlan);
     if (department) {
       dep = await Departments.findById(department);
-      const plan = await EducationPlan.findById(educationPlan);
       if (!plan || plan.level !== level) {
         return null;
       }
@@ -36,7 +36,6 @@ const updateSubject = async ({
         aditionalSpecialityName,
       });
     } else {
-      const plan = await EducationPlan.findById(educationPlan);
       if (!plan || plan.level !== level) {
         return null;
       }
@@ -56,6 +55,16 @@ const updateSubject = async ({
     if (!result) {
       return null;
     }
+    const students = await Students.find({ educationPlan: plan._id });
+    students.forEach(async (student) => {
+      for (let i = 0; i < student.subjects.length; i++) {
+        if (student.subjects[i]._id.toString() === result._id.toString()) {
+          student.subjects.splice(i, 1, result);
+          break;
+        }
+      }
+      await student.save();
+    });
     return result;
   } catch (err) {
     console.log(err);

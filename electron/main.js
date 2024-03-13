@@ -24,6 +24,7 @@ const {
   deleteStudent,
   deleteEducationPlan,
   getStudentsByParams,
+  deleteSubject,
 } = require("./DBActions");
 const path = require("path");
 
@@ -76,6 +77,7 @@ app.whenReady().then(() => {
   ipcMain.handle("deleteStudent", apiMidlvare(deleteStudent));
   ipcMain.handle("deleteEducationPlan", apiMidlvare(deleteEducationPlan));
   ipcMain.handle("getStudentsByParams", apiMidlvare(getStudentsByParams));
+  ipcMain.handle("deleteSubject", apiMidlvare(deleteSubject));
   ipcMain.handle("createStatment", createStatment);
   ipcMain.handle("selectFolder", openFolderSelector(mainWindow));
 });

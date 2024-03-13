@@ -91,6 +91,18 @@ export const EditSubject = () => {
     };
   };
 
+  const deleteSubject = () => {
+    window.mainApi
+      .invokeMain("deleteSubject", {
+        subjectId: id,
+      })
+      .then(() => {
+        navigate(location.state.from, {
+          state: { data: location.state.data },
+        });
+      });
+  };
+
   const onSubmit = async () => {
     const subject = {
       id,
@@ -278,7 +290,14 @@ export const EditSubject = () => {
       </Box>
 
       <Box marginTop={2}>
-        <Button onClick={onSubmit}>Оновити предмет</Button>
+        <Button variant="contained" onClick={onSubmit}>
+          Оновити предмет
+        </Button>
+      </Box>
+      <Box marginTop={2}>
+        <Button color="error" onClick={deleteSubject}>
+          Видалити предмет
+        </Button>
       </Box>
     </Box>
   );
