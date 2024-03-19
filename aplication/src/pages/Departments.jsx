@@ -63,7 +63,7 @@ export const Departments = () => {
                 key={item.name}
                 onClick={() => navigate(`/students/${item._id}/бакалавр`)}
               >
-                {item.name}
+                {item.fullName}
               </Button>
             ))}
         </StyledButtonList>
@@ -79,7 +79,7 @@ export const Departments = () => {
                 key={item.name}
                 onClick={() => navigate(`/students/${item._id}/магістр`)}
               >
-                {item.name}
+                {item.fullName}
               </Button>
             ))}
         </StyledButtonList>
