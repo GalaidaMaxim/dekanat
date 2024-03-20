@@ -70,6 +70,28 @@ export const StudentInfo = () => {
     };
   };
 
+  const markInputHandleUndef = (name) => {
+    return async (event) => {
+      const obj = JSON.parse(JSON.stringify(student));
+      obj.subjects.find((item) => item.name === name).semesters[
+        semester - 1
+      ].mark = event.target.value;
+      console.log(event.target.value);
+
+      window.mainApi
+        .invokeMain("updateStudent", {
+          id,
+          info: {
+            subjects: obj.subjects,
+          },
+        })
+        .then((result) => {
+          setStudent(JSON.parse(result));
+          console.log(JSON.parse(result));
+        });
+    };
+  };
+
   const markChageHandle = (name) => {
     return (event) => {
       setStudent((prev) => {
@@ -152,15 +174,35 @@ export const StudentInfo = () => {
               <TableRow key={item.name}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>
-                  <TextField
-                    onChange={markChageHandle(item.name)}
-                    value={
-                      student.subjects.find((i) => i.name === item.name)
-                        .semesters[semester - 1].mark || ""
-                    }
-                    size="small"
-                    onBlur={markInputHandle()}
-                  />
+                  {item.semesters[semester - 1].assessmentType !== 1 ? (
+                    <TextField
+                      onChange={markChageHandle(item.name)}
+                      value={
+                        student.subjects.find((i) => i.name === item.name)
+                          .semesters[semester - 1].mark || ""
+                      }
+                      size="small"
+                      onBlur={markInputHandle()}
+                    />
+                  ) : (
+                    <Box width={"50px"}>
+                      <FormControl fullWidth>
+                        <Select
+                          value={
+                            student.subjects.find((i) => i.name === item.name)
+                              .semesters[semester - 1].mark || ""
+                          }
+                          onChange={markInputHandleUndef(item.name)}
+                        >
+                          <MenuItem value={undefined}>...</MenuItem>
+                          <MenuItem value={"Зараховано"}>Зараховано</MenuItem>
+                          <MenuItem value={"Незараховано"}>
+                            Незараховано
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Box>
+                  )}
                 </TableCell>
                 <TableCell>
                   {intToABC(
@@ -174,9 +216,7 @@ export const StudentInfo = () => {
                       .semesters[semester - 1].mark
                   )}
                 </TableCell>
-                <TableCell>
-                  {intToNational(student.subjects[index].coach)}
-                </TableCell>
+                <TableCell></TableCell>
               </TableRow>
             ))}
           </TableBody>
