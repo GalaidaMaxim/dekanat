@@ -6,13 +6,14 @@ export const SubjectSelector = ({
   department,
   setSubjectID,
   subjectID,
+  semester,
 }) => {
   const [subjects, setSubjects] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState("");
 
   useEffect(() => {
-    if (!educationPlan || !department) {
+    if (!educationPlan || !department || !semester) {
       return;
     }
     window.mainApi
@@ -26,9 +27,11 @@ export const SubjectSelector = ({
         if (!subjects) {
           return;
         }
-        setSubjects(subjects);
+        setSubjects(
+          subjects.filter((item) => item.semesters[semester - 1].include)
+        );
       });
-  }, [department, educationPlan]);
+  }, [department, educationPlan, semester]);
   useEffect(() => {
     if (!value || !department || !educationPlan) {
       return;

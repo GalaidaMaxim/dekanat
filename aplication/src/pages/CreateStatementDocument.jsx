@@ -109,23 +109,24 @@ export const CreateStatemntDocument = () => {
             />
           </Box>
           <Box width={"47%"}>
-            <SubjectSelector
-              subjectID={subjectID}
-              setSubjectID={setSubjectID}
-              educationPlan={planID}
-              department={depID}
-            />
+            <CourseSelector setCource={setCource} course={cource} />
           </Box>
         </Box>
 
         <Box marginTop={2} display={"flex"} justifyContent={"space-between"}>
           <Box width={"47%"}>
-            <CourseSelector setCource={setCource} course={cource} />
-          </Box>
-          <Box width={"47%"}>
             <SemesterSelector
               cource={cource}
               setSemester={setSemester}
+              semester={semester}
+            />
+          </Box>
+          <Box width={"47%"}>
+            <SubjectSelector
+              subjectID={subjectID}
+              setSubjectID={setSubjectID}
+              educationPlan={planID}
+              department={depID}
               semester={semester}
             />
           </Box>

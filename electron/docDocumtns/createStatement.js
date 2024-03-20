@@ -5,6 +5,10 @@ const { Subjects, Departments } = require("../models");
 const fs = require("fs");
 const path = require("path");
 
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 module.exports = async (
   event,
   {
@@ -26,6 +30,7 @@ module.exports = async (
   );
 
   OOP = (await Departments.findById(OOP)).fullName;
+  OOP = capitalizeFirstLetter(OOP);
   subject = await Subjects.findById(subject);
 
   let formControl = "";
@@ -65,7 +70,7 @@ module.exports = async (
     decan,
     OOP,
     c,
-    S,
+    S: S % 2 === 0 ? "II" : "I",
     controlForm: formControl,
     teacher,
     decan,

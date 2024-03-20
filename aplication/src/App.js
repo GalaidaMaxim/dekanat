@@ -43,17 +43,14 @@ function App() {
             <h1>Деканат</h1>
           </Box>
           <Box padding={1} display={"flex"} flexDirection={"column"} gap={1}>
-            {type === "Developer" && (
-              <>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  onClick={() => navigate("/documentCreation")}
-                >
-                  Документи
-                </Button>
-              </>
-            )}
+            {type === "Developer" && <></>}
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => navigate("/documentCreation")}
+            >
+              Документи
+            </Button>
             <Button
               fullWidth
               variant="outlined"
