@@ -25,7 +25,7 @@ module.exports = async (
     "binary"
   );
 
-  OOP = (await Departments.findById(OOP)).name;
+  OOP = (await Departments.findById(OOP)).fullName;
   subject = await Subjects.findById(subject);
 
   let formControl = "";

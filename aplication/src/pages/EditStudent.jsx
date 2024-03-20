@@ -315,6 +315,7 @@ export const EditStudent = () => {
               callback={addSubject}
               filterChar="2"
               buttonText="додати"
+              addAllButton
             />
           </Box>
           <Box>
@@ -332,6 +333,7 @@ export const EditStudent = () => {
                   callback={addSubject}
                   filterChar="3"
                   buttonText="додати"
+                  addAllButton
                 />
               </Box>
             ))}

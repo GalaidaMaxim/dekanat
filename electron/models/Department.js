@@ -7,6 +7,10 @@ const Department = new Schema({
   level: {
     type: Schema.Types.String,
   },
+  fullName: {
+    type: Schema.Types.String,
+    default: "",
+  },
 });
 
 module.exports = model("department", Department);
