@@ -143,7 +143,7 @@ export const EditSubject = () => {
       >
         Назад
       </Button>
-      <h2>Додати предмет</h2>
+      <h2>Редагувати предмет</h2>
       <TextField
         value={name}
         label="Назва"

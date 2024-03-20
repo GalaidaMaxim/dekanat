@@ -50,6 +50,7 @@ const updateSubject = async ({
         mandatory,
         special,
         educationPlan: plan._id,
+        aditionalSpecialityName,
       });
     }
     if (!result) {
