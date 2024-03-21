@@ -40,13 +40,11 @@ export const CreateStatemntDocument = () => {
         if (!data) {
           return;
         }
-        setStudents(
-          data
-            .filter((item) =>
-              item.subjects.some((sub) => sub._id === subjectID)
-            )
-            .sort((a, b) => a.sername.localeCompare(b.sername))
-        );
+        console.log(subjectID);
+        const st = data
+          .filter((item) => item.subjects.some((sub) => sub._id === subjectID))
+          .sort((a, b) => a.sername.localeCompare(b.sername));
+        setStudents(st);
       })
       .catch((err) => {
         console.log(err);

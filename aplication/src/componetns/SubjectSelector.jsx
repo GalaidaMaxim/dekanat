@@ -27,18 +27,21 @@ export const SubjectSelector = ({
         if (!subjects) {
           return;
         }
-        setSubjects(
-          subjects.filter((item) => item.semesters[semester - 1].include)
-        );
+        const sb = subjects
+          .filter((item) => item.semesters[semester - 1].include)
+          .map((item) => {
+            item.id = item._id;
+            return item;
+          });
+        console.log(sb);
+        setSubjects(sb);
       });
   }, [department, educationPlan, semester]);
   useEffect(() => {
     if (!value || !department || !educationPlan) {
       return;
     }
-    const arr = value.split(" ");
-    const sub = subjects.find((item) => item.code === arr[0]);
-    setSubjectID(sub._id);
+    setSubjectID(value._id);
   }, [value, educationPlan, department, setSubjectID, subjects]);
   console.log(subjectID);
   return (
@@ -47,14 +50,17 @@ export const SubjectSelector = ({
       disabled={educationPlan === ""}
       value={value}
       onChange={(event, newValue) => {
+        console.log(newValue);
         setValue(newValue);
       }}
+      getOptionKey={(option) => option._id}
       inputValue={inputValue}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
       }}
       id="controllable-states-demo"
-      options={subjects.map((item) => `${item.code} ${item.name}`)}
+      options={subjects}
+      getOptionLabel={(option) => `${option.code || " "} ${option.name || " "}`}
       sx={{ width: 300 }}
       renderInput={(params) => {
         return <TextField fullWidth {...params} label="Предмет" />;

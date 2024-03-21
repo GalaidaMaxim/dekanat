@@ -18,7 +18,7 @@ import { ActionAlert } from "./componetns/ActionAlert";
 import { useAlertAction } from "./redux/selector";
 import { DocumentCreation } from "./pages/DocumentCration";
 import { CreateStatemntDocument } from "./pages/CreateStatementDocument";
-
+import { CreateSummaryReport } from "./pages/CreateSummaryReport";
 import { EditStudent } from "./pages/EditStudent";
 
 function App() {
@@ -36,14 +36,25 @@ function App() {
         <Box
           className="noPrint"
           borderRight={1}
-          width={300}
+          minWidth={250}
+          width={250}
           textAlign={"center"}
         >
           <Box borderBottom={1}>
             <h1>Деканат</h1>
           </Box>
           <Box padding={1} display={"flex"} flexDirection={"column"} gap={1}>
-            {type === "Developer" && <></>}
+            {type === "Developer" && (
+              <>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={() => navigate("/summary_report")}
+                >
+                  Зведені відомості
+                </Button>
+              </>
+            )}
             <Button
               fullWidth
               variant="outlined"
@@ -94,7 +105,11 @@ function App() {
             </Button>
           </Box>
         </Box>
-        <Box position={"relative"} padding={"20px"} width={"100%"}>
+        <Box
+          position={"relative"}
+          padding={"20px"}
+          width={"calc(100% - 300px)"}
+        >
           {loading && <Loader />}
           <Paper elevation={3} width={"100%"}>
             <Box padding="20px" minHeight={"calc(100vh - 80px)"}>
@@ -119,6 +134,10 @@ function App() {
                 <Route
                   element={<CreateStatemntDocument />}
                   path="/create_statemnt_document"
+                />
+                <Route
+                  element={<CreateSummaryReport />}
+                  path="/summary_report"
                 />
               </Routes>
             </Box>

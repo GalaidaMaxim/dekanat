@@ -29,7 +29,7 @@ export const DepartmentSelector = ({
     setdepID(event.target.value);
   };
   return (
-    <FormControl fullWidth disabled={disabled}>
+    <FormControl fullWidth disabled={disabled || !level}>
       <InputLabel>профілізація</InputLabel>
       <Select value={depID} onChange={handleDep} label="відділення">
         {deps.map((item) => (
