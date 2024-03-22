@@ -14,6 +14,12 @@ import { PlanSelector } from "../componetns/PlanSelector";
 import { useState, useEffect } from "react";
 import { enable, disable } from "../redux/slices";
 import { useDispatch } from "react-redux";
+import styled from "@emotion/styled";
+import { intToABC, intToNational } from "../serivce/formulas";
+
+const StyledTableCell = styled(TableCell)`
+  border: 1px solid black;
+`;
 
 export const CreateSummaryReport = () => {
   const [depID, setDepID] = useState("");
@@ -106,16 +112,64 @@ export const CreateSummaryReport = () => {
         <Table>
           <TableBody>
             <TableRow>
-              <TableCell sx={{ minWidth: "350px" }}></TableCell>
+              <StyledTableCell sx={{ minWidth: "350px" }}></StyledTableCell>
               {students.map((item) => (
-                <TableCell
+                <StyledTableCell
+                  colSpan={3}
                   sx={{ minWidth: "300px" }}
-                >{`${item.name} ${item.sername}`}</TableCell>
+                >{`${item.name} ${item.sername}`}</StyledTableCell>
+              ))}
+            </TableRow>
+            <TableRow>
+              <StyledTableCell></StyledTableCell>
+              {students.map((item) => (
+                <>
+                  <StyledTableCell></StyledTableCell>
+                  <StyledTableCell></StyledTableCell>
+                  <StyledTableCell></StyledTableCell>
+                </>
               ))}
             </TableRow>
             {subjects.map((item) => (
               <TableRow>
-                <TableCell sx={{ padding: "5px" }}>{item.name}</TableCell>
+                <StyledTableCell sx={{ padding: "5px" }}>
+                  {item.name}
+                </StyledTableCell>
+                {students.map((student) => {
+                  const subject = student.subjects.find(
+                    (sub) => sub._id === item._id
+                  );
+                  if (subject) {
+                    const value = subject.semesters[semester - 1].mark || "Н/А";
+                    if (subject.semesters[semester - 1].assessmentType !== 1) {
+                      return (
+                        <>
+                          <StyledTableCell>{intToABC(value)}</StyledTableCell>
+                          <StyledTableCell>{value}</StyledTableCell>
+                          <StyledTableCell>
+                            {intToNational(value)}
+                          </StyledTableCell>
+                        </>
+                      );
+                    } else {
+                      return (
+                        <>
+                          <StyledTableCell></StyledTableCell>
+                          <StyledTableCell>{value}</StyledTableCell>
+                          <StyledTableCell></StyledTableCell>
+                        </>
+                      );
+                    }
+                  } else {
+                    return (
+                      <>
+                        <StyledTableCell></StyledTableCell>
+                        <StyledTableCell></StyledTableCell>
+                        <StyledTableCell></StyledTableCell>
+                      </>
+                    );
+                  }
+                })}
               </TableRow>
             ))}
           </TableBody>
