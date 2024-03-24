@@ -1,25 +1,13 @@
-import {
-  Box,
-  Table,
-  TableCell,
-  TableRow,
-  TableBody,
-  TableContainer,
-} from "@mui/material";
+import { Box, Table, TableCell, TableRow, TableBody } from "@mui/material";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
 import { LevelSelector } from "../componetns/LevelSelector";
 import { CourseSelector } from "../componetns/CourseSelector";
 import { SemesterSelector } from "../componetns/SemesterSelector";
 import { PlanSelector } from "../componetns/PlanSelector";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { enable, disable } from "../redux/slices";
 import { useDispatch } from "react-redux";
-import styled from "@emotion/styled";
-import { intToABC, intToNational } from "../serivce/formulas";
-
-const StyledTableCell = styled(TableCell)`
-  border: 1px solid black;
-`;
+import { SummaryReport } from "../componetns/SummaryReport";
 
 export const CreateSummaryReport = () => {
   const [depID, setDepID] = useState("");
@@ -70,8 +58,8 @@ export const CreateSummaryReport = () => {
       .finally(() => {
         dispatch(disable());
       });
-  }, [depID, level, semester, course, planID]);
-  console.log(students);
+  }, [depID, level, semester, course, planID, dispatch]);
+
   return (
     <Box>
       <h2>Зведені відомості</h2>
@@ -107,74 +95,11 @@ export const CreateSummaryReport = () => {
           </TableRow>
         </TableBody>
       </Table>
-      <h3>Відомість</h3>
-      <TableContainer>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <StyledTableCell sx={{ minWidth: "350px" }}></StyledTableCell>
-              {students.map((item) => (
-                <StyledTableCell
-                  colSpan={3}
-                  sx={{ minWidth: "300px" }}
-                >{`${item.name} ${item.sername}`}</StyledTableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              <StyledTableCell></StyledTableCell>
-              {students.map((item) => (
-                <>
-                  <StyledTableCell></StyledTableCell>
-                  <StyledTableCell></StyledTableCell>
-                  <StyledTableCell></StyledTableCell>
-                </>
-              ))}
-            </TableRow>
-            {subjects.map((item) => (
-              <TableRow>
-                <StyledTableCell sx={{ padding: "5px" }}>
-                  {item.name}
-                </StyledTableCell>
-                {students.map((student) => {
-                  const subject = student.subjects.find(
-                    (sub) => sub._id === item._id
-                  );
-                  if (subject) {
-                    const value = subject.semesters[semester - 1].mark || "Н/А";
-                    if (subject.semesters[semester - 1].assessmentType !== 1) {
-                      return (
-                        <>
-                          <StyledTableCell>{intToABC(value)}</StyledTableCell>
-                          <StyledTableCell>{value}</StyledTableCell>
-                          <StyledTableCell>
-                            {intToNational(value)}
-                          </StyledTableCell>
-                        </>
-                      );
-                    } else {
-                      return (
-                        <>
-                          <StyledTableCell></StyledTableCell>
-                          <StyledTableCell>{value}</StyledTableCell>
-                          <StyledTableCell></StyledTableCell>
-                        </>
-                      );
-                    }
-                  } else {
-                    return (
-                      <>
-                        <StyledTableCell></StyledTableCell>
-                        <StyledTableCell></StyledTableCell>
-                        <StyledTableCell></StyledTableCell>
-                      </>
-                    );
-                  }
-                })}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <SummaryReport
+        semester={semester}
+        subjects={subjects}
+        students={students}
+      />
     </Box>
   );
 };

@@ -49,7 +49,7 @@ export const CreateStatemntDocument = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [level, planID, depID, cource, subjectID]);
+  }, [level, planID, depID, cource, subjectID, dispatch]);
 
   const createSatement = () => {
     window.mainApi
