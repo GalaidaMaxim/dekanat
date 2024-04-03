@@ -41,8 +41,8 @@ const createWindow = () => {
     // icon: path.resolve(__dirname, "icon.ico"),
   });
 
-  mainWindow.loadURL("http://localhost:3000");
-  // mainWindow.loadFile("../aplication/build/index.html");
+  // mainWindow.loadURL("http://localhost:3000");
+  mainWindow.loadFile("../aplication/build/index.html");
   mainWindow.maximize();
   return mainWindow;
 };
@@ -83,6 +83,7 @@ app.whenReady().then(() => {
   ipcMain.handle("selectFolder", openFolderSelector(mainWindow));
 });
 
-app.on("window-all-closed", () => {
+app.on("window-all-closed", async () => {
+  await mongoose.disconnect();
   if (process.platform !== "darwin") app.quit();
 });

@@ -11,22 +11,21 @@ import {
 export const StudentSubjectList = ({
   subjects = [],
   callback,
+  allCallback = () => {},
   filterChar = "1",
   buttonText = "видалити",
   addAllButton,
 }) => {
-  const onAllAdd = () => {
-    subjects.forEach(async (item) => {
-      console.log(item);
-      callback(item._id)();
-    });
-  };
-
   return (
     <Box>
       {addAllButton && (
         <Box textAlign={"right"}>
-          <Button onClick={onAllAdd} variant="outlined">
+          <Button
+            onClick={allCallback(
+              subjects.filter((item) => item.code.charAt(0) === filterChar)
+            )}
+            variant="outlined"
+          >
             Додати всі предмети
           </Button>
         </Box>

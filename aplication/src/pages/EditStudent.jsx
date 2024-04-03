@@ -120,6 +120,25 @@ export const EditStudent = () => {
         });
     };
   };
+  const addSubjectBlock = (arrSubjects = []) => {
+    return async () => {
+      const arr = student.subjects;
+      arrSubjects.forEach((sub) => {
+        arr.push(subjects.find((item) => item._id === sub._id));
+      });
+      window.mainApi
+        .invokeMain("updateStudent", {
+          id,
+          info: {
+            subjects: arr,
+          },
+        })
+        .then((result) => {
+          dispatch(show({ title: "Студент оновлений" }));
+          setStudent(JSON.parse(result));
+        });
+    };
+  };
 
   const removeSubject = (subjectId) => {
     return async () => {
@@ -305,6 +324,7 @@ export const EditStudent = () => {
               subjects={subjects}
               callback={addSubject}
               filterChar="1"
+              allCallback={addSubjectBlock}
               buttonText="додати"
             />
           </Box>
@@ -313,6 +333,7 @@ export const EditStudent = () => {
             <StudentSubjectList
               subjects={subjects}
               callback={addSubject}
+              allCallback={addSubjectBlock}
               filterChar="2"
               buttonText="додати"
               addAllButton
@@ -330,6 +351,7 @@ export const EditStudent = () => {
                   subjects={subjects.filter(
                     (sub) => sub.aditionalSpecialityName === item
                   )}
+                  allCallback={addSubjectBlock}
                   callback={addSubject}
                   filterChar="3"
                   buttonText="додати"
@@ -346,6 +368,7 @@ export const EditStudent = () => {
             <StudentSubjectList
               subjects={subjects}
               callback={addSubject}
+              allCallback={addSubjectBlock}
               filterChar="4"
               buttonText="додати"
             />
