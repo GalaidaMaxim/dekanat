@@ -9,6 +9,7 @@ const createStudent = async ({
   course,
   department,
   educationPlan,
+  foreigner,
 }) => {
   try {
     const newStudent = await Students.create({
@@ -19,6 +20,7 @@ const createStudent = async ({
       course,
       department,
       educationPlan,
+      foreigner,
     });
     if (!newStudent) {
       return null;

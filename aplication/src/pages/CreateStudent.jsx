@@ -7,6 +7,8 @@ import {
   FormControl,
   InputLabel,
   Button,
+  FormControlLabel,
+  Switch,
 } from "@mui/material";
 import { useState } from "react";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
@@ -21,6 +23,7 @@ export const CreateStudent = () => {
   const [level, setLevel] = useState("бакалавр");
   const [course, setCourse] = useState(1);
   const [planID, setPlanID] = useState("");
+  const [foreigner, setForeigner] = useState(false);
 
   const reset = () => {
     setName("");
@@ -30,6 +33,7 @@ export const CreateStudent = () => {
   };
   const onSubmit = async (event) => {
     event.preventDefault();
+    console.log(foreigner);
     const student = {
       name,
       secondName,
@@ -38,6 +42,7 @@ export const CreateStudent = () => {
       course,
       department: depID.toString(),
       educationPlan: planID.toString(),
+      foreigner,
     };
     const result = await window.mainApi.invokeMain("createStudent", student);
     if (result) {
@@ -104,6 +109,15 @@ export const CreateStudent = () => {
             <PlanSelector setPlanID={setPlanID} planID={planID} level={level} />
           </Grid>
         </Grid>
+        <Box>
+          <FormControlLabel
+            label="Іноземець"
+            value={foreigner}
+            checked={foreigner}
+            onChange={() => setForeigner((prev) => !prev)}
+            control={<Switch />}
+          />
+        </Box>
         <Button type="submit" sx={{ marginTop: 2 }} variant="contained">
           Створити
         </Button>

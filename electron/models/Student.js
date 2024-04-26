@@ -37,6 +37,10 @@ const StudentSchema = new Schema({
     type: Number,
     default: 1,
   },
+  foreigner: {
+    type: Boolean,
+    default: false,
+  },
   subjects: [SubjectSchema],
 });
 

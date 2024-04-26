@@ -13,6 +13,8 @@ import {
   FormControl,
   InputLabel,
   Select,
+  FormControlLabel,
+  Switch,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { CiCirclePlus } from "react-icons/ci";
@@ -30,6 +32,7 @@ export const AllStudentList = () => {
   const [level, setLevel] = useState("Всі");
   const [department, setDepartment] = useState("Всі");
   const [depList, setDepList] = useState([]);
+  const [foreigner, setForeigner] = useState(false);
 
   useEffect(() => {
     dispatch(enable());
@@ -57,7 +60,7 @@ export const AllStudentList = () => {
         }
 
         studentsArr.sort((a, b) => a.sername.localeCompare(b.sername));
-        setStudents(studentsArr);
+        setStudents(studentsArr.filter((item) => item.foreigner === foreigner));
       })
       .finally(() => {
         dispatch(disable());
@@ -65,7 +68,7 @@ export const AllStudentList = () => {
     window.mainApi.invokeMain("getDeparments").then((result) => {
       setDepList(JSON.parse(result));
     });
-  }, [dispatch, course, level, department]);
+  }, [dispatch, course, level, department, foreigner]);
   const createTable = async () => {
     const studentsArr = students.map(
       (item) => `${item.sername} ${item.name.charAt(0)}.`
@@ -129,6 +132,15 @@ export const AllStudentList = () => {
             </Select>
           </FormControl>
         </Grid>
+        <Box>
+          <FormControlLabel
+            label="Іноземець"
+            value={foreigner}
+            checked={foreigner}
+            onChange={() => setForeigner((prev) => !prev)}
+            control={<Switch />}
+          />
+        </Box>
       </Grid>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
@@ -172,7 +184,6 @@ export const AllStudentList = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button onClick={createTable}>Створтити таблицю</Button>
     </Box>
   );
 };
