@@ -12,7 +12,7 @@ import { Loader } from "./componetns/Loader";
 import { AlertMy } from "./componetns/alert";
 import { CreateEducationPlan } from "./pages/CreateEducationPlan";
 import { EditSubject } from "./pages/EditSubject";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { LaounchWindow } from "./componetns/LaunchWindow";
 import { ActionAlert } from "./componetns/ActionAlert";
 import { useAlertAction } from "./redux/selector";
@@ -20,6 +20,7 @@ import { DocumentCreation } from "./pages/DocumentCration";
 import { CreateStatemntDocument } from "./pages/CreateStatementDocument";
 import { CreateSummaryReport } from "./pages/CreateSummaryReport";
 import { EditStudent } from "./pages/EditStudent";
+import { FaArrowTurnUp } from "react-icons/fa6";
 
 function App() {
   const navigate = useNavigate();
@@ -27,6 +28,10 @@ function App() {
   const alert = useAlert();
   const alertAction = useAlertAction();
   const [type, setType] = useState(null);
+  const scrolDivRev = useRef(null);
+  const scrollTop = () => {
+    scrolDivRev.current.scrollTop = 0;
+  };
   return (
     <div className="App">
       {alert.enable && <AlertMy />}
@@ -43,65 +48,95 @@ function App() {
           <Box borderBottom={1}>
             <h1>Деканат</h1>
           </Box>
-          <Box padding={1} display={"flex"} flexDirection={"column"} gap={1}>
-            {type === "Developer" && (
-              <>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  onClick={() => navigate("/summary_report")}
-                >
-                  Зведені відомості
-                </Button>
-              </>
-            )}
+          <Box
+            display={"flex"}
+            flexDirection={"column"}
+            justifyContent={"space-between"}
+            minHeight={"80vh"}
+          >
+            <Box padding={1} display={"flex"} flexDirection={"column"} gap={1}>
+              {type === "Developer" && (
+                <>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    onClick={() => navigate("/summary_report")}
+                  >
+                    Зведені відомості
+                  </Button>
+                </>
+              )}
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => navigate("/documentCreation")}
+              >
+                Документи
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => navigate("/students")}
+              >
+                Всі студенти
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => navigate("/")}
+              >
+                Відділення
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => navigate("/create_student")}
+              >
+                Додати студента
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => navigate("/create_subject")}
+              >
+                Додати предмет
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => navigate("/plans")}
+              >
+                Індивідуальні плани
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => navigate("/educationPlan")}
+              >
+                Навчальні плани
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => setType(null)}
+              >
+                На стартовий екран
+              </Button>
+            </Box>
             <Button
-              fullWidth
+              sx={{
+                width: "50px",
+                height: "50px",
+                minWidth: "0px",
+                minHeight: "0px",
+                borderRadius: "50%",
+                marginLeft: "auto",
+                marginRight: "20px",
+              }}
               variant="outlined"
-              onClick={() => navigate("/documentCreation")}
+              onClick={scrollTop}
             >
-              Документи
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => navigate("/students")}
-            >
-              Всі студенти
-            </Button>
-            <Button fullWidth variant="outlined" onClick={() => navigate("/")}>
-              Відділення
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => navigate("/create_student")}
-            >
-              Додати студента
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => navigate("/create_subject")}
-            >
-              Додати предмет
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => navigate("/plans")}
-            >
-              Індивідуальні плани
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => navigate("/educationPlan")}
-            >
-              Навчальні плани
-            </Button>
-            <Button fullWidth variant="outlined" onClick={() => setType(null)}>
-              На стартовий екран
+              <FaArrowTurnUp color="#3449eb" />
             </Button>
           </Box>
         </Box>
@@ -120,6 +155,7 @@ function App() {
                 overflowY: "scroll",
               }}
               maxHeight={"90vh"}
+              ref={scrolDivRev}
             >
               <Routes>
                 <Route element={<Departments />} path="/" />
