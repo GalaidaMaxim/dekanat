@@ -13,7 +13,6 @@ const {
   getSubjecByDepartment,
   addMandatorySubjects,
   updateStudent,
-  createColedgeMarkTable,
   createEducationPlan,
   getEducationPlan,
   getSubjectByID,
@@ -69,7 +68,6 @@ app.whenReady().then(() => {
   ipcMain.handle("getSubjecByDepartment", getSubjecByDepartment);
   ipcMain.handle("addMandatorySubjects", addMandatorySubjects);
   ipcMain.handle("updateStudent", updateStudent);
-  ipcMain.handle("createColedgeMarkTable", createColedgeMarkTable);
   ipcMain.handle("createEducationPlan", createEducationPlan);
   ipcMain.handle("getEducationPlan", getEducationPlan);
   ipcMain.handle("getSubjectByID", getSubjectByID);

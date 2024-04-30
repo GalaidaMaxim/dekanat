@@ -69,21 +69,7 @@ export const AllStudentList = () => {
       setDepList(JSON.parse(result));
     });
   }, [dispatch, course, level, department, foreigner]);
-  const createTable = async () => {
-    const studentsArr = students.map(
-      (item) => `${item.sername} ${item.name.charAt(0)}.`
-    );
-    window.mainApi
-      .invokeMain("createColedgeMarkTable", {
-        fileName: "Супер таблиця",
-        COURSE: course,
-        students: studentsArr,
-        PROFILE: department,
-      })
-      .then((result) => {
-        dispatch(show({ text: "Таблицю створено" }));
-      });
-  };
+
   return (
     <Box>
       <Grid container columnGap={3}>

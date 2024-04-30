@@ -7,7 +7,6 @@ const createSubject = require("./createSubject");
 const getSubjecByDepartment = require("./getSubjectByDepartment");
 const addMandatorySubjects = require("./addMandatorySubjects");
 const updateStudent = require("./updateStudent");
-const createColedgeMarkTable = require("./createColedgeMarkTable");
 const createEducationPlan = require("./createEducationPlan");
 const getEducationPlan = require("./getEducationPlan");
 const getSubjectByID = require("./getSubjectByID");
@@ -26,7 +25,6 @@ module.exports = {
   createEducationPlan,
   getEducationPlan,
   getSubjectByID,
-  createColedgeMarkTable,
   updateSubject,
   getVersion,
 };

@@ -10,6 +10,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  FormControlLabel,
+  Switch,
   Grid,
 } from "@mui/material";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
@@ -23,9 +25,8 @@ export const StudentList = () => {
   const location = useLocation();
   const [department, setDepartment] = useState({});
   const [course, setCourse] = useState("Всі");
-  // const [level, setLevel] = useState("Всі");
+  const [foreigner, setForeigner] = useState(false);
 
-  console.log(course);
   useEffect(() => {
     window.mainApi.invokeMain("getStudentByDepartment", id).then((result) => {
       let students = JSON.parse(result);
@@ -40,13 +41,13 @@ export const StudentList = () => {
       }
 
       students.sort((a, b) => a.sername.localeCompare(b.sername));
-      setStudents(students);
+      setStudents(students.filter((item) => item.foreigner === foreigner));
     });
     window.mainApi.invokeMain("getDeparments", { id }).then((result) => {
       console.log(id);
       setDepartment(JSON.parse(result));
     });
-  }, [id, course, level]);
+  }, [id, course, level, foreigner]);
 
   return (
     <Box>
@@ -70,20 +71,17 @@ export const StudentList = () => {
             </Select>
           </FormControl>
         </Grid>
-        {/* <Grid xs={2}>
-          <FormControl fullWidth>
-            <InputLabel>ОС</InputLabel>
-            <Select
-              value={level}
-              onChange={(event) => setLevel(event.target.value)}
-              label="ОС"
-            >
-              <MenuItem value={"Всі"}>Всі</MenuItem>
-              <MenuItem value={"бакалавр"}>бакалавр</MenuItem>
-              <MenuItem value={"магістр"}>магістр</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid> */}
+        <Grid xs={2}>
+          <Box>
+            <FormControlLabel
+              label="Іноземець"
+              value={foreigner}
+              checked={foreigner}
+              onChange={() => setForeigner((prev) => !prev)}
+              control={<Switch />}
+            />
+          </Box>
+        </Grid>
       </Grid>
       <Box marginTop={10}>
         <Table>

@@ -107,12 +107,20 @@ function App() {
         </Box>
         <Box
           position={"relative"}
-          padding={"20px"}
+          paddingLeft={"20px"}
+          paddingTop={"10px"}
           width={"calc(100% - 300px)"}
         >
           {loading && <Loader />}
           <Paper elevation={3} width={"100%"}>
-            <Box padding="20px" minHeight={"calc(100vh - 80px)"}>
+            <Box
+              padding="20px"
+              minHeight={"calc(100vh - 80px)"}
+              sx={{
+                overflowY: "scroll",
+              }}
+              maxHeight={"90vh"}
+            >
               <Routes>
                 <Route element={<Departments />} path="/" />
                 <Route element={<StudentInfo />} path="/students_info/:id" />
