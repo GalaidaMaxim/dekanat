@@ -1,4 +1,11 @@
-import { Box, Table, TableCell, TableRow, TableBody } from "@mui/material";
+import {
+  Box,
+  Table,
+  TableCell,
+  TableRow,
+  TableBody,
+  Button,
+} from "@mui/material";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
 import { LevelSelector } from "../componetns/LevelSelector";
 import { CourseSelector } from "../componetns/CourseSelector";
@@ -60,6 +67,16 @@ export const CreateSummaryReport = () => {
       });
   }, [depID, level, semester, course, planID, dispatch]);
 
+  const createExelTable = async () => {
+    const path = JSON.parse(await window.mainApi.invokeMain("selectFolder"));
+    const result = await window.mainApi.invokeMain("createSummaryReportTable", {
+      semester,
+      subjects,
+      students,
+      path,
+    });
+  };
+
   return (
     <Box>
       <h2>Зведені відомості</h2>
@@ -95,11 +112,20 @@ export const CreateSummaryReport = () => {
           </TableRow>
         </TableBody>
       </Table>
-      <SummaryReport
-        semester={semester}
-        subjects={subjects}
-        students={students}
-      />
+      {semester && subjects.length !== 0 && students && (
+        <>
+          <SummaryReport
+            semester={semester}
+            subjects={subjects}
+            students={students}
+          />
+          <Box mt={2}>
+            <Button onClick={createExelTable} variant="contained">
+              Створити Exel таблицю
+            </Button>
+          </Box>
+        </>
+      )}
     </Box>
   );
 };

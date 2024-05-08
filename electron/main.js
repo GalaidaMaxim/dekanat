@@ -25,6 +25,8 @@ const {
   getStudentsByParams,
   deleteSubject,
 } = require("./DBActions");
+
+const createSummaryReportTable = require("./exelTables/summaryReport");
 const path = require("path");
 
 console.log(path.join(__dirname, "preload.js"));
@@ -80,6 +82,10 @@ app.whenReady().then(() => {
   ipcMain.handle("deleteSubject", apiMidlvare(deleteSubject));
   ipcMain.handle("createStatment", createStatment);
   ipcMain.handle("selectFolder", openFolderSelector(mainWindow));
+  ipcMain.handle(
+    "createSummaryReportTable",
+    apiMidlvare(createSummaryReportTable)
+  );
 });
 
 app.on("window-all-closed", async () => {

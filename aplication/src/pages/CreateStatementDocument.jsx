@@ -7,6 +7,7 @@ import { CourseSelector } from "../componetns/CourseSelector";
 import { SubjectSelector } from "../componetns/SubjectSelector";
 import { StudentList } from "../componetns/StudentList";
 import { SemesterSelector } from "../componetns/SemesterSelector";
+import { ForeginerSelector } from "../componetns/ForeginerSelectror";
 import { useDispatch } from "react-redux";
 import { show } from "../redux/slices";
 
@@ -21,6 +22,7 @@ export const CreateStatemntDocument = () => {
   const [filePath, setFilePath] = useState("");
   const [examenator, setExamenator] = useState("");
   const [decan, setDecan] = useState("");
+  const [foreginer, setForeginer] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,13 +45,14 @@ export const CreateStatemntDocument = () => {
         console.log(subjectID);
         const st = data
           .filter((item) => item.subjects.some((sub) => sub._id === subjectID))
+          .filter((item) => item.foreigner === foreginer)
           .sort((a, b) => a.sername.localeCompare(b.sername));
         setStudents(st);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [level, planID, depID, cource, subjectID, dispatch]);
+  }, [level, planID, depID, cource, subjectID, dispatch, foreginer]);
 
   const createSatement = () => {
     window.mainApi
@@ -156,6 +159,13 @@ export const CreateStatemntDocument = () => {
             Шлях для збереження файлу:{" "}
             <span style={{ fontWeight: 700 }}>{filePath}</span>
           </Box>
+        </Box>
+        <Box>
+          <ForeginerSelector
+            label="Обрати іноземців"
+            setForeigner={setForeginer}
+            foreigner={foreginer}
+          />
         </Box>
         <Box>{students.length !== 0 && <StudentList stuents={students} />}</Box>
         <Box marginTop={2}>

@@ -56,6 +56,12 @@ module.exports = async (
   });
 
   students = students.map((item, index) => {
+    if (item.foreigner) {
+      return {
+        name: `${item.sername}`,
+        s: index + 1,
+      };
+    }
     return {
       name: `${item.sername} ${item.name.charAt(0)}. ${item.secondName.charAt(
         0
