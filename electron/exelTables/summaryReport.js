@@ -1,9 +1,25 @@
 const ExelJS = require("exceljs");
 
+const grayColor = "c5c5c5";
+
 const setCenterText = (worksheet, row, col, text) => {
   const cell = worksheet.getCell(row, col);
   cell.value = text;
   cell.alignment = { vertical: "middle", horizontal: "center" };
+};
+
+const setLeftText = (worksheet, row, col, text) => {
+  const cell = worksheet.getCell(row, col);
+  cell.value = text;
+  cell.alignment = { vertical: "middle", horizontal: "left" };
+};
+
+const setCellColor = (cell, color) => {
+  cell.fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: color },
+  };
 };
 
 const createSutudent = (worksheet, student, startColumn) => {
@@ -57,6 +73,16 @@ module.exports = createSummaryReportTable = async ({
   createHeader(worksheet);
   students.forEach((item, index) => {
     createSutudent(worksheet, item, 5 + index * 3);
+  });
+
+  subjects.forEach((item, subjectIndex) => {
+    setLeftText(worksheet, 5 + subjectIndex, 2, item.name);
+    students.forEach((student, studentIndex) => {
+      const subject = student.subjects.find((sub) => sub._id === item._id);
+      if (subject) {
+      } else {
+      }
+    });
   });
 
   await workbook.xlsx.writeFile(path + "/Table.xlsx");
