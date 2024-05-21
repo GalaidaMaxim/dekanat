@@ -1,4 +1,3 @@
-import { intToABC, intToNational } from "../serivce/formulas";
 import { calculateAvarage } from "../serivce/calculateAvarage";
 import {
   Table,
@@ -9,6 +8,7 @@ import {
 } from "@mui/material";
 import styled from "@emotion/styled";
 import { Fragment } from "react";
+import { intToABC, intToNational } from "../serivce/formulas";
 
 const StyledTableCell = styled(TableCell)`
   border: 1px solid black;

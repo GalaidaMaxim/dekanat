@@ -1,4 +1,7 @@
 const ExelJS = require("exceljs");
+const { intToABC, intToNational } = require("../service/formulas");
+const { calculateAvarage } = require("../service/calculateAvarage");
+const { getDepartments } = require("../DBActions");
 
 const grayColor = "c5c5c5";
 
@@ -79,11 +82,66 @@ module.exports = createSummaryReportTable = async ({
     setLeftText(worksheet, 5 + subjectIndex, 2, item.name);
     students.forEach((student, studentIndex) => {
       const subject = student.subjects.find((sub) => sub._id === item._id);
+
       if (subject) {
+        const value = subject.semesters[semester - 1].mark || "Н/А";
+        if (subject.semesters[semester - 1].assessmentType !== 1) {
+          setCenterText(
+            worksheet,
+            5 + subjectIndex,
+            5 + studentIndex * 3,
+            intToABC(value)
+          );
+          setCenterText(
+            worksheet,
+            5 + subjectIndex,
+            6 + studentIndex * 3,
+            value
+          );
+          setCenterText(
+            worksheet,
+            5 + subjectIndex,
+            7 + studentIndex * 3,
+            intToNational(value)
+          );
+        } else {
+          setCenterText(
+            worksheet,
+            5 + subjectIndex,
+            6 + studentIndex * 3,
+            value
+          );
+        }
       } else {
+        setCellColor(
+          worksheet.getCell(5 + subjectIndex, 5 + studentIndex * 3),
+          grayColor
+        );
+        setCellColor(
+          worksheet.getCell(5 + subjectIndex, 6 + studentIndex * 3),
+          grayColor
+        );
+        setCellColor(
+          worksheet.getCell(5 + subjectIndex, 7 + studentIndex * 3),
+          grayColor
+        );
       }
     });
   });
 
-  await workbook.xlsx.writeFile(path + "/Table.xlsx");
+  students.forEach((item, studentIndex) => {
+    setCenterText(
+      worksheet,
+      5 + subjects.length,
+      6 + studentIndex * 3,
+      calculateAvarage(item.subjects, semester)
+    );
+  });
+
+  const department = await getDepartments({ id: students[0].department });
+
+  await workbook.xlsx.writeFile(
+    path +
+      `/Зведена відомість ${department.name} ${students[0].course} курс за ${semester} семестр .xlsx`
+  );
 };
