@@ -4,6 +4,7 @@ import {
   alertSlice,
   alertActionSlice,
   foreignerSlice,
+  semesterSlice,
 } from "./slices";
 
 export const store = configureStore({
@@ -12,5 +13,6 @@ export const store = configureStore({
     alert: alertSlice.reducer,
     alertAction: alertActionSlice.reducer,
     foreigner: foreignerSlice.reducer,
+    semester: semesterSlice.reducer,
   },
 });

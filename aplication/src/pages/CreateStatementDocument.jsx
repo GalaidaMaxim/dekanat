@@ -10,6 +10,7 @@ import { SemesterSelector } from "../componetns/SemesterSelector";
 import { ForeginerSelector } from "../componetns/ForeginerSelectror";
 import { useDispatch } from "react-redux";
 import { show } from "../redux/slices";
+import { useSemester } from "../redux/selector";
 
 export const CreateStatemntDocument = () => {
   const [level, setLevel] = useState("");
@@ -18,12 +19,13 @@ export const CreateStatemntDocument = () => {
   const [cource, setCource] = useState("");
   const [subjectID, setSubjectID] = useState(null);
   const [students, setStudents] = useState([]);
-  const [semester, setSemester] = useState(null);
+
   const [filePath, setFilePath] = useState("");
   const [examenator, setExamenator] = useState("");
   const [decan, setDecan] = useState("");
   const [foreginer, setForeginer] = useState(false);
   const dispatch = useDispatch();
+  const semester = useSemester();
 
   useEffect(() => {
     if (!level || !depID || !cource || !subjectID || !planID) {
@@ -116,11 +118,7 @@ export const CreateStatemntDocument = () => {
 
         <Box marginTop={2} display={"flex"} justifyContent={"space-between"}>
           <Box width={"47%"}>
-            <SemesterSelector
-              cource={cource}
-              setSemester={setSemester}
-              semester={semester}
-            />
+            <SemesterSelector />
           </Box>
           <Box width={"47%"}>
             <SubjectSelector

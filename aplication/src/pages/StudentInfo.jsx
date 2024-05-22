@@ -15,11 +15,13 @@ import {
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { intToABC, intToNational } from "../serivce/formulas";
+import { useSemester } from "../redux/selector";
+import { SemesterSelector } from "../componetns/SemesterSelector";
 
 export const StudentInfo = () => {
   const { id } = useParams();
   const [student, setStudent] = useState({});
-  const [semester, setSemester] = useState(1);
+  const semester = useSemester();
   const [subjects, setSubjects] = useState([]);
 
   const location = useLocation();
@@ -141,23 +143,7 @@ export const StudentInfo = () => {
       <Box borderTop={1}>
         <h2>Предмети</h2>
         <Box width={"300px"}>
-          <FormControl fullWidth>
-            <InputLabel>Ceместер</InputLabel>
-            <Select
-              value={semester}
-              onChange={(event) => setSemester(event.target.value)}
-              label={"Ceместер"}
-            >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={6}>6</MenuItem>
-              <MenuItem value={7}>7</MenuItem>
-              <MenuItem value={8}>8</MenuItem>
-            </Select>
-          </FormControl>
+          <SemesterSelector />
         </Box>
         <Table>
           <TableHead>
