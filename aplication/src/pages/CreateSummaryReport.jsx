@@ -15,6 +15,8 @@ import { useState, useEffect, Fragment } from "react";
 import { enable, disable } from "../redux/slices";
 import { useDispatch } from "react-redux";
 import { SummaryReport } from "../componetns/SummaryReport";
+import { ForeignerSelector } from "../componetns/foreignerSelector";
+import { useForeigner } from "../redux/selector";
 
 export const CreateSummaryReport = () => {
   const [depID, setDepID] = useState("");
@@ -25,6 +27,7 @@ export const CreateSummaryReport = () => {
   const [subjects, setSubjects] = useState([]);
   const [students, setStudents] = useState([]);
   const dispatch = useDispatch();
+  const foreigner = useForeigner();
   useEffect(() => {
     if (!depID || !level || !semester || !planID || !course) {
       return;
@@ -60,12 +63,12 @@ export const CreateSummaryReport = () => {
         if (!students) {
           return;
         }
-        setStudents(students);
+        setStudents(students.filter((item) => item.foreigner === foreigner));
       })
       .finally(() => {
         dispatch(disable());
       });
-  }, [depID, level, semester, course, planID, dispatch]);
+  }, [depID, level, semester, course, planID, dispatch, foreigner]);
 
   const createExelTable = async () => {
     const path = JSON.parse(await window.mainApi.invokeMain("selectFolder"));
@@ -112,6 +115,9 @@ export const CreateSummaryReport = () => {
           </TableRow>
         </TableBody>
       </Table>
+      <Box>
+        <ForeignerSelector />
+      </Box>
       {semester && subjects.length !== 0 && students && (
         <>
           <SummaryReport

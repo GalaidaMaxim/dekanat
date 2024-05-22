@@ -11,3 +11,7 @@ export const useAlert = () => {
 export const useAlertAction = () => {
   return useSelector((state) => state.alertAction);
 };
+
+export const useForeigner = () => {
+  return useSelector((state) => state.foreigner.value);
+};

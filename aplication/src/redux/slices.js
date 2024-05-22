@@ -63,7 +63,33 @@ export const alertActionSlice = createSlice({
   },
 });
 
+export const foreignerSlice = createSlice({
+  name: "foreigner",
+  initialState: {
+    value: false,
+  },
+  reducers: {
+    setForeigner: (state, { payload }) => {
+      state.value = payload;
+    },
+  },
+});
+
+export const semesterSlice = createSlice({
+  name: "semester",
+  initialState: {
+    value: 1,
+  },
+  reducers: {
+    setSemester: (state, { payload }) => {
+      state.value = payload;
+    },
+  },
+});
+
 export const { enable, disable } = loaderSlice.actions;
 export const { show, hide } = alertSlice.actions;
 export const { enableAlertAction, confirmAlertAction, cancelAlertAction } =
   alertActionSlice.actions;
+export const { setForeigner } = foreignerSlice.actions;
+export const { setSemester } = semesterSlice.actions;
