@@ -17,11 +17,12 @@ import { useDispatch } from "react-redux";
 import { SummaryReport } from "../componetns/SummaryReport";
 import { ForeignerSelector } from "../componetns/foreignerSelector";
 import { useForeigner } from "../redux/selector";
+import { useSemester } from "../redux/selector";
 
 export const CreateSummaryReport = () => {
   const [depID, setDepID] = useState("");
   const [level, setLevel] = useState("");
-  const [semester, setSemester] = useState("");
+  const semester = useSemester();
   const [course, setCourse] = useState("");
   const [planID, setPlanID] = useState("");
   const [subjects, setSubjects] = useState([]);
@@ -101,7 +102,7 @@ export const CreateSummaryReport = () => {
               <CourseSelector setCource={setCourse} course={course} />
             </TableCell>
             <TableCell width={"100px"}>
-              <SemesterSelector semester={semester} setSemester={setSemester} />
+              <SemesterSelector />
             </TableCell>
           </TableRow>
           <TableRow>
