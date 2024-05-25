@@ -55,17 +55,14 @@ function App() {
             minHeight={"80vh"}
           >
             <Box padding={1} display={"flex"} flexDirection={"column"} gap={1}>
-              {type === "Developer" && (
-                <>
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    onClick={() => navigate("/summary_report")}
-                  >
-                    Зведені відомості
-                  </Button>
-                </>
-              )}
+              {type === "Developer" && <></>}
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => navigate("/summary_report")}
+              >
+                Зведені відомості
+              </Button>
               <Button
                 fullWidth
                 variant="outlined"

@@ -9,6 +9,12 @@ function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function deleteSlash(line = "") {
+  let arr = line.split("");
+  arr = arr.filter((item) => item !== "/");
+  return arr.join("");
+}
+
 module.exports = async (
   event,
   {
@@ -95,5 +101,6 @@ module.exports = async (
   console.log(fileName);
   // buf is a nodejs Buffer, you can either write it to a
   // file or res.send it with express for example.
-  fs.writeFileSync(path.resolve(filePath, fileName), buf);
+
+  fs.writeFileSync(path.resolve(filePath, deleteSlash(fileName)), buf);
 };

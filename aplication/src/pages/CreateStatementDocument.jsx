@@ -27,6 +27,8 @@ export const CreateStatemntDocument = () => {
   const dispatch = useDispatch();
   const semester = useSemester();
 
+  console.log(filePath);
+
   useEffect(() => {
     if (!level || !depID || !cource || !subjectID || !planID) {
       return;
