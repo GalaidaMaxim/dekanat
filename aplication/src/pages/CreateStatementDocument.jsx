@@ -11,12 +11,13 @@ import { ForeginerSelector } from "../componetns/ForeginerSelectror";
 import { useDispatch } from "react-redux";
 import { show } from "../redux/slices";
 import { useSemester } from "../redux/selector";
+import { useCource } from "../redux/selector";
 
 export const CreateStatemntDocument = () => {
   const [level, setLevel] = useState("");
   const [depID, setDepID] = useState("");
   const [planID, setPlanID] = useState("");
-  const [cource, setCource] = useState("");
+  const cource = useCource();
   const [subjectID, setSubjectID] = useState(null);
   const [students, setStudents] = useState([]);
 
@@ -114,7 +115,7 @@ export const CreateStatemntDocument = () => {
             />
           </Box>
           <Box width={"47%"}>
-            <CourseSelector setCource={setCource} course={cource} />
+            <CourseSelector />
           </Box>
         </Box>
 

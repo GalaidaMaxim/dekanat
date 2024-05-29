@@ -17,6 +17,10 @@ import {
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { CiCirclePlus } from "react-icons/ci";
+import { useCource } from "../redux/selector";
+import { CourseSelector } from "../componetns/CourseSelector";
+import { useForeigner } from "../redux/selector";
+import { ForeignerSelector } from "../componetns/foreignerSelector";
 
 export const StudentList = () => {
   const { id, level } = useParams();
@@ -24,8 +28,8 @@ export const StudentList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [department, setDepartment] = useState({});
-  const [course, setCourse] = useState("Всі");
-  const [foreigner, setForeigner] = useState(false);
+  const course = useCource();
+  const foreigner = useForeigner();
 
   useEffect(() => {
     window.mainApi.invokeMain("getStudentByDepartment", id).then((result) => {
@@ -56,30 +60,11 @@ export const StudentList = () => {
       </h1>
       <Grid container columnGap={3}>
         <Grid xs={1}>
-          <FormControl fullWidth>
-            <InputLabel>Курс</InputLabel>
-            <Select
-              value={course}
-              onChange={(event) => setCourse(event.target.value)}
-              label="відділення"
-            >
-              <MenuItem value={"Всі"}>Всі</MenuItem>
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-            </Select>
-          </FormControl>
+          <CourseSelector enableAll />
         </Grid>
         <Grid xs={2}>
           <Box>
-            <FormControlLabel
-              label="Іноземець"
-              value={foreigner}
-              checked={foreigner}
-              onChange={() => setForeigner((prev) => !prev)}
-              control={<Switch />}
-            />
+            <ForeignerSelector />
           </Box>
         </Grid>
       </Grid>

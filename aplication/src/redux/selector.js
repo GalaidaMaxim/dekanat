@@ -19,3 +19,7 @@ export const useForeigner = () => {
 export const useSemester = () => {
   return useSelector((state) => state.semester.value);
 };
+
+export const useCource = () => {
+  return useSelector((state) => state.course.value);
+};

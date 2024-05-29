@@ -2,6 +2,7 @@ const ExelJS = require("exceljs");
 const { intToABC, intToNational } = require("../service/formulas");
 const { calculateAvarage } = require("../service/calculateAvarage");
 const { getDepartments } = require("../DBActions");
+const { roundTo } = require("../service/mathFunctions");
 
 const grayColor = "c5c5c5";
 
@@ -134,7 +135,7 @@ module.exports = createSummaryReportTable = async ({
       worksheet,
       5 + subjects.length,
       6 + studentIndex * 3,
-      calculateAvarage(item.subjects, semester)
+      roundTo(calculateAvarage(item.subjects, semester), 2)
     );
   });
 

@@ -9,6 +9,7 @@ import {
 import styled from "@emotion/styled";
 import { Fragment } from "react";
 import { intToABC, intToNational } from "../serivce/formulas";
+import { roundTo } from "../serivce/mathFunctions";
 
 const StyledTableCell = styled(TableCell)`
   border: 1px solid black;
@@ -98,7 +99,7 @@ export const SummaryReport = ({ students, subjects, semester }) => {
               {students.map((item) => {
                 return (
                   <StyledTableCell key={item._id} colSpan={3}>
-                    {calculateAvarage(item.subjects, semester)}
+                    {roundTo(calculateAvarage(item.subjects, semester), 2)}
                   </StyledTableCell>
                 );
               })}
