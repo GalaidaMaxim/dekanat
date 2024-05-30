@@ -67,27 +67,30 @@ export const FillStatment = () => {
     };
   };
 
-  // const markInputHandleUndef = (name) => {
-  //   return async (event) => {
-  //     const obj = JSON.parse(JSON.stringify(student));
-  //     obj.subjects.find((item) => item.name === name).semesters[
-  //       semester - 1
-  //     ].mark = event.target.value;
-  //     console.log(event.target.value);
+  const markInputHandleUndef = (index, name) => {
+    return async (event) => {
+      students[index].subjects.find((item) => item.name === name).semesters[
+        semester - 1
+      ].mark = event.target.value;
+      console.log(event.target.value);
 
-  //     window.mainApi
-  //       .invokeMain("updateStudent", {
-  //         id,
-  //         info: {
-  //           subjects: obj.subjects,
-  //         },
-  //       })
-  //       .then((result) => {
-  //         setStudent(JSON.parse(result));
-  //         console.log(JSON.parse(result));
-  //       });
-  //   };
-  // };
+      window.mainApi
+        .invokeMain("updateStudent", {
+          id: students[index]._id,
+          info: {
+            subjects: students[index].subjects,
+          },
+        })
+        .then((result) => {
+          setStudents((prev) => {
+            const arr = JSON.parse(JSON.stringify(prev));
+            arr[index] = JSON.parse(result);
+            return arr;
+          });
+          console.log(JSON.parse(result));
+        });
+    };
+  };
 
   return (
     <Box>
@@ -125,7 +128,7 @@ export const FillStatment = () => {
                           student.subjects.find((i) => i.name === subject.name)
                             .semesters[semester - 1].mark || ""
                         }
-                        //onChange={markInputHandleUndef(item.name)}
+                        onChange={markInputHandleUndef(index, subject.name)}
                       >
                         <MenuItem value={undefined}>...</MenuItem>
                         <MenuItem value={"Зараховано"}>Зараховано</MenuItem>
