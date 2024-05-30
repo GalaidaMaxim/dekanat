@@ -21,6 +21,7 @@ import { CreateStatemntDocument } from "./pages/CreateStatementDocument";
 import { CreateSummaryReport } from "./pages/CreateSummaryReport";
 import { EditStudent } from "./pages/EditStudent";
 import { FaArrowTurnUp } from "react-icons/fa6";
+import { FillStatment } from "./pages/FillStatment.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -180,6 +181,7 @@ function App() {
                   element={<CreateSummaryReport />}
                   path="/summary_report"
                 />
+                <Route element={<FillStatment />} path="/fill_statement" />
               </Routes>
             </Box>
           </Paper>

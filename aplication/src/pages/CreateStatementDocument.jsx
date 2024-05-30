@@ -12,6 +12,8 @@ import { useDispatch } from "react-redux";
 import { show } from "../redux/slices";
 import { useSemester } from "../redux/selector";
 import { useCource } from "../redux/selector";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export const CreateStatemntDocument = () => {
   const [level, setLevel] = useState("");
@@ -27,8 +29,21 @@ export const CreateStatemntDocument = () => {
   const [foreginer, setForeginer] = useState(false);
   const dispatch = useDispatch();
   const semester = useSemester();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   console.log(filePath);
+
+  const onNavigate = () => {
+    navigate("/fill_statement", {
+      state: {
+        from: location.pathname,
+        students,
+        subjectID,
+        semester,
+      },
+    });
+  };
 
   useEffect(() => {
     if (!level || !depID || !cource || !subjectID || !planID) {
@@ -182,6 +197,14 @@ export const CreateStatemntDocument = () => {
             variant="contained"
           >
             Створити відомість
+          </Button>
+          <Button
+            disabled={students.length === 0 || !semester}
+            variant="contained"
+            sx={{ marginLeft: "30px" }}
+            onClick={onNavigate}
+          >
+            Заповнити відомість
           </Button>
         </Box>
       </Box>

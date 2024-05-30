@@ -6,12 +6,6 @@ import {
   TableCell,
   Button,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormControlLabel,
-  Switch,
   Grid,
 } from "@mui/material";
 import { useParams, useNavigate, useLocation } from "react-router-dom";

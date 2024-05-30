@@ -74,7 +74,7 @@ export const CreateSummaryReport = () => {
 
   const createExelTable = async () => {
     const path = JSON.parse(await window.mainApi.invokeMain("selectFolder"));
-    const result = await window.mainApi.invokeMain("createSummaryReportTable", {
+    await window.mainApi.invokeMain("createSummaryReportTable", {
       semester,
       subjects,
       students,

@@ -4,7 +4,6 @@ import {
   FormControl,
   Select,
   MenuItem,
-  InputLabel,
   Table,
   TableRow,
   TableBody,
@@ -45,11 +44,6 @@ export const StudentInfo = () => {
     );
     setSubjects(arr);
   }, [student, semester]);
-  const mandatoryAdd = async () => {
-    window.mainApi.invokeMain("addMandatorySubjects", id).then((result) => {
-      setStudent(JSON.parse(result));
-    });
-  };
 
   const markInputHandle = (name) => {
     return async (event) => {

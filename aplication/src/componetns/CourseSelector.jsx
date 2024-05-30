@@ -2,7 +2,6 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useCource } from "../redux/selector";
 import { setCourse } from "../redux/slices";
-import { useEffect } from "react";
 
 export const CourseSelector = ({ enableAll = false }) => {
   const dispatch = useDispatch();
