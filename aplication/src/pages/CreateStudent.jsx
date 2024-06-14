@@ -34,6 +34,7 @@ export const CreateStudent = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     console.log(foreigner);
+    const startYear = new Date(Date.now()).getFullYear();
     const student = {
       name,
       secondName,
@@ -43,6 +44,7 @@ export const CreateStudent = () => {
       department: depID.toString(),
       educationPlan: planID.toString(),
       foreigner,
+      startYear,
     };
     const result = await window.mainApi.invokeMain("createStudent", student);
     if (result) {

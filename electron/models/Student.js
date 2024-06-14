@@ -37,6 +37,21 @@ const StudentSchema = new Schema({
     type: Number,
     default: 1,
   },
+  status: {
+    type: String,
+    enum: [
+      "навчається",
+      "випустився",
+      "академічна відаустка",
+      "невизначений",
+      "відрахований",
+    ],
+    default: "навчається",
+  },
+  startYear: {
+    type: Number,
+    default: 2024,
+  },
   foreigner: {
     type: Boolean,
     default: false,

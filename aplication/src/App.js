@@ -22,6 +22,7 @@ import { CreateSummaryReport } from "./pages/CreateSummaryReport";
 import { EditStudent } from "./pages/EditStudent";
 import { FaArrowTurnUp } from "react-icons/fa6";
 import { FillStatment } from "./pages/FillStatment.jsx";
+import { AdminActions } from "./pages/AdminActions.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ function App() {
   const scrollTop = () => {
     scrolDivRev.current.scrollTop = 0;
   };
+
   return (
     <div className="App">
       {alert.enable && <AlertMy />}
@@ -56,7 +58,17 @@ function App() {
             minHeight={"80vh"}
           >
             <Box padding={1} display={"flex"} flexDirection={"column"} gap={1}>
-              {type === "Developer" && <></>}
+              {type === "Developer" && (
+                <>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    onClick={() => navigate("/admin_actions")}
+                  >
+                    Адміністрування
+                  </Button>
+                </>
+              )}
               <Button
                 fullWidth
                 variant="outlined"
@@ -182,6 +194,7 @@ function App() {
                   path="/summary_report"
                 />
                 <Route element={<FillStatment />} path="/fill_statement" />
+                <Route element={<AdminActions />} path="/admin_actions" />
               </Routes>
             </Box>
           </Paper>

@@ -119,7 +119,7 @@ export const StudentInfo = () => {
             <h1>{student.secondName}</h1>
           </Box>
         </Box>
-        <Box display={"flex"} gap={20}>
+        <Box display={"flex"} gap={10}>
           <Box>
             <p>відділення: </p>
             <h3>{student.department && student.department.name}</h3>
@@ -131,6 +131,14 @@ export const StudentInfo = () => {
           <Box>
             <p>курс: </p>
             <h3>{student.course}</h3>
+          </Box>
+          <Box>
+            <p>рік вступу: </p>
+            <h3>{student.startYear}</h3>
+          </Box>
+          <Box>
+            <p>статус: </p>
+            <h3>{student.status}</h3>
           </Box>
         </Box>
       </Box>

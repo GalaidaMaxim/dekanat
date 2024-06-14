@@ -43,8 +43,8 @@ const createWindow = () => {
     // icon: path.resolve(__dirname, "icon.ico"),
   });
 
-  mainWindow.loadURL("http://localhost:3000");
-  // mainWindow.loadFile("../aplication/build/index.html");
+  // mainWindow.loadURL("http://localhost:3000");
+  mainWindow.loadFile("../aplication/build/index.html");
   mainWindow.maximize();
   return mainWindow;
 };
