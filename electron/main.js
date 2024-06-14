@@ -24,6 +24,7 @@ const {
   deleteEducationPlan,
   getStudentsByParams,
   deleteSubject,
+  getSubejctsByEducationPlan,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -43,8 +44,8 @@ const createWindow = () => {
     // icon: path.resolve(__dirname, "icon.ico"),
   });
 
-  // mainWindow.loadURL("http://localhost:3000");
-  mainWindow.loadFile("../aplication/build/index.html");
+  mainWindow.loadURL("http://localhost:3000");
+  // mainWindow.loadFile("../aplication/build/index.html");
   mainWindow.maximize();
   return mainWindow;
 };
@@ -85,6 +86,10 @@ app.whenReady().then(() => {
   ipcMain.handle(
     "createSummaryReportTable",
     apiMidlvare(createSummaryReportTable)
+  );
+  ipcMain.handle(
+    "getSubjectsByEducationPlan",
+    apiMidlvare(getSubejctsByEducationPlan)
   );
 });
 

@@ -7,7 +7,12 @@ export const DocumentCreation = () => {
   return (
     <Box>
       <h1>Створення нормативних довументів</h1>
-      <Box>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"flex-start"}
+        gap={3}
+      >
         <Button
           onClick={() => {
             navigate("/create_statemnt_document", {
@@ -17,6 +22,16 @@ export const DocumentCreation = () => {
           variant="contained"
         >
           Створення оцінювальних відомостей
+        </Button>
+        <Button
+          onClick={() => {
+            navigate("/selectableSubjectReport", {
+              state: { from: location.pathname },
+            });
+          }}
+          variant="contained"
+        >
+          Створення звіту вибіркових предметів
         </Button>
       </Box>
     </Box>

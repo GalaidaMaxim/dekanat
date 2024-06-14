@@ -23,6 +23,7 @@ import { EditStudent } from "./pages/EditStudent";
 import { FaArrowTurnUp } from "react-icons/fa6";
 import { FillStatment } from "./pages/FillStatment.jsx";
 import { AdminActions } from "./pages/AdminActions.jsx";
+import { CreateSelectubleSubjectReport } from "./pages/CreateSelectableSubjectReport.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -195,6 +196,10 @@ function App() {
                 />
                 <Route element={<FillStatment />} path="/fill_statement" />
                 <Route element={<AdminActions />} path="/admin_actions" />
+                <Route
+                  element={<CreateSelectubleSubjectReport />}
+                  path="/selectableSubjectReport"
+                />
               </Routes>
             </Box>
           </Paper>
