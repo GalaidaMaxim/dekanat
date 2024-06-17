@@ -25,6 +25,7 @@ const {
   getStudentsByParams,
   deleteSubject,
   getSubejctsByEducationPlan,
+  getStudentsByCourse,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -91,6 +92,7 @@ app.whenReady().then(() => {
     "getSubjectsByEducationPlan",
     apiMidlvare(getSubejctsByEducationPlan)
   );
+  ipcMain.handle("getStudentsByCourse", apiMidlvare(getStudentsByCourse));
 });
 
 app.on("window-all-closed", async () => {
