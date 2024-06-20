@@ -16,6 +16,18 @@ import { createStudentShortName } from "../serivce/createStudentShortName";
 import { enable, disable } from "../redux/slices";
 import { useDispatch } from "react-redux";
 
+const RenderCell = ({ spec = true, firstItem = "", SecondItem = "" }) => {
+  if (spec) {
+    return (
+      <>
+        <TableCell sx={{ minWidth: "150px" }}>{firstItem}</TableCell>
+        <TableCell sx={{ minWidth: "150px" }}>{SecondItem}</TableCell>
+      </>
+    );
+  }
+  return <TableCell>{firstItem}</TableCell>;
+};
+
 export const CreateSelectubleSubjectReport = () => {
   const [level, setLevel] = useState("");
   const [planID, setPlanID] = useState("");
@@ -24,6 +36,10 @@ export const CreateSelectubleSubjectReport = () => {
   const dispatch = useDispatch();
 
   const course = useCource();
+  const mhArr = [];
+  for (let i = 0; i < maxHeight; i++) {
+    mhArr.push(i);
+  }
 
   const isSubjectIncludesInStudent = (id, student) => {
     return student.subjects.some((item) => item._id === id);
@@ -161,11 +177,34 @@ export const CreateSelectubleSubjectReport = () => {
               ))}
             </TableRow>
             <TableRow>
-              {subjects.map(
-                (subject) =>
-                  subjects.spec && <TableCell key={subject._id}>id</TableCell>
-              )}
+              {subjects.map((subject) => (
+                <RenderCell
+                  sx={{ fontSize: 10 }}
+                  spec={subject.spec}
+                  firstItem="Предпет"
+                  SecondItem="Спеціалізація"
+                />
+              ))}
             </TableRow>
+            {mhArr.map((index) => (
+              <TableRow>
+                {subjects.map((subject) => (
+                  <RenderCell
+                    spec={subject.spec}
+                    firstItem={
+                      subject.students.length > index
+                        ? subject.students[index]
+                        : ""
+                    }
+                    SecondItem={
+                      subject.students.length > index
+                        ? subject.specStudents[index]
+                        : ""
+                    }
+                  />
+                ))}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </Box>
