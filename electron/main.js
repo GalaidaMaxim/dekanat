@@ -29,6 +29,7 @@ const {
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
+const createFlexSubjectTable = require("./exelTables/createFlexSubjectReport");
 const path = require("path");
 
 console.log(path.join(__dirname, "preload.js"));
@@ -93,6 +94,7 @@ app.whenReady().then(() => {
     apiMidlvare(getSubejctsByEducationPlan)
   );
   ipcMain.handle("getStudentsByCourse", apiMidlvare(getStudentsByCourse));
+  ipcMain.handle("createFlexSubjectTable", apiMidlvare(createFlexSubjectTable));
 });
 
 app.on("window-all-closed", async () => {

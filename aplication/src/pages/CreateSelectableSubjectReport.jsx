@@ -5,6 +5,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Button,
 } from "@mui/material";
 import { LevelSelector } from "../componetns/LevelSelector";
 import { CourseSelector } from "../componetns/CourseSelector";
@@ -29,6 +30,7 @@ const RenderCell = ({
       <>
         <TableCell
           sx={{
+            fontSize: 12,
             minWidth: "150px",
             backgroundColor: colorL,
             border: "1px solid gray",
@@ -38,6 +40,7 @@ const RenderCell = ({
         </TableCell>
         <TableCell
           sx={{
+            fontSize: 12,
             minWidth: "150px",
             backgroundColor: colorR,
             border: "1px solid gray",
@@ -51,6 +54,7 @@ const RenderCell = ({
   return (
     <TableCell
       sx={{
+        fontSize: 12,
         minWidth: "150px",
         backgroundColor: colorL,
         border: "1px solid gray",
@@ -66,17 +70,26 @@ export const CreateSelectubleSubjectReport = () => {
   const [planID, setPlanID] = useState("");
   const [subjects, setSubjects] = useState([]);
   const [maxHeight, setMaxHeight] = useState(0);
+  const [filePath, setFilePath] = useState("");
   const semester = useSemester();
   const dispatch = useDispatch();
-
   const course = useCource();
   const mhArr = [];
+
   for (let i = 0; i < maxHeight; i++) {
     mhArr.push(i);
   }
 
   const isSubjectIncludesInStudent = (id, student) => {
     return student.subjects.some((item) => item._id === id);
+  };
+
+  const createExelTable = async () => {
+    await window.mainApi.invokeMain("createFlexSubjectTable", {
+      subjects,
+      filePath,
+      course,
+    });
   };
 
   useEffect(() => {
@@ -175,7 +188,17 @@ export const CreateSelectubleSubjectReport = () => {
       dispatch(disable());
     })();
   }, [planID, setSubjects, course, level, setMaxHeight, dispatch, semester]);
-  console.log(subjects);
+
+  const setSavePath = () => {
+    window.mainApi.invokeMain("selectFolder").then((data) => {
+      const result = JSON.parse(data);
+      if (!result) {
+        return;
+      }
+      setFilePath(result);
+    });
+  };
+
   return (
     <Box>
       <h2>Звіт по вибірковим предметам</h2>
@@ -203,16 +226,17 @@ export const CreateSelectubleSubjectReport = () => {
       </Grid>
       <Box
         padding={2}
-        sx={{ overflowX: "scroll", maxWidth: "100%", height: "400px" }}
+        sx={{ overflowX: "scroll", maxWidth: "100%", height: "500px" }}
       >
         <Table sx={{ maxWidth: "none", width: "auto" }}>
           <TableBody>
-            <TableRow>
+            <TableRow sx={{ minHeight: "30px" }}>
               {subjects.map((subject) => (
                 <TableCell
                   sx={{
                     minWidth: "200px",
                     fontWeight: "800",
+                    color: "white",
                     backgroundColor: "#3d36f7",
                     border: "1px solid white",
                   }}
@@ -273,6 +297,28 @@ export const CreateSelectubleSubjectReport = () => {
             ))}
           </TableBody>
         </Table>
+      </Box>
+      <Box marginTop={2}>
+        <Button onClick={setSavePath} variant="contained">
+          Вибрати шлях для збереження
+        </Button>
+        <Box
+          marginBottom={2}
+          marginTop={2}
+          borderRadius={2}
+          border={1}
+          padding={1}
+        >
+          Шлях для збереження файлу:{" "}
+          <span style={{ fontWeight: 700 }}>{filePath}</span>
+        </Box>
+        <Button
+          disabled={subjects.length === 0 || !filePath}
+          variant="contained"
+          onClick={createExelTable}
+        >
+          Зберегти в Ecxel
+        </Button>
       </Box>
     </Box>
   );
