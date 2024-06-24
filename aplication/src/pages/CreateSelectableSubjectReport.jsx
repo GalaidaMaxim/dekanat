@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { LevelSelector } from "../componetns/LevelSelector";
 import { CourseSelector } from "../componetns/CourseSelector";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { PlanSelector } from "../componetns/PlanSelector";
 import { SemesterSelector } from "../componetns/SemesterSelector";
 import { useCource } from "../redux/selector";
@@ -17,16 +17,48 @@ import { enable, disable } from "../redux/slices";
 import { useDispatch } from "react-redux";
 import { useSemester } from "../redux/selector";
 
-const RenderCell = ({ spec = true, firstItem = "", SecondItem = "" }) => {
+const RenderCell = ({
+  spec = true,
+  firstItem = "",
+  SecondItem = "",
+  colorL = "white",
+  colorR = "white",
+}) => {
   if (spec) {
     return (
       <>
-        <TableCell sx={{ minWidth: "150px" }}>{firstItem}</TableCell>
-        <TableCell sx={{ minWidth: "150px" }}>{SecondItem}</TableCell>
+        <TableCell
+          sx={{
+            minWidth: "150px",
+            backgroundColor: colorL,
+            border: "1px solid gray",
+          }}
+        >
+          {firstItem}
+        </TableCell>
+        <TableCell
+          sx={{
+            minWidth: "150px",
+            backgroundColor: colorR,
+            border: "1px solid gray",
+          }}
+        >
+          {SecondItem}
+        </TableCell>
       </>
     );
   }
-  return <TableCell>{firstItem}</TableCell>;
+  return (
+    <TableCell
+      sx={{
+        minWidth: "150px",
+        backgroundColor: colorL,
+        border: "1px solid gray",
+      }}
+    >
+      {firstItem}
+    </TableCell>
+  );
 };
 
 export const CreateSelectubleSubjectReport = () => {
@@ -60,6 +92,14 @@ export const CreateSelectubleSubjectReport = () => {
       ).filter(
         (item) => item.code.charAt(0) === "3" || item.code.charAt(0) === "4"
       );
+      const sLow = semester % 2 === 0 ? semester - 1 : semester;
+      const sHigh = sLow + 1;
+
+      subjects = subjects.filter(
+        (subject) =>
+          subject.semesters[sLow - 1].include ||
+          subject.semesters[sHigh - 1].include
+      );
       const students = JSON.parse(
         await window.mainApi.invokeMain("getStudentsByCourse", {
           educationPlan: planID,
@@ -68,6 +108,8 @@ export const CreateSelectubleSubjectReport = () => {
         })
       );
       subjects = subjects.map((item) => ({
+        sLow: item.semesters[sLow - 1].include ? sLow : "",
+        sHigh: item.semesters[sHigh - 1].include ? sHigh : "",
         name: item.name,
         _id: item._id,
         spec: item.code.charAt(0) === "3" ? item.aditionalSpecialityName : "",
@@ -132,7 +174,7 @@ export const CreateSelectubleSubjectReport = () => {
       setSubjects(subjects);
       dispatch(disable());
     })();
-  }, [planID, setSubjects, course, level, setMaxHeight]);
+  }, [planID, setSubjects, course, level, setMaxHeight, dispatch, semester]);
   console.log(subjects);
   return (
     <Box>
@@ -155,25 +197,41 @@ export const CreateSelectubleSubjectReport = () => {
         <Grid item xs={6}>
           <SemesterSelector />
         </Grid>
+        {/* <Grid item xs={6}>
+          <ForeginerSelector />
+        </Grid> */}
       </Grid>
-      <Box padding={2} sx={{ overflowX: "scroll", maxWidth: "100%" }}>
+      <Box
+        padding={2}
+        sx={{ overflowX: "scroll", maxWidth: "100%", height: "400px" }}
+      >
         <Table sx={{ maxWidth: "none", width: "auto" }}>
           <TableBody>
             <TableRow>
               {subjects.map((subject) => (
                 <TableCell
-                  sx={{ minWidth: "200px", fontWeight: "800" }}
+                  sx={{
+                    minWidth: "200px",
+                    fontWeight: "800",
+                    backgroundColor: "#3d36f7",
+                    border: "1px solid white",
+                  }}
                   key={subject._id}
                   colSpan={subject.spec ? 2 : 1}
                 >
-                  {subject.name}
+                  {`${subject.name} ${subject.sLow} ${subject.sHigh}`}
                 </TableCell>
               ))}
             </TableRow>
             <TableRow>
               {subjects.map((subject) => (
                 <TableCell
-                  sx={{ minWidth: "200px", fontSize: 10 }}
+                  sx={{
+                    minWidth: "200px",
+                    fontSize: 10,
+                    backgroundColor: "#8581fc",
+                    border: "1px solid white",
+                  }}
                   key={subject._id}
                   colSpan={subject.spec ? 2 : 1}
                 >
@@ -187,8 +245,8 @@ export const CreateSelectubleSubjectReport = () => {
                   key={subject._id}
                   sx={{ fontSize: 10 }}
                   spec={subject.spec}
-                  firstItem="Предпет"
-                  SecondItem="Спеціалізація"
+                  firstItem="Предмет"
+                  SecondItem="Кваліфікація"
                 />
               ))}
             </TableRow>
@@ -208,6 +266,7 @@ export const CreateSelectubleSubjectReport = () => {
                         ? subject.specStudents[index]
                         : ""
                     }
+                    colorL="#d3d1ff"
                   />
                 ))}
               </TableRow>
