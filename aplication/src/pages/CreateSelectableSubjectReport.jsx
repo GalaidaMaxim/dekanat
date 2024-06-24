@@ -184,6 +184,7 @@ export const CreateSelectubleSubjectReport = () => {
           return acc;
         }, 0)
       );
+      subjects.sort((a, b) => b.spec.localeCompare(a.spec));
       setSubjects(subjects);
       dispatch(disable());
     })();
