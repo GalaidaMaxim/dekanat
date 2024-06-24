@@ -15,6 +15,7 @@ import { useCource } from "../redux/selector";
 import { createStudentShortName } from "../serivce/createStudentShortName";
 import { enable, disable } from "../redux/slices";
 import { useDispatch } from "react-redux";
+import { useSemester } from "../redux/selector";
 
 const RenderCell = ({ spec = true, firstItem = "", SecondItem = "" }) => {
   if (spec) {
@@ -33,6 +34,7 @@ export const CreateSelectubleSubjectReport = () => {
   const [planID, setPlanID] = useState("");
   const [subjects, setSubjects] = useState([]);
   const [maxHeight, setMaxHeight] = useState(0);
+  const semester = useSemester();
   const dispatch = useDispatch();
 
   const course = useCource();
@@ -150,6 +152,9 @@ export const CreateSelectubleSubjectReport = () => {
             disabled={!level}
           />
         </Grid>
+        <Grid item xs={6}>
+          <SemesterSelector />
+        </Grid>
       </Grid>
       <Box padding={2} sx={{ overflowX: "scroll", maxWidth: "100%" }}>
         <Table sx={{ maxWidth: "none", width: "auto" }}>
@@ -179,6 +184,7 @@ export const CreateSelectubleSubjectReport = () => {
             <TableRow>
               {subjects.map((subject) => (
                 <RenderCell
+                  key={subject._id}
                   sx={{ fontSize: 10 }}
                   spec={subject.spec}
                   firstItem="Предпет"
@@ -187,9 +193,10 @@ export const CreateSelectubleSubjectReport = () => {
               ))}
             </TableRow>
             {mhArr.map((index) => (
-              <TableRow>
+              <TableRow key={index}>
                 {subjects.map((subject) => (
                   <RenderCell
+                    key={subject._id}
                     spec={subject.spec}
                     firstItem={
                       subject.students.length > index
@@ -197,7 +204,7 @@ export const CreateSelectubleSubjectReport = () => {
                         : ""
                     }
                     SecondItem={
-                      subject.students.length > index
+                      subject.specStudents.length > index
                         ? subject.specStudents[index]
                         : ""
                     }
