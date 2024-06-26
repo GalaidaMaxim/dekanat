@@ -23,16 +23,6 @@ export const DocumentCreation = () => {
         >
           Створення оцінювальних відомостей
         </Button>
-        <Button
-          onClick={() => {
-            navigate("/selectableSubjectReport", {
-              state: { from: location.pathname },
-            });
-          }}
-          variant="contained"
-        >
-          Створення звіту вибіркових предметів
-        </Button>
       </Box>
     </Box>
   );
