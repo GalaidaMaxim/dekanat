@@ -20,6 +20,14 @@ const GrayCell = styled(StyledTableCell)`
   background-color: #c5c5c5;
 `;
 
+const StickyCell = styled(StyledTableCell)`
+  left: 0;
+  background-color: #a0beff;
+  box-shadow: 5px 2px 5px grey;
+  border-right: "2px solid black";
+  position: sticky;
+`;
+
 const OrangeCell = styled(StyledTableCell)`
   border: 1px solid black;
   background-color: orange;
@@ -33,7 +41,7 @@ export const SummaryReport = ({ students, subjects, semester }) => {
         <Table>
           <TableBody>
             <TableRow>
-              <StyledTableCell sx={{ minWidth: "350px" }}></StyledTableCell>
+              <StickyCell sx={{ minWidth: "350px" }}></StickyCell>
               {students.map((item) => (
                 <OrangeCell
                   key={item._id}
@@ -43,7 +51,7 @@ export const SummaryReport = ({ students, subjects, semester }) => {
               ))}
             </TableRow>
             <TableRow>
-              <StyledTableCell></StyledTableCell>
+              <StickyCell></StickyCell>
               {students.map((item) => (
                 <Fragment key={item._id}>
                   <StyledTableCell></StyledTableCell>
@@ -54,9 +62,13 @@ export const SummaryReport = ({ students, subjects, semester }) => {
             </TableRow>
             {subjects.map((item) => (
               <TableRow key={item._id}>
-                <StyledTableCell sx={{ padding: "5px" }}>
+                <StickyCell
+                  sx={{
+                    padding: "5px",
+                  }}
+                >
                   {item.name}
-                </StyledTableCell>
+                </StickyCell>
                 {students.map((student) => {
                   const subject = student.subjects.find(
                     (sub) => sub._id === item._id
@@ -95,7 +107,7 @@ export const SummaryReport = ({ students, subjects, semester }) => {
               </TableRow>
             ))}
             <TableRow>
-              <StyledTableCell>Середній бал</StyledTableCell>
+              <StickyCell>Середній бал</StickyCell>
               {students.map((item) => {
                 return (
                   <StyledTableCell key={item._id} colSpan={3}>
