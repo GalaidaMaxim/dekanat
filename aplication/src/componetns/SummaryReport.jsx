@@ -11,8 +11,12 @@ import { Fragment } from "react";
 import { intToABC, intToNational } from "../serivce/formulas";
 import { roundTo } from "../serivce/mathFunctions";
 
+const redColor = "#ff7d7d";
+const whiteColor = "#ffffff";
+
 const StyledTableCell = styled(TableCell)`
   border: 1px solid black;
+  background-color: ${({ color = "#ffffff" }) => color};
 `;
 
 const GrayCell = styled(StyledTableCell)`
@@ -74,13 +78,25 @@ export const SummaryReport = ({ students, subjects, semester }) => {
                     (sub) => sub._id === item._id
                   );
                   if (subject) {
+                    const reDelivery =
+                      subject.semesters[semester - 1].reDelivery;
                     const value = subject.semesters[semester - 1].mark || "Н/А";
                     if (subject.semesters[semester - 1].assessmentType !== 1) {
                       return (
                         <Fragment key={student._id}>
-                          <StyledTableCell>{intToABC(value)}</StyledTableCell>
-                          <StyledTableCell>{value}</StyledTableCell>
-                          <StyledTableCell>
+                          <StyledTableCell
+                            color={reDelivery ? redColor : whiteColor}
+                          >
+                            {intToABC(value)}
+                          </StyledTableCell>
+                          <StyledTableCell
+                            color={reDelivery ? redColor : whiteColor}
+                          >
+                            {value}
+                          </StyledTableCell>
+                          <StyledTableCell
+                            color={reDelivery ? redColor : whiteColor}
+                          >
                             {intToNational(value)}
                           </StyledTableCell>
                         </Fragment>
@@ -88,9 +104,17 @@ export const SummaryReport = ({ students, subjects, semester }) => {
                     } else {
                       return (
                         <Fragment key={student._id}>
-                          <StyledTableCell></StyledTableCell>
-                          <StyledTableCell>{value}</StyledTableCell>
-                          <StyledTableCell></StyledTableCell>
+                          <StyledTableCell
+                            color={reDelivery ? redColor : whiteColor}
+                          ></StyledTableCell>
+                          <StyledTableCell
+                            color={reDelivery ? redColor : whiteColor}
+                          >
+                            {value}
+                          </StyledTableCell>
+                          <StyledTableCell
+                            color={reDelivery ? redColor : whiteColor}
+                          ></StyledTableCell>
                         </Fragment>
                       );
                     }

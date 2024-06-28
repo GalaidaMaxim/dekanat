@@ -10,6 +10,7 @@ import {
   TableHead,
   TableCell,
   TextField,
+  Checkbox,
 } from "@mui/material";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -66,13 +67,12 @@ export const StudentInfo = () => {
     };
   };
 
-  const markInputHandleUndef = (name) => {
+  const markInputHandleUndef = (_id) => {
     return async (event) => {
       const obj = JSON.parse(JSON.stringify(student));
-      obj.subjects.find((item) => item.name === name).semesters[
+      obj.subjects.find((item) => item._id === _id).semesters[
         semester - 1
       ].mark = event.target.value;
-      console.log(event.target.value);
 
       window.mainApi
         .invokeMain("updateStudent", {
@@ -88,11 +88,34 @@ export const StudentInfo = () => {
     };
   };
 
-  const markChageHandle = (name) => {
+  const redeliveryHandle = (_id) => {
+    return async (event) => {
+      const obj = JSON.parse(JSON.stringify(student));
+      obj.subjects.find((item) => item._id === _id).semesters[
+        semester - 1
+      ].reDelivery = !obj.subjects.find((item) => item._id === _id).semesters[
+        semester - 1
+      ].reDelivery;
+
+      window.mainApi
+        .invokeMain("updateStudent", {
+          id,
+          info: {
+            subjects: obj.subjects,
+          },
+        })
+        .then((result) => {
+          setStudent(JSON.parse(result));
+          console.log(JSON.parse(result));
+        });
+    };
+  };
+
+  const markChageHandle = (_id) => {
     return (event) => {
       setStudent((prev) => {
         const obj = JSON.parse(JSON.stringify(prev));
-        obj.subjects.find((item) => item.name === name).semesters[
+        obj.subjects.find((item) => item._id === _id).semesters[
           semester - 1
         ].mark = event.target.value;
         return obj;
@@ -154,19 +177,19 @@ export const StudentInfo = () => {
               <TableCell width={"50px"}>Оцінка</TableCell>
               <TableCell>ECTS</TableCell>
               <TableCell>Національна шкала</TableCell>
-              <TableCell>Викладач</TableCell>
+              <TableCell>Перездача</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {subjects.map((item, index) => (
-              <TableRow key={item.name}>
+              <TableRow key={item._id}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>
                   {item.semesters[semester - 1].assessmentType !== 1 ? (
                     <TextField
-                      onChange={markChageHandle(item.name)}
+                      onChange={markChageHandle(item._id)}
                       value={
-                        student.subjects.find((i) => i.name === item.name)
+                        student.subjects.find((i) => i._id === item._id)
                           .semesters[semester - 1].mark || ""
                       }
                       size="small"
@@ -177,10 +200,10 @@ export const StudentInfo = () => {
                       <FormControl fullWidth>
                         <Select
                           value={
-                            student.subjects.find((i) => i.name === item.name)
+                            student.subjects.find((i) => i._id === item._id)
                               .semesters[semester - 1].mark || ""
                           }
-                          onChange={markInputHandleUndef(item.name)}
+                          onChange={markInputHandleUndef(item._id)}
                         >
                           <MenuItem value={undefined}>...</MenuItem>
                           <MenuItem value={"Зараховано"}>Зараховано</MenuItem>
@@ -194,17 +217,27 @@ export const StudentInfo = () => {
                 </TableCell>
                 <TableCell>
                   {intToABC(
-                    student.subjects.find((i) => i.name === item.name)
-                      .semesters[semester - 1].mark
+                    student.subjects.find((i) => i._id === item._id).semesters[
+                      semester - 1
+                    ].mark
                   )}
                 </TableCell>
                 <TableCell>
                   {intToNational(
-                    student.subjects.find((i) => i.name === item.name)
-                      .semesters[semester - 1].mark
+                    student.subjects.find((i) => i._id === item._id).semesters[
+                      semester - 1
+                    ].mark
                   )}
                 </TableCell>
-                <TableCell></TableCell>
+                <TableCell>
+                  <Checkbox
+                    checked={
+                      student.subjects.find((i) => i._id === item._id)
+                        .semesters[semester - 1].reDelivery
+                    }
+                    onChange={redeliveryHandle(item._id)}
+                  />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -13,6 +13,10 @@ const semester = new Schema({
   mark: {
     type: Schema.Types.Mixed,
   },
+  reDelivery: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const SubjectSchema = new Schema({
