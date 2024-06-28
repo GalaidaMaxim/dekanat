@@ -12,7 +12,17 @@ import { intToABC, intToNational } from "../serivce/formulas";
 import { roundTo } from "../serivce/mathFunctions";
 
 const redColor = "#ff7d7d";
+const ignoreColor = "#39ffbd";
 const whiteColor = "#ffffff";
+
+const getColor = (ignore, reDelivery) => {
+  if (ignore) {
+    return ignoreColor;
+  } else if (reDelivery) {
+    return redColor;
+  }
+  return whiteColor;
+};
 
 const StyledTableCell = styled(TableCell)`
   border: 1px solid black;
@@ -80,23 +90,18 @@ export const SummaryReport = ({ students, subjects, semester }) => {
                   if (subject) {
                     const reDelivery =
                       subject.semesters[semester - 1].reDelivery;
+                    const ignore = subject.semesters[semester - 1].ignore;
                     const value = subject.semesters[semester - 1].mark || "Н/А";
                     if (subject.semesters[semester - 1].assessmentType !== 1) {
                       return (
                         <Fragment key={student._id}>
-                          <StyledTableCell
-                            color={reDelivery ? redColor : whiteColor}
-                          >
+                          <StyledTableCell color={getColor(ignore, reDelivery)}>
                             {intToABC(value)}
                           </StyledTableCell>
-                          <StyledTableCell
-                            color={reDelivery ? redColor : whiteColor}
-                          >
+                          <StyledTableCell color={getColor(ignore, reDelivery)}>
                             {value}
                           </StyledTableCell>
-                          <StyledTableCell
-                            color={reDelivery ? redColor : whiteColor}
-                          >
+                          <StyledTableCell color={getColor(ignore, reDelivery)}>
                             {intToNational(value)}
                           </StyledTableCell>
                         </Fragment>
@@ -105,15 +110,13 @@ export const SummaryReport = ({ students, subjects, semester }) => {
                       return (
                         <Fragment key={student._id}>
                           <StyledTableCell
-                            color={reDelivery ? redColor : whiteColor}
+                            color={getColor(ignore, reDelivery)}
                           ></StyledTableCell>
-                          <StyledTableCell
-                            color={reDelivery ? redColor : whiteColor}
-                          >
+                          <StyledTableCell color={getColor(ignore, reDelivery)}>
                             {value}
                           </StyledTableCell>
                           <StyledTableCell
-                            color={reDelivery ? redColor : whiteColor}
+                            color={getColor(ignore, reDelivery)}
                           ></StyledTableCell>
                         </Fragment>
                       );

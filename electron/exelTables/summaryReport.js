@@ -6,6 +6,19 @@ const { roundTo } = require("../service/mathFunctions");
 
 const grayColor = "c5c5c5";
 
+const redColor = "ff7d7d";
+const ignoreColor = "39ffbd";
+const whiteColor = "ffffff";
+
+const getColor = (ignore, reDelivery) => {
+  if (ignore) {
+    return ignoreColor;
+  } else if (reDelivery) {
+    return redColor;
+  }
+  return whiteColor;
+};
+
 const setCenterText = (worksheet, row, col, text) => {
   const cell = worksheet.getCell(row, col);
   cell.value = text;
@@ -19,6 +32,15 @@ const setLeftText = (worksheet, row, col, text) => {
 };
 
 const setCellColor = (cell, color) => {
+  cell.fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: color },
+  };
+};
+
+const setCellColorCoords = (worksheet, rowNumber, colNumber, color) => {
+  const cell = worksheet.getCell(rowNumber, colNumber);
   cell.fill = {
     type: "pattern",
     pattern: "solid",
@@ -86,6 +108,26 @@ module.exports = createSummaryReportTable = async ({
 
       if (subject) {
         const value = subject.semesters[semester - 1].mark || "Н/А";
+        const ignore = subject.semesters[semester - 1].ignore;
+        const reDelivery = subject.semesters[semester - 1].reDelivery;
+        setCellColorCoords(
+          worksheet,
+          5 + subjectIndex,
+          5 + studentIndex * 3,
+          getColor(ignore, reDelivery)
+        );
+        setCellColorCoords(
+          worksheet,
+          5 + subjectIndex,
+          6 + studentIndex * 3,
+          getColor(ignore, reDelivery)
+        );
+        setCellColorCoords(
+          worksheet,
+          5 + subjectIndex,
+          7 + studentIndex * 3,
+          getColor(ignore, reDelivery)
+        );
         if (subject.semesters[semester - 1].assessmentType !== 1) {
           setCenterText(
             worksheet,
