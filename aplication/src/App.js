@@ -26,6 +26,7 @@ import { AdminActions } from "./pages/AdminActions.jsx";
 import { CreateSelectubleSubjectReport } from "./pages/CreateSelectableSubjectReport.jsx";
 import { Reports } from "./pages/Reports.jsx";
 import { DebitReport } from "./pages/DebitReport.jsx";
+import { ErrorLog } from "./pages/ErrorLog.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -181,6 +182,7 @@ function App() {
                 <Route element={<Reports />} path="/reports" />
                 <Route element={<DebitReport />} path="/debitReport" />
                 <Route element={<EditStudent />} path="/edit_student/:id" />
+                <Route element={<ErrorLog />} path="/errors" />
                 <Route
                   element={<CreateEducationPlan />}
                   path="/educationPlan"

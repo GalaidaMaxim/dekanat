@@ -123,6 +123,29 @@ export const StudentInfo = () => {
     };
   };
 
+  const ignoreHandle = (_id) => {
+    return async (event) => {
+      const obj = JSON.parse(JSON.stringify(student));
+      obj.subjects.find((item) => item._id === _id).semesters[
+        semester - 1
+      ].ignore = !obj.subjects.find((item) => item._id === _id).semesters[
+        semester - 1
+      ].ignore;
+
+      window.mainApi
+        .invokeMain("updateStudent", {
+          id,
+          info: {
+            subjects: obj.subjects,
+          },
+        })
+        .then((result) => {
+          setStudent(JSON.parse(result));
+          console.log(JSON.parse(result));
+        });
+    };
+  };
+
   return (
     <Box>
       <Button
@@ -178,6 +201,7 @@ export const StudentInfo = () => {
               <TableCell>ECTS</TableCell>
               <TableCell>Національна шкала</TableCell>
               <TableCell>Перездача</TableCell>
+              <TableCell>Ігнорувати</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -236,6 +260,15 @@ export const StudentInfo = () => {
                         .semesters[semester - 1].reDelivery
                     }
                     onChange={redeliveryHandle(item._id)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Checkbox
+                    checked={
+                      student.subjects.find((i) => i._id === item._id)
+                        .semesters[semester - 1].ignore
+                    }
+                    onChange={ignoreHandle(item._id)}
                   />
                 </TableCell>
               </TableRow>

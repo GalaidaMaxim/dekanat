@@ -1,8 +1,10 @@
 import { Box, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { enable, disable } from "../redux/slices";
+import { useNavigate } from "react-router-dom";
 
 export const AdminActions = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const getStartYear = (cource) => {
     const data = new Date(Date.now());
@@ -34,6 +36,9 @@ export const AdminActions = () => {
       <h2>Адміністрування системи</h2>
       <Button onClick={updateYear} variant="contained">
         Оновити рік вступу всіх студентів
+      </Button>
+      <Button onClick={() => navigate("/errors")} variant="contained">
+        Error list
       </Button>
     </Box>
   );

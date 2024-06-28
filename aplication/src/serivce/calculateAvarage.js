@@ -4,6 +4,7 @@ export const calculateAvarage = (subjectList, semester) => {
     subjectList.some(
       (item) =>
         item.semesters[semester - 1].include &&
+        !item.semesters[semester - 1].ignore &&
         ((item.semesters[semester - 1].assessmentType === 1 &&
           (!item.semesters[semester - 1].mark ||
             item.semesters[semester - 1].mark === "Незараховано")) ||
@@ -17,7 +18,8 @@ export const calculateAvarage = (subjectList, semester) => {
   subjectList.forEach((item) => {
     if (
       item.semesters[semester - 1].include &&
-      item.semesters[semester - 1].assessmentType !== 1
+      item.semesters[semester - 1].assessmentType !== 1 &&
+      !item.semesters[semester - 1].ignore
     ) {
       avarageCount++;
       average += Number.parseInt(item.semesters[semester - 1].mark);

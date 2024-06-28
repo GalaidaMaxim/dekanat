@@ -17,6 +17,10 @@ const semester = new Schema({
     type: Boolean,
     default: false,
   },
+  ignore: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const SubjectSchema = new Schema({

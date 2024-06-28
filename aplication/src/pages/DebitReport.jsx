@@ -46,7 +46,8 @@ export const DebitReport = () => {
         const subjects = student.subjects.filter(
           (subject) =>
             subject.semesters[semester - 1].include &&
-            !subject.semesters[semester - 1].mark
+            !subject.semesters[semester - 1].mark &&
+            !subject.semesters[semester - 1].ignore
         );
         subjects.forEach((subject) => {
           arr.push({
