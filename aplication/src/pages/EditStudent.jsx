@@ -375,6 +375,15 @@ export const EditStudent = () => {
           </Box>
         </MyAcordion>
       </Box>
+      <Box>
+        <h2>Номер студенського квитка</h2>
+        <TextField
+          label="Номер"
+          value={student.ticketCode}
+          onChange={chageHandle("ticketCode")}
+          onBlur={onSubmit("ticketCode")}
+        />
+      </Box>
       <Box marginTop={4}>
         <Button
           onClick={() => {
