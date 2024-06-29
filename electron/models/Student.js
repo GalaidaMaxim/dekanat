@@ -56,6 +56,12 @@ const StudentSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  ticketCode: {
+    type: String,
+  },
+  token: {
+    type: String,
+  },
   subjects: [SubjectSchema],
 });
 
