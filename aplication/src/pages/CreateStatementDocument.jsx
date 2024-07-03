@@ -55,6 +55,7 @@ export const CreateStatemntDocument = () => {
         department: depID,
         educationPlan: planID,
         course: cource,
+        status: "навчається",
       })
       .then((result) => {
         const data = JSON.parse(result);

@@ -31,15 +31,38 @@ export const AdminActions = () => {
 
     dispatch(disable());
   };
+
+  const updateStatus = async () => {
+    dispatch(enable());
+    const allStudents = JSON.parse(
+      await window.mainApi.invokeMain("getAllStudents")
+    );
+    for (let i = 0; i < allStudents.length; i++) {
+      const year = getStartYear(allStudents[i].course);
+      await window.mainApi.invokeMain("updateStudent", {
+        id: allStudents[i]._id,
+        info: {
+          status: allStudents[i].status,
+        },
+      });
+    }
+
+    dispatch(disable());
+  };
   return (
     <Box>
       <h2>Адміністрування системи</h2>
-      <Button onClick={updateYear} variant="contained">
-        Оновити рік вступу всіх студентів
-      </Button>
-      <Button onClick={() => navigate("/errors")} variant="contained">
-        Error list
-      </Button>
+      <Box display={"flex"} gap={2}>
+        <Button onClick={updateYear} variant="contained">
+          Оновити рік вступу всіх студентів
+        </Button>
+        <Button onClick={() => navigate("/errors")} variant="contained">
+          Error list
+        </Button>
+        <Button onClick={() => updateStatus()} variant="contained">
+          Update status
+        </Button>
+      </Box>
     </Box>
   );
 };

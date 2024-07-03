@@ -1,5 +1,8 @@
-export const calculateAvarage = (subjectList, semester) => {
+export const calculateAvarage = (subjectList, semester, contract) => {
   const angryResult = "Прездача";
+  if (contract) {
+    return "Контракт";
+  }
   if (
     subjectList.some(
       (item) =>

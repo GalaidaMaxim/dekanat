@@ -2,12 +2,12 @@ import {
   Box,
   Button,
   FormControl,
-  FormControlLabel,
   InputLabel,
-  Menu,
+  Checkbox,
   MenuItem,
   Select,
   TextField,
+  FormControlLabel,
 } from "@mui/material";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -136,6 +136,20 @@ export const EditStudent = () => {
       });
   };
 
+  const onContract = (event) => {
+    window.mainApi
+      .invokeMain("updateStudent", {
+        id,
+        info: {
+          contract: !student.contract,
+        },
+      })
+      .then((result) => {
+        dispatch(show({ title: "Студент оновлений" }));
+        setStudent(JSON.parse(result));
+      });
+  };
+
   const addSubject = (subject) => {
     return async () => {
       const arr = student.subjects;
@@ -240,7 +254,7 @@ export const EditStudent = () => {
             </FormControl>
           </Box>
         </Box>
-        <Box display={"flex"} gap={20}>
+        <Box alignItems={"center"} display={"flex"} gap={20}>
           <Box>
             <p>відділення: </p>
             <h3>{student.department && student.department.name}</h3>
@@ -254,7 +268,7 @@ export const EditStudent = () => {
             <h3>{student.course}</h3>
           </Box>
           {student.status && (
-            <Box width={"200px"}>
+            <Box width={"150px"}>
               <FormControl fullWidth>
                 <InputLabel>Статус</InputLabel>
                 <Select
@@ -267,6 +281,16 @@ export const EditStudent = () => {
                   ))}
                 </Select>
               </FormControl>
+            </Box>
+          )}
+          {student.status && (
+            <Box>
+              <FormControlLabel
+                checked={student.contract}
+                label={"контракт"}
+                control={<Checkbox />}
+                onChange={onContract}
+              />
             </Box>
           )}
         </Box>

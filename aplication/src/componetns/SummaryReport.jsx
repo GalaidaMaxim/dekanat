@@ -138,7 +138,10 @@ export const SummaryReport = ({ students, subjects, semester }) => {
               {students.map((item) => {
                 return (
                   <StyledTableCell key={item._id} colSpan={3}>
-                    {roundTo(calculateAvarage(item.subjects, semester), 2)}
+                    {roundTo(
+                      calculateAvarage(item.subjects, semester, item.contract),
+                      2
+                    )}
                   </StyledTableCell>
                 );
               })}

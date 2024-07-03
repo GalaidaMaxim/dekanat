@@ -59,6 +59,10 @@ const StudentSchema = new Schema({
   ticketCode: {
     type: String,
   },
+  contract: {
+    type: Boolean,
+    default: false,
+  },
   token: {
     type: String,
   },

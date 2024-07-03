@@ -39,6 +39,7 @@ export const DebitReport = () => {
         course,
         educationPlan: planID,
         department: depID,
+        status: "навчається",
       });
       const students = JSON.parse(data);
       const arr = [];
