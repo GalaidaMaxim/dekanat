@@ -1,8 +1,6 @@
 export const calculateAvarage = (subjectList, semester, contract) => {
   const angryResult = "Прездача";
-  if (contract) {
-    return "Контракт";
-  }
+
   if (
     subjectList.some(
       (item) =>
@@ -15,6 +13,9 @@ export const calculateAvarage = (subjectList, semester, contract) => {
     )
   ) {
     return angryResult;
+  }
+  if (contract) {
+    return "Контракт";
   }
   let average = 0;
   let avarageCount = 0;

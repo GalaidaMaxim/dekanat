@@ -1,4 +1,4 @@
-const calculateAvarage = (subjectList, semester) => {
+const calculateAvarage = (subjectList, semester, contract) => {
   const angryResult = "Прездача";
   if (
     subjectList.some(
@@ -12,6 +12,9 @@ const calculateAvarage = (subjectList, semester) => {
     )
   ) {
     return angryResult;
+  }
+  if (contract) {
+    return "Контракт";
   }
   let average = 0;
   let avarageCount = 0;

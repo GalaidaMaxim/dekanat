@@ -177,7 +177,7 @@ module.exports = createSummaryReportTable = async ({
       worksheet,
       5 + subjects.length,
       6 + studentIndex * 3,
-      roundTo(calculateAvarage(item.subjects, semester), 2)
+      roundTo(calculateAvarage(item.subjects, semester, item.contract), 2)
     );
   });
 
