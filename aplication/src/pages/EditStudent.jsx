@@ -1,10 +1,28 @@
-import { Box, Button, FormControl, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  Menu,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { enable, disable, show, enableAlertAction } from "../redux/slices";
 import { useDispatch } from "react-redux";
 import { MyAcordion } from "../componetns/Acordion";
 import { StudentSubjectList } from "../componetns/StudentSubjectList";
+
+const statusList = [
+  "навчається",
+  "випустився",
+  "академічна відаустка",
+  "невизначений",
+  "відрахований",
+];
 
 export const EditStudent = () => {
   const { id } = useParams();
@@ -101,6 +119,21 @@ export const EditStudent = () => {
           setStudent(JSON.parse(result));
         });
     };
+  };
+
+  const onStatusChageg = async (event) => {
+    const { value } = event.target;
+    window.mainApi
+      .invokeMain("updateStudent", {
+        id,
+        info: {
+          status: value,
+        },
+      })
+      .then((result) => {
+        dispatch(show({ title: "Студент оновлений" }));
+        setStudent(JSON.parse(result));
+      });
   };
 
   const addSubject = (subject) => {
@@ -220,6 +253,22 @@ export const EditStudent = () => {
             <p>курс: </p>
             <h3>{student.course}</h3>
           </Box>
+          {student.status && (
+            <Box width={"200px"}>
+              <FormControl fullWidth>
+                <InputLabel>Статус</InputLabel>
+                <Select
+                  label={"Cтатус"}
+                  value={student.status}
+                  onChange={onStatusChageg}
+                >
+                  {statusList.map((item) => (
+                    <MenuItem value={item}>{item}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          )}
         </Box>
       </Box>
 
