@@ -9,7 +9,6 @@ import {
 import styled from "@emotion/styled";
 import { Fragment } from "react";
 import { intToABC, intToNational } from "../serivce/formulas";
-import { roundTo } from "../serivce/mathFunctions";
 
 const redColor = "#ff7d7d";
 const ignoreColor = "#39ffbd";
@@ -138,10 +137,7 @@ export const SummaryReport = ({ students, subjects, semester }) => {
               {students.map((item) => {
                 return (
                   <StyledTableCell key={item._id} colSpan={3}>
-                    {roundTo(
-                      calculateAvarage(item.subjects, semester, item.contract),
-                      2
-                    )}
+                    {calculateAvarage(item.subjects, semester, item.contract)}
                   </StyledTableCell>
                 );
               })}

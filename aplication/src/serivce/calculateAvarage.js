@@ -1,3 +1,5 @@
+import { roundTo } from "./mathFunctions";
+
 export const calculateAvarage = (subjectList, semester, contract) => {
   const angryResult = "Прездача";
 
@@ -30,5 +32,27 @@ export const calculateAvarage = (subjectList, semester, contract) => {
     }
   });
   console.log(avarageCount);
-  return average / avarageCount;
+  return roundTo(average / avarageCount, 2);
+};
+
+export const checkRedelivery = (subjects, semester) => {
+  if (
+    subjects
+      .filter((sub) => sub.semesters[semester - 1].include)
+      .some(
+        (sub) =>
+          sub.semesters[semester - 1].reDelivery ||
+          !sub.semesters[semester - 1].mark
+      )
+  ) {
+    return true;
+  }
+  return false;
+};
+
+export const calculateWithRedelivery = (subjectList, semester, contract) => {
+  if (checkRedelivery(subjectList, semester)) {
+    return "-----";
+  }
+  return calculateAvarage(subjectList, semester, contract);
 };

@@ -19,6 +19,9 @@ import { ForeignerSelector } from "../componetns/foreignerSelector";
 import { useForeigner } from "../redux/selector";
 import { useSemester } from "../redux/selector";
 import { useCource } from "../redux/selector";
+import { calculateAvarage } from "../serivce/calculateAvarage";
+import { createStudentShortName } from "../serivce/createStudentShortName";
+import { calculateWithRedelivery } from "../serivce/calculateAvarage";
 
 export const CreateSummaryReport = () => {
   const [depID, setDepID] = useState("");
@@ -71,6 +74,28 @@ export const CreateSummaryReport = () => {
         dispatch(disable());
       });
   }, [depID, level, semester, course, planID, dispatch, foreigner]);
+
+  const createTotalMarkTable = async () => {
+    const path = JSON.parse(await window.mainApi.invokeMain("selectFolder"));
+    let studentsResult = students.filter((item) => !item.contract);
+    studentsResult = studentsResult.map((student) => {
+      return {
+        name: createStudentShortName(student),
+        mark: calculateWithRedelivery(
+          student.subjects,
+          semester,
+          student.contract
+        ),
+      };
+    });
+    await window.mainApi.invokeMain("createTotalMarksTable", {
+      tableData: studentsResult,
+      filePath: path,
+      depId: depID,
+      course,
+      semester,
+    });
+  };
 
   const createExelTable = async () => {
     const path = JSON.parse(await window.mainApi.invokeMain("selectFolder"));
@@ -130,6 +155,14 @@ export const CreateSummaryReport = () => {
           <Box mt={2}>
             <Button onClick={createExelTable} variant="contained">
               Створити Exel таблицю
+            </Button>
+            <Button
+              onClick={() => {
+                createTotalMarkTable();
+              }}
+              variant="contained"
+            >
+              Створити таблицю середніх балів
             </Button>
           </Box>
         </>

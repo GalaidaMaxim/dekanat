@@ -30,6 +30,7 @@ const {
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
 const createFlexSubjectTable = require("./exelTables/createFlexSubjectReport");
+const createTotalMarksTable = require("./exelTables/createTotalMarksTable");
 const path = require("path");
 
 console.log(path.join(__dirname, "preload.js"));
@@ -89,6 +90,7 @@ app.whenReady().then(() => {
     "createSummaryReportTable",
     apiMidlvare(createSummaryReportTable)
   );
+  ipcMain.handle("createTotalMarksTable", apiMidlvare(createTotalMarksTable));
   ipcMain.handle(
     "getSubjectsByEducationPlan",
     apiMidlvare(getSubejctsByEducationPlan)
