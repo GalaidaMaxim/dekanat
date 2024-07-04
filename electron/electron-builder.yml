@@ -1,4 +1,14 @@
-appId: com.yourcompany.yourapp
+appId: galaidaProdaction
 productName: Decanat
+
 directories:
   output: ./dist
+mac:
+  target:
+    - dmg
+    - zip
+  category: public.app-category.utilities
+  icon: build/icon.icns
+extraResources:
+  - from: ../aplication/build
+    to: ./aplication/build
