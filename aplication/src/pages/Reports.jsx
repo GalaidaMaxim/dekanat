@@ -36,6 +36,12 @@ export const Reports = () => {
         >
           Звіт заборгованностей
         </Button>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/totalMarkReport")}
+        >
+          Тиблиця середніх балів
+        </Button>
       </Box>
     </Box>
   );

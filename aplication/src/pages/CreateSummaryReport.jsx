@@ -75,28 +75,6 @@ export const CreateSummaryReport = () => {
       });
   }, [depID, level, semester, course, planID, dispatch, foreigner]);
 
-  const createTotalMarkTable = async () => {
-    const path = JSON.parse(await window.mainApi.invokeMain("selectFolder"));
-    let studentsResult = students.filter((item) => !item.contract);
-    studentsResult = studentsResult.map((student) => {
-      return {
-        name: createStudentShortName(student),
-        mark: calculateWithRedelivery(
-          student.subjects,
-          semester,
-          student.contract
-        ),
-      };
-    });
-    await window.mainApi.invokeMain("createTotalMarksTable", {
-      tableData: studentsResult,
-      filePath: path,
-      depId: depID,
-      course,
-      semester,
-    });
-  };
-
   const createExelTable = async () => {
     const path = JSON.parse(await window.mainApi.invokeMain("selectFolder"));
     await window.mainApi.invokeMain("createSummaryReportTable", {
@@ -155,14 +133,6 @@ export const CreateSummaryReport = () => {
           <Box mt={2}>
             <Button onClick={createExelTable} variant="contained">
               Створити Exel таблицю
-            </Button>
-            <Button
-              onClick={() => {
-                createTotalMarkTable();
-              }}
-              variant="contained"
-            >
-              Створити таблицю середніх балів
             </Button>
           </Box>
         </>

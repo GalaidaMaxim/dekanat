@@ -42,7 +42,8 @@ export const checkRedelivery = (subjects, semester) => {
       .some(
         (sub) =>
           sub.semesters[semester - 1].reDelivery ||
-          !sub.semesters[semester - 1].mark
+          (!sub.semesters[semester - 1].mark &&
+            !sub.semesters[semester - 1].ignore)
       )
   ) {
     return true;

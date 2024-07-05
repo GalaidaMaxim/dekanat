@@ -27,6 +27,7 @@ import { CreateSelectubleSubjectReport } from "./pages/CreateSelectableSubjectRe
 import { Reports } from "./pages/Reports.jsx";
 import { DebitReport } from "./pages/DebitReport.jsx";
 import { ErrorLog } from "./pages/ErrorLog.jsx";
+import { CreateTotalMartReport } from "./pages/CreateToalMarkReport.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -205,6 +206,10 @@ function App() {
                 <Route
                   element={<CreateSelectubleSubjectReport />}
                   path="/selectableSubjectReport"
+                />
+                <Route
+                  element={<CreateTotalMartReport />}
+                  path="totalMarkReport"
                 />
               </Routes>
             </Box>

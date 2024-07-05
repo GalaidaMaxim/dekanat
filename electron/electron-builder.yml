@@ -3,6 +3,11 @@ productName: Decanat
 
 directories:
   output: ./dist
+win:
+  target:
+    - target: nsis
+      arch:
+        - ia32
 mac:
   target:
     - dmg
