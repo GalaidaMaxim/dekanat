@@ -16,9 +16,7 @@ export const calculateAvarage = (subjectList, semester, contract) => {
   ) {
     return angryResult;
   }
-  if (contract) {
-    return "Контракт";
-  }
+
   let average = 0;
   let avarageCount = 0;
   subjectList.forEach((item) => {
@@ -31,8 +29,8 @@ export const calculateAvarage = (subjectList, semester, contract) => {
       average += Number.parseInt(item.semesters[semester - 1].mark);
     }
   });
-  console.log(avarageCount);
-  return roundTo(average / avarageCount, 2);
+
+  return roundTo(average / avarageCount, 2) + (contract ? " контракт" : "");
 };
 
 export const checkRedelivery = (subjects, semester) => {
