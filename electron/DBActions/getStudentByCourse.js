@@ -6,6 +6,7 @@ module.exports = async ({ level, educationPlan, course = "1" }) => {
       level,
       educationPlan,
       course: Number.parseInt(course),
+      status: "навчається",
     }).populate("department");
     return students;
   } catch (err) {
