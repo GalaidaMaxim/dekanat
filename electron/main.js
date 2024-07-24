@@ -17,6 +17,7 @@ const {
   getEducationPlan,
   getSubjectByID,
   getVersion,
+  chageDBToNextYear,
 } = require("./API");
 
 const {
@@ -97,6 +98,7 @@ app.whenReady().then(() => {
   );
   ipcMain.handle("getStudentsByCourse", apiMidlvare(getStudentsByCourse));
   ipcMain.handle("createFlexSubjectTable", apiMidlvare(createFlexSubjectTable));
+  ipcMain.handle("chageDBToNextYear", apiMidlvare(chageDBToNextYear));
 });
 
 app.on("window-all-closed", async () => {

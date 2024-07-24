@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { enable, disable } from "../redux/slices";
+import { enable, disable, enableAlertAction } from "../redux/slices";
 import { useNavigate } from "react-router-dom";
 
 export const AdminActions = () => {
@@ -32,6 +32,11 @@ export const AdminActions = () => {
     dispatch(disable());
   };
 
+  const toNextYear = async () => {
+    dispatch(enable());
+    await window.mainApi.invokeMain("chageDBToNextYear");
+  };
+
   const updateStatus = async () => {
     dispatch(enable());
     const allStudents = JSON.parse(
@@ -55,6 +60,20 @@ export const AdminActions = () => {
       <Box display={"flex"} gap={2}>
         <Button onClick={updateYear} variant="contained">
           Оновити рік вступу всіх студентів
+        </Button>
+        <Button
+          onClick={() => {
+            dispatch(
+              enableAlertAction({
+                callback: toNextYear,
+                title: "Перевести заклад на наступний рік",
+                discription: "погодьте зі всіма працівниками",
+              })
+            );
+          }}
+          variant="contained"
+        >
+          Перевести заклад на наступний рік
         </Button>
         <Button onClick={() => navigate("/errors")} variant="contained">
           Error list

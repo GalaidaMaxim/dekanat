@@ -19,6 +19,7 @@ const deleteEducationPlan = require("./deleteEducationPlan");
 const getStudentsByParams = require("./getStudentsByParams");
 const deleteSubject = require("./deleteSubject");
 const getStudentsByCourse = require("./getStudentByCourse");
+const chageDBToNextYear = require("./chageDBToNextYear");
 
 module.exports = {
   deleteStudent,
@@ -42,4 +43,5 @@ module.exports = {
   getStudentsByParams,
   deleteSubject,
   getStudentsByCourse,
+  chageDBToNextYear,
 };
