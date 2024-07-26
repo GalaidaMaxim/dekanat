@@ -3,6 +3,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSemester } from "../redux/selector";
 import { StudentMarksEdit } from "../componetns/StudentMarksEdit";
+import { IndividualPlan } from "../componetns/IndividualPlan";
 
 export const StudentInfo = () => {
   const { id } = useParams();
@@ -94,6 +95,9 @@ export const StudentInfo = () => {
             subjects={subjects}
             id={id}
           />
+        )}
+        {tabVal === "Індивідуальний план" && (
+          <IndividualPlan student={student} />
         )}
       </Box>
     </Box>
