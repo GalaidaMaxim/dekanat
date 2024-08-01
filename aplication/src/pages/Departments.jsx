@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { enable, disable } from "../redux/slices";
 import { show } from "../redux/slices";
+import { useSetupReady } from "../redux/selector";
 
 const StyledButtonList = styled.ul`
   display: grid;
@@ -14,9 +15,13 @@ const StyledButtonList = styled.ul`
 
 export const Departments = () => {
   const dispatch = useDispatch();
+  const setupReady = useSetupReady();
   const [deps, setDeps] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
+    if (!setupReady) {
+      return;
+    }
     dispatch(enable());
     window.mainApi
       .invokeMain("getDeparments")
@@ -31,7 +36,7 @@ export const Departments = () => {
       .finally(() => {
         dispatch(disable());
       });
-  }, [dispatch]);
+  }, [dispatch, setupReady]);
   return (
     <Box>
       <Box>

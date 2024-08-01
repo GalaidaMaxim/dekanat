@@ -75,6 +75,22 @@ export const foreignerSlice = createSlice({
   },
 });
 
+export const connectionSlice = createSlice({
+  name: "connection",
+  initialState: {
+    updated: false,
+    dbConnected: false,
+  },
+  reducers: {
+    setUpdated: (state, { payload }) => {
+      state.updated = payload;
+    },
+    setDBConnected: (state, { payload }) => {
+      state.dbConnected = payload;
+    },
+  },
+});
+
 export const semesterSlice = createSlice({
   name: "semester",
   initialState: {
@@ -106,3 +122,4 @@ export const { enableAlertAction, confirmAlertAction, cancelAlertAction } =
 export const { setForeigner } = foreignerSlice.actions;
 export const { setSemester } = semesterSlice.actions;
 export const { setCourse } = courseSlice.actions;
+export const { setUpdated, setDBConnected } = connectionSlice.actions;

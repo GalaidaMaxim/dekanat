@@ -23,3 +23,17 @@ export const useSemester = () => {
 export const useCource = () => {
   return useSelector((state) => state.course.value);
 };
+
+export const useDBConnected = () => {
+  return useSelector((state) => state.connection.dbConnected);
+};
+
+export const useUpdated = () => {
+  return useSelector((state) => state.connection.updated);
+};
+
+export const useSetupReady = () => {
+  return useSelector(
+    (state) => state.connection.dbConnected && state.connection.updated
+  );
+};

@@ -1,7 +1,19 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
-const mongoose = require("mongoose");
-const { apiMidlvare, openFolderSelector } = require("./service");
+const { mongoose } = require("mongoose");
+
+const {
+  apiMidlvare,
+  openFolderSelector,
+  connectMongouse,
+  isMongouseConnected,
+} = require("./service");
 const createStatment = require("./docDocumtns/createStatement");
+const { createAppMenu } = require("./AppMenu");
+const {
+  checkFileExisting,
+  createEmptyFile,
+  setMongouseConnectionData,
+} = require("./setupFile");
 const {
   getDepartments,
   createStudent,
@@ -51,22 +63,17 @@ const createWindow = () => {
   mainWindow.loadURL("http://localhost:3000");
   // mainWindow.loadFile("../aplication/build/index.html");
   mainWindow.maximize();
+  process.mainWindow = mainWindow;
   return mainWindow;
 };
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   createWindow();
-  mongoose.set("strictQuery", true);
-  mongoose
-    .connect(
-      "mongodb+srv://User:53435343@cluster0.amztsfk.mongodb.net/Gliera?retryWrites=true&w=majority"
-    )
-    .then(() => {
-      console.log("MongouseConnected");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  createAppMenu();
+  if (!(await checkFileExisting())) {
+    await createEmptyFile();
+  }
+
   ipcMain.handle("getDeparments", getDepartments);
   ipcMain.handle("createStudent", createStudent);
   ipcMain.handle("getStudentByDepartment", getStudentByDepartment);
@@ -99,6 +106,12 @@ app.whenReady().then(() => {
   ipcMain.handle("getStudentsByCourse", apiMidlvare(getStudentsByCourse));
   ipcMain.handle("createFlexSubjectTable", apiMidlvare(createFlexSubjectTable));
   ipcMain.handle("chageDBToNextYear", apiMidlvare(chageDBToNextYear));
+  ipcMain.handle(
+    "setMongouseConnectionData",
+    apiMidlvare(setMongouseConnectionData)
+  );
+  ipcMain.handle("connectMongouse", apiMidlvare(connectMongouse));
+  ipcMain.handle("isMongouseConnected", apiMidlvare(isMongouseConnected));
 });
 
 app.on("window-all-closed", async () => {

@@ -1,21 +1,31 @@
 import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { disable, enable, setUpdated } from "../redux/slices";
+import { useDBConnected, useUpdated } from "../redux/selector";
 
 export const LaounchWindow = ({ setType }) => {
   const navigate = useNavigate();
-  const [updated, setUpdated] = useState(true);
+  const dbConnected = useDBConnected();
+  const updated = useUpdated();
+  const dispatch = useDispatch();
   const version = "0.0.2";
   useEffect(() => {
+    if (!dbConnected) {
+      return;
+    }
+    dispatch(enable());
     window.mainApi.invokeMain("getVersion").then((data) => {
       const result = JSON.parse(data);
       if (!result || result.current !== version) {
-        setUpdated(false);
+        dispatch(setUpdated(false));
         return;
       }
-      setUpdated(true);
+      dispatch(setUpdated(true));
     });
-  }, []);
+    dispatch(disable());
+  }, [dbConnected, dispatch]);
 
   return (
     <Box
@@ -29,7 +39,12 @@ export const LaounchWindow = ({ setType }) => {
       alignItems={"center"}
       flexDirection={"column"}
     >
-      {updated && (
+      {!dbConnected ? (
+        <Box textAlign={"center"}>
+          Відсутнє підключення до бази даник. Виконайте початкове налаштування
+          або перевірте з'єднання з мережеєю
+        </Box>
+      ) : updated ? (
         <>
           <h1>Стартовий екран</h1>
           <Box textAlign={"center"}>
@@ -50,8 +65,7 @@ export const LaounchWindow = ({ setType }) => {
             </Box>
           </Box>
         </>
-      )}
-      {!updated && (
+      ) : (
         <>
           <Box>
             <h2>Застаріла версія, оновіть додаток</h2>

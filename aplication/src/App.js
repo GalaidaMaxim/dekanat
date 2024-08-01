@@ -12,7 +12,7 @@ import { Loader } from "./componetns/Loader";
 import { AlertMy } from "./componetns/alert";
 import { CreateEducationPlan } from "./pages/CreateEducationPlan";
 import { EditSubject } from "./pages/EditSubject";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { LaounchWindow } from "./componetns/LaunchWindow";
 import { ActionAlert } from "./componetns/ActionAlert";
 import { useAlertAction } from "./redux/selector";
@@ -28,6 +28,9 @@ import { Reports } from "./pages/Reports.jsx";
 import { DebitReport } from "./pages/DebitReport.jsx";
 import { ErrorLog } from "./pages/ErrorLog.jsx";
 import { CreateTotalMartReport } from "./pages/CreateToalMarkReport.jsx";
+import { MongouseDataDialog } from "./componetns/MongpuseDataDialog.jsx";
+import { enable, disable, setDBConnected } from "./redux/slices";
+import { useDispatch } from "react-redux";
 
 function App() {
   const navigate = useNavigate();
@@ -35,10 +38,39 @@ function App() {
   const alert = useAlert();
   const alertAction = useAlertAction();
   const [type, setType] = useState(null);
+  const [mdDialog, setmdDialog] = useState(false);
   const scrolDivRev = useRef(null);
+  const dispatch = useDispatch();
   const scrollTop = () => {
     scrolDivRev.current.scrollTop = 0;
   };
+  useEffect(() => {
+    const connect = async () => {
+      try {
+        dispatch(enable());
+        const result = JSON.parse(
+          await window.mainApi.invokeMain("connectMongouse")
+        );
+        if (result) {
+          dispatch(setDBConnected(true));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+      dispatch(disable());
+    };
+    connect();
+  }, [dispatch]);
+  useEffect(() => {
+    const onMongouseSetup = () => {
+      setmdDialog(true);
+    };
+
+    window.mainApi.addListener("openMongouseSetup", onMongouseSetup);
+    return () => {
+      window.mainApi.removeListener("openMongouseSetup", onMongouseSetup);
+    };
+  }, []);
 
   return (
     <div className="App">
@@ -46,6 +78,7 @@ function App() {
       {alertAction.enable && <ActionAlert />}
       <Box sx={{ display: "flex" }}>
         {!type && <LaounchWindow setType={setType} />}
+        {mdDialog && <MongouseDataDialog back={() => setmdDialog(false)} />}
         <Box
           className="noPrint"
           borderRight={1}

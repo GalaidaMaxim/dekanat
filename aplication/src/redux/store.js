@@ -6,6 +6,7 @@ import {
   foreignerSlice,
   semesterSlice,
   courseSlice,
+  connectionSlice,
 } from "./slices";
 
 export const store = configureStore({
@@ -16,5 +17,6 @@ export const store = configureStore({
     foreigner: foreignerSlice.reducer,
     semester: semesterSlice.reducer,
     course: courseSlice.reducer,
+    connection: connectionSlice.reducer,
   },
 });

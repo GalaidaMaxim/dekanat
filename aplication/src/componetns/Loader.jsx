@@ -13,7 +13,7 @@ export const Loader = () => {
       height={"100%"}
       sx={{
         backdropFilter: "blur(20px)",
-        zIndex: 1000,
+        zIndex: 3000,
       }}
     >
       <CircularProgress />
