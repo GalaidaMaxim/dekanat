@@ -83,6 +83,9 @@ export const AdminActions = () => {
         <Button onClick={() => navigate("/create_user")} variant="contained">
           Створити користувача
         </Button>
+        <Button onClick={() => navigate("/userList")} variant="contained">
+          Список коритувачів
+        </Button>
       </Box>
     </Box>
   );

@@ -22,6 +22,14 @@ const UserSchema = new Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  lastLoginTime: {
+    type: Number,
+    default: 0,
+  },
+  lastLogoutTime: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = model("user", UserSchema);

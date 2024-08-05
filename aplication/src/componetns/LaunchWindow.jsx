@@ -18,15 +18,19 @@ export const LaounchWindow = ({ setType }) => {
       return;
     }
     dispatch(enable());
-    window.mainApi.invokeMain("getVersion").then((data) => {
-      const result = JSON.parse(data);
-      if (!result || result.current !== version) {
-        dispatch(setUpdated(false));
-        return;
-      }
-      dispatch(setUpdated(true));
-    });
-    dispatch(disable());
+    window.mainApi
+      .invokeMain("getVersion")
+      .then((data) => {
+        const result = JSON.parse(data);
+        if (!result || result.current !== version) {
+          dispatch(setUpdated(false));
+          return;
+        }
+        dispatch(setUpdated(true));
+      })
+      .finally(() => {
+        dispatch(disable());
+      });
   }, [dbConnected, dispatch]);
 
   const loginUser = async () => {
@@ -45,6 +49,7 @@ export const LaounchWindow = ({ setType }) => {
       );
     } else {
       dispatch(setUser(user));
+      navigate("/");
     }
     dispatch(disable());
   };
@@ -70,35 +75,42 @@ export const LaounchWindow = ({ setType }) => {
         <>
           <h1>Стартовий екран</h1>
           <Box marginTop={4} textAlign={"center"}>
-            <Box
-              display={"flex"}
-              flexDirection="column"
-              justifyContent={"center"}
-              gap={2}
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
             >
-              <Box display={"flex"} gap={2}>
-                <TextField
-                  value={login}
-                  onChange={({ target }) => setLogin(target.value)}
-                  label="Логін"
-                />
-                <TextField
-                  value={password}
-                  onChange={({ target }) => setPassword(target.value)}
-                  label="Пароль"
-                  type="password"
-                />
+              <Box
+                display={"flex"}
+                flexDirection="column"
+                justifyContent={"center"}
+                gap={2}
+              >
+                <Box display={"flex"} gap={2}>
+                  <TextField
+                    value={login}
+                    onChange={({ target }) => setLogin(target.value)}
+                    label="Логін"
+                  />
+                  <TextField
+                    value={password}
+                    onChange={({ target }) => setPassword(target.value)}
+                    label="Пароль"
+                    type="password"
+                  />
+                </Box>
+                <Box>
+                  <Button
+                    onClick={loginUser}
+                    disabled={!password || !login}
+                    variant="contained"
+                    type="submit"
+                  >
+                    Увійти
+                  </Button>
+                </Box>
               </Box>
-              <Box>
-                <Button
-                  onClick={loginUser}
-                  disabled={!password || !login}
-                  variant="contained"
-                >
-                  Увійти
-                </Button>
-              </Box>
-            </Box>
+            </form>
           </Box>
         </>
       ) : (

@@ -41,6 +41,8 @@ const {
   getStudentsByCourse,
   createUser,
   loginUser,
+  getAllUsers,
+  logoutUser,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -116,9 +118,11 @@ app.whenReady().then(async () => {
   ipcMain.handle("isMongouseConnected", apiMidlvare(isMongouseConnected));
   ipcMain.handle("createUser", apiMidlvare(createUser));
   ipcMain.handle("loginUser", apiMidlvare(loginUser));
+  ipcMain.handle("getAllUsers", apiMidlvare(getAllUsers));
 });
 
 app.on("window-all-closed", async () => {
+  await logoutUser();
   await mongoose.disconnect();
   if (process.platform !== "darwin") app.quit();
 });

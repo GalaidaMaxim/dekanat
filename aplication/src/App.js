@@ -33,6 +33,7 @@ import { CreateUser } from "./pages/CreateUser.jsx";
 import { enable, disable, setDBConnected, resetUser } from "./redux/slices";
 import { useDispatch } from "react-redux";
 import { useUserType } from "./redux/selector";
+import { UserList } from "./pages/UserList.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -67,10 +68,15 @@ function App() {
     const onMongouseSetup = () => {
       setmdDialog(true);
     };
-
+    const logountUser = () => {
+      dispatch(resetUser());
+    };
     window.mainApi.addListener("openMongouseSetup", onMongouseSetup);
+    window.mainApi.addListener("logoutUser", logountUser);
+
     return () => {
       window.mainApi.removeListener("openMongouseSetup", onMongouseSetup);
+      window.mainApi.removeListener("logoutUser", logountUser);
     };
   }, []);
 
@@ -165,13 +171,6 @@ function App() {
               >
                 Навчальні плани
               </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => dispatch(resetUser(""))}
-              >
-                На стартовий екран
-              </Button>
             </Box>
             <Button
               sx={{
@@ -247,6 +246,7 @@ function App() {
                   element={<CreateTotalMartReport />}
                   path="totalMarkReport"
                 />
+                <Route element={<UserList />} path="userList" />
               </Routes>
             </Box>
           </Paper>

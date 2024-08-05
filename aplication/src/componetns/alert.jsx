@@ -13,9 +13,9 @@ export const AlertMy = () => {
       console.log("hide");
       dispatch(hide());
     }, 3000);
-  }, []);
+  }, [dispatch]);
   return (
-    <Box zIndex={1000} position={"Fixed"} top={0} right={50}>
+    <Box zIndex={4000} position={"Fixed"} top={0} right={50}>
       <Alert severity={alert.type}>
         {alert.title && <AlertTitle>{alert.title}</AlertTitle>}
         {alert.text}

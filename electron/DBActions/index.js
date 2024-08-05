@@ -22,6 +22,8 @@ const getStudentsByCourse = require("./getStudentByCourse");
 const chageDBToNextYear = require("./chageDBToNextYear");
 const createUser = require("./createUser");
 const loginUser = require("./loginUser");
+const logoutUser = require("./logoutUser");
+const getAllUsers = require("./getAllUsers");
 
 module.exports = {
   deleteStudent,
@@ -48,4 +50,6 @@ module.exports = {
   chageDBToNextYear,
   createUser,
   loginUser,
+  logoutUser,
+  getAllUsers,
 };
