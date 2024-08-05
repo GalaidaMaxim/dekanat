@@ -43,7 +43,6 @@ export const AdminActions = () => {
       await window.mainApi.invokeMain("getAllStudents")
     );
     for (let i = 0; i < allStudents.length; i++) {
-      const year = getStartYear(allStudents[i].course);
       await window.mainApi.invokeMain("updateStudent", {
         id: allStudents[i]._id,
         info: {
@@ -80,6 +79,9 @@ export const AdminActions = () => {
         </Button>
         <Button onClick={() => updateStatus()} variant="contained">
           Update status
+        </Button>
+        <Button onClick={() => navigate("/create_user")} variant="contained">
+          Створити користувача
         </Button>
       </Box>
     </Box>

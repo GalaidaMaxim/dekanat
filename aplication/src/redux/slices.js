@@ -115,6 +115,32 @@ export const courseSlice = createSlice({
   },
 });
 
+export const UserSlice = createSlice({
+  name: "user",
+  initialState: {
+    name: "",
+    sername: "",
+    login: "",
+    _id: "",
+    premissions: "",
+  },
+  reducers: {
+    setUser: (state, { payload }) => {
+      state._id = payload._id;
+      state.name = payload.name;
+      state.sername = payload.name;
+      state.premissions = payload.premissions;
+    },
+    resetUser: (state) => {
+      state._id = "";
+      state.login = "";
+      state.sername = "";
+      state.premissions = "";
+      state.name = "";
+    },
+  },
+});
+
 export const { enable, disable } = loaderSlice.actions;
 export const { show, hide } = alertSlice.actions;
 export const { enableAlertAction, confirmAlertAction, cancelAlertAction } =
@@ -123,3 +149,4 @@ export const { setForeigner } = foreignerSlice.actions;
 export const { setSemester } = semesterSlice.actions;
 export const { setCourse } = courseSlice.actions;
 export const { setUpdated, setDBConnected } = connectionSlice.actions;
+export const { setUser, resetUser } = UserSlice.actions;

@@ -1,12 +1,14 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { disable, enable, setUpdated } from "../redux/slices";
+import { disable, enable, setUpdated, show, setUser } from "../redux/slices";
 import { useDBConnected, useUpdated } from "../redux/selector";
 
 export const LaounchWindow = ({ setType }) => {
   const navigate = useNavigate();
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
   const dbConnected = useDBConnected();
   const updated = useUpdated();
   const dispatch = useDispatch();
@@ -26,6 +28,26 @@ export const LaounchWindow = ({ setType }) => {
     });
     dispatch(disable());
   }, [dbConnected, dispatch]);
+
+  const loginUser = async () => {
+    dispatch(enable());
+    const user = JSON.parse(
+      await window.mainApi.invokeMain("loginUser", { login, password })
+    );
+    console.log(user);
+    if (!user) {
+      dispatch(
+        show({
+          text: "Перевірте дані",
+          title: "Помилка входу",
+          type: "warning",
+        })
+      );
+    } else {
+      dispatch(setUser(user));
+    }
+    dispatch(disable());
+  };
 
   return (
     <Box
@@ -47,21 +69,35 @@ export const LaounchWindow = ({ setType }) => {
       ) : updated ? (
         <>
           <h1>Стартовий екран</h1>
-          <Box textAlign={"center"}>
-            <p>увійти як: </p>
-            <Box display={"flex"} justifyContent={"center"} gap={2}>
-              <Button
-                onClick={() => {
-                  setType("User");
-                  navigate("/plans");
-                }}
-                variant="contained"
-              >
-                Користувач
-              </Button>
-              <Button onClick={() => setType("Developer")} variant="outlined">
-                Розробник
-              </Button>
+          <Box marginTop={4} textAlign={"center"}>
+            <Box
+              display={"flex"}
+              flexDirection="column"
+              justifyContent={"center"}
+              gap={2}
+            >
+              <Box display={"flex"} gap={2}>
+                <TextField
+                  value={login}
+                  onChange={({ target }) => setLogin(target.value)}
+                  label="Логін"
+                />
+                <TextField
+                  value={password}
+                  onChange={({ target }) => setPassword(target.value)}
+                  label="Пароль"
+                  type="password"
+                />
+              </Box>
+              <Box>
+                <Button
+                  onClick={loginUser}
+                  disabled={!password || !login}
+                  variant="contained"
+                >
+                  Увійти
+                </Button>
+              </Box>
             </Box>
           </Box>
         </>

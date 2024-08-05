@@ -37,3 +37,7 @@ export const useSetupReady = () => {
     (state) => state.connection.dbConnected && state.connection.updated
   );
 };
+
+export const useUserType = () => {
+  return useSelector((state) => state.user.premissions);
+};

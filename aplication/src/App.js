@@ -29,15 +29,17 @@ import { DebitReport } from "./pages/DebitReport.jsx";
 import { ErrorLog } from "./pages/ErrorLog.jsx";
 import { CreateTotalMartReport } from "./pages/CreateToalMarkReport.jsx";
 import { MongouseDataDialog } from "./componetns/MongpuseDataDialog.jsx";
-import { enable, disable, setDBConnected } from "./redux/slices";
+import { CreateUser } from "./pages/CreateUser.jsx";
+import { enable, disable, setDBConnected, resetUser } from "./redux/slices";
 import { useDispatch } from "react-redux";
+import { useUserType } from "./redux/selector";
 
 function App() {
   const navigate = useNavigate();
   const loading = useLoading();
   const alert = useAlert();
   const alertAction = useAlertAction();
-  const [type, setType] = useState(null);
+  const type = useUserType();
   const [mdDialog, setmdDialog] = useState(false);
   const scrolDivRev = useRef(null);
   const dispatch = useDispatch();
@@ -77,7 +79,7 @@ function App() {
       {alert.enable && <AlertMy />}
       {alertAction.enable && <ActionAlert />}
       <Box sx={{ display: "flex" }}>
-        {!type && <LaounchWindow setType={setType} />}
+        {!type && <LaounchWindow />}
         {mdDialog && <MongouseDataDialog back={() => setmdDialog(false)} />}
         <Box
           className="noPrint"
@@ -96,7 +98,7 @@ function App() {
             minHeight={"80vh"}
           >
             <Box padding={1} display={"flex"} flexDirection={"column"} gap={1}>
-              {type === "Developer" && (
+              {type === "admin" && (
                 <>
                   <Button
                     fullWidth
@@ -166,7 +168,7 @@ function App() {
               <Button
                 fullWidth
                 variant="outlined"
-                onClick={() => setType(null)}
+                onClick={() => dispatch(resetUser(""))}
               >
                 На стартовий екран
               </Button>
@@ -217,6 +219,7 @@ function App() {
                 <Route element={<DebitReport />} path="/debitReport" />
                 <Route element={<EditStudent />} path="/edit_student/:id" />
                 <Route element={<ErrorLog />} path="/errors" />
+                <Route element={<CreateUser />} path="create_user" />
                 <Route
                   element={<CreateEducationPlan />}
                   path="/educationPlan"

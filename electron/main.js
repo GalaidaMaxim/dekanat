@@ -39,6 +39,8 @@ const {
   deleteSubject,
   getSubejctsByEducationPlan,
   getStudentsByCourse,
+  createUser,
+  loginUser,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -112,6 +114,8 @@ app.whenReady().then(async () => {
   );
   ipcMain.handle("connectMongouse", apiMidlvare(connectMongouse));
   ipcMain.handle("isMongouseConnected", apiMidlvare(isMongouseConnected));
+  ipcMain.handle("createUser", apiMidlvare(createUser));
+  ipcMain.handle("loginUser", apiMidlvare(loginUser));
 });
 
 app.on("window-all-closed", async () => {
