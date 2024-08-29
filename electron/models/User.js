@@ -30,6 +30,10 @@ const UserSchema = new Schema({
     type: Number,
     default: 0,
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = model("user", UserSchema);

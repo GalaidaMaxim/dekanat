@@ -24,6 +24,8 @@ const createUser = require("./createUser");
 const loginUser = require("./loginUser");
 const logoutUser = require("./logoutUser");
 const getAllUsers = require("./getAllUsers");
+const editUser = require("./editUser");
+const deleteUser = require("./deleteUser");
 
 module.exports = {
   deleteStudent,
@@ -52,4 +54,6 @@ module.exports = {
   loginUser,
   logoutUser,
   getAllUsers,
+  editUser,
+  deleteUser,
 };

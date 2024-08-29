@@ -18,4 +18,5 @@ module.exports = async () => {
     }
     await students[i].save();
   }
+  console.log("Process done, chage to next year");
 };

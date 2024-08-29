@@ -10,7 +10,12 @@ module.exports = async ({ login, password }) => {
   if (!checkPassword(password, user.password)) {
     return null;
   }
-  user.lastLoginTime = Date.now();
+  if (!user.active) {
+    return null;
+  }
+  const time = Date.now();
+  user.lastLoginTime = time;
+  user.lastLogoutTime = time;
   process.userId = user._id;
   await user.save();
   createAppMenu();

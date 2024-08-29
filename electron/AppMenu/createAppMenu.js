@@ -2,8 +2,6 @@ const { Menu, MenuItem } = require("electron");
 const logoutUser = require("../DBActions/logoutUser");
 
 const createAppMenu = () => {
-  console.log(process.userId);
-
   const menu = Menu.buildFromTemplate([
     new MenuItem({
       label: "Користувач",

@@ -19,9 +19,6 @@ import { ForeignerSelector } from "../componetns/foreignerSelector";
 import { useForeigner } from "../redux/selector";
 import { useSemester } from "../redux/selector";
 import { useCource } from "../redux/selector";
-import { calculateAvarage } from "../serivce/calculateAvarage";
-import { createStudentShortName } from "../serivce/createStudentShortName";
-import { calculateWithRedelivery } from "../serivce/calculateAvarage";
 
 export const CreateSummaryReport = () => {
   const [depID, setDepID] = useState("");

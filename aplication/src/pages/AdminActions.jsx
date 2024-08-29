@@ -33,8 +33,9 @@ export const AdminActions = () => {
   };
 
   const toNextYear = async () => {
-    dispatch(enable());
+    // dispatch(enable());
     await window.mainApi.invokeMain("chageDBToNextYear");
+    // dispatch(disable());
   };
 
   const updateStatus = async () => {

@@ -21,6 +21,14 @@ const semester = new Schema({
     type: Boolean,
     default: false,
   },
+  chageDate: {
+    type: Number,
+    default: null,
+  },
+  lastChanger: {
+    type: Schema.Types.ObjectId,
+    ref: "user",
+  },
 });
 
 const SubjectSchema = new Schema({

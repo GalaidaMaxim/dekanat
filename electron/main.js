@@ -29,7 +29,6 @@ const {
   getEducationPlan,
   getSubjectByID,
   getVersion,
-  chageDBToNextYear,
 } = require("./API");
 
 const {
@@ -43,6 +42,8 @@ const {
   loginUser,
   getAllUsers,
   logoutUser,
+  editUser,
+  chageDBToNextYear,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -119,6 +120,7 @@ app.whenReady().then(async () => {
   ipcMain.handle("createUser", apiMidlvare(createUser));
   ipcMain.handle("loginUser", apiMidlvare(loginUser));
   ipcMain.handle("getAllUsers", apiMidlvare(getAllUsers));
+  ipcMain.handle("editUser", apiMidlvare(editUser));
 });
 
 app.on("window-all-closed", async () => {
