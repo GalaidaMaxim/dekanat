@@ -103,6 +103,18 @@ export const semesterSlice = createSlice({
   },
 });
 
+export const statusSlice = createSlice({
+  name: "status",
+  initialState: {
+    value: "Всі",
+  },
+  reducers: {
+    setStatus: (state, { payload }) => {
+      state.value = payload;
+    },
+  },
+});
+
 export const courseSlice = createSlice({
   name: "course",
   initialState: {
@@ -150,3 +162,4 @@ export const { setSemester } = semesterSlice.actions;
 export const { setCourse } = courseSlice.actions;
 export const { setUpdated, setDBConnected } = connectionSlice.actions;
 export const { setUser, resetUser } = UserSlice.actions;
+export const { setStatus } = statusSlice.actions;

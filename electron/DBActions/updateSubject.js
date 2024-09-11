@@ -56,7 +56,10 @@ const updateSubject = async ({
     if (!result) {
       return null;
     }
-    const students = await Students.find({ educationPlan: plan._id });
+    const students = await Students.find({
+      educationPlan: plan._id,
+      status: "навчається",
+    });
     students.forEach(async (student) => {
       for (let i = 0; i < student.subjects.length; i++) {
         if (student.subjects[i]._id.toString() === result._id.toString()) {

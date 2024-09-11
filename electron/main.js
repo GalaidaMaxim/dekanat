@@ -18,7 +18,6 @@ const {
   getDepartments,
   createStudent,
   getStudentByDepartment,
-  getAllStudents,
   getStudentById,
   updateSubject,
   createSubject,
@@ -44,6 +43,7 @@ const {
   logoutUser,
   editUser,
   chageDBToNextYear,
+  getAllStudents,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -82,7 +82,7 @@ app.whenReady().then(async () => {
   ipcMain.handle("getDeparments", getDepartments);
   ipcMain.handle("createStudent", createStudent);
   ipcMain.handle("getStudentByDepartment", getStudentByDepartment);
-  ipcMain.handle("getAllStudents", getAllStudents);
+  ipcMain.handle("getAllStudents", apiMidlvare(getAllStudents));
   ipcMain.handle("getStudentById", getStudentById);
   ipcMain.handle("createSubject", createSubject);
   ipcMain.handle("getSubjecByDepartment", getSubjecByDepartment);

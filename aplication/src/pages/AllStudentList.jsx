@@ -8,6 +8,7 @@ import {
   TableContainer,
   Paper,
   Box,
+  Pagination,
   Grid,
   MenuItem,
   FormControl,
@@ -21,30 +22,39 @@ import { CiCirclePlus } from "react-icons/ci";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { enable, disable, show } from "../redux/slices";
+import { StatusSelector } from "../componetns/StatusSelector";
+import { useStatus } from "../redux/selector";
 
 export const AllStudentList = () => {
   const dispatch = useDispatch();
   const [students, setStudents] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
+  const status = useStatus();
 
   const [course, setCourse] = useState("Всі");
   const [level, setLevel] = useState("Всі");
   const [department, setDepartment] = useState("Всі");
   const [depList, setDepList] = useState([]);
   const [foreigner, setForeigner] = useState(false);
+  const [page, setPage] = useState(1);
+  const [countOpPages, setCountOfPages] = useState(1);
 
   useEffect(() => {
     dispatch(enable());
+    const params = {};
+    if (status !== "Всі") {
+      params.status = status;
+    }
     window.mainApi
-      .invokeMain("getAllStudents")
-      .then((students) => {
-        if (!students) {
+      .invokeMain("getAllStudents", { page, params })
+      .then((info) => {
+        if (!info) {
           dispatch(show({ text: "помилка завантаження", type: "warning" }));
           return;
         }
-        let studentsArr = JSON.parse(students);
-        if (!students) {
+        let { studentsArr, limit, totalStudents } = JSON.parse(info);
+        if (!info) {
           return;
         }
         if (course !== "Всі") {
@@ -61,6 +71,7 @@ export const AllStudentList = () => {
 
         studentsArr.sort((a, b) => a.sername.localeCompare(b.sername));
         setStudents(studentsArr.filter((item) => item.foreigner === foreigner));
+        setCountOfPages(Math.ceil(totalStudents / limit) + 1);
       })
       .finally(() => {
         dispatch(disable());
@@ -68,7 +79,10 @@ export const AllStudentList = () => {
     window.mainApi.invokeMain("getDeparments").then((result) => {
       setDepList(JSON.parse(result));
     });
-  }, [dispatch, course, level, department, foreigner]);
+  }, [dispatch, course, level, department, foreigner, page, status]);
+  const paginationHandle = (event, value) => {
+    setPage(value);
+  };
 
   return (
     <Box>
@@ -117,6 +131,9 @@ export const AllStudentList = () => {
               ))}
             </Select>
           </FormControl>
+        </Grid>
+        <Grid xs={2}>
+          <StatusSelector />
         </Grid>
         <Box>
           <FormControlLabel
@@ -170,6 +187,13 @@ export const AllStudentList = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Box>
+        <Pagination
+          page={page}
+          count={countOpPages}
+          onChange={paginationHandle}
+        />
+      </Box>
     </Box>
   );
 };

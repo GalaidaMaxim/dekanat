@@ -24,6 +24,10 @@ export const useCource = () => {
   return useSelector((state) => state.course.value);
 };
 
+export const useStatus = () => {
+  return useSelector((state) => state.status.value);
+};
+
 export const useDBConnected = () => {
   return useSelector((state) => state.connection.dbConnected);
 };
