@@ -43,6 +43,7 @@ export const AllStudentList = () => {
   useEffect(() => {
     dispatch(enable());
     const params = {};
+    params.foreigner = foreigner;
     if (status !== "Всі") {
       params.status = status;
     }
@@ -70,7 +71,7 @@ export const AllStudentList = () => {
         }
 
         studentsArr.sort((a, b) => a.sername.localeCompare(b.sername));
-        setStudents(studentsArr.filter((item) => item.foreigner === foreigner));
+        setStudents(studentsArr);
         setCountOfPages(Math.ceil(totalStudents / limit) + 1);
       })
       .finally(() => {

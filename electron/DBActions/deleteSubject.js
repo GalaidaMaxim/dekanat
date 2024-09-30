@@ -1,4 +1,4 @@
-const { Subjects, Students } = require("../models");
+const { Subjects, Students, createAction } = require("../models");
 
 module.exports = async ({ subjectId }) => {
   try {
@@ -19,6 +19,11 @@ module.exports = async ({ subjectId }) => {
       }
     });
     students.forEach(async (item) => await item.save());
+
+    await createAction({
+      info: JSON.stringify({ subjectId }),
+      type: "deleteSubject",
+    });
     return subject;
   } catch (err) {
     console.log(err);

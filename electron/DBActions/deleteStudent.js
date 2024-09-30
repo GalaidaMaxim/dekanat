@@ -1,4 +1,4 @@
-const { Students } = require("../models");
+const { Students, createAction } = require("../models");
 
 module.exports = async ({ id }) => {
   try {
@@ -6,6 +6,10 @@ module.exports = async ({ id }) => {
     if (!result) {
       return null;
     }
+    await createAction({
+      info: JSON.stringify({ id }),
+      type: "deleteStudent",
+    });
     return result;
   } catch (err) {
     console.log(err);

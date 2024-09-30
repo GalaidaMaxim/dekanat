@@ -69,6 +69,23 @@ const updateSubject = async ({
       }
       await student.save();
     });
+    await createAction({
+      info: JSON.stringify({
+        id,
+        name,
+        code,
+        department,
+        level,
+        credits,
+        semesters,
+        gos,
+        mandatory,
+        special,
+        educationPlan,
+        aditionalSpecialityName,
+      }),
+      type: "editUser",
+    });
     return result;
   } catch (err) {
     console.log(err);

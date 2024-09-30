@@ -4,6 +4,7 @@ const EducationPlan = require("./EducationPlan");
 const { Subjects } = require("./Subject");
 const Version = require("./Verision");
 const User = require("./User");
+const { Action, createAction } = require("./Action");
 module.exports = {
   Departments,
   Students,
@@ -11,4 +12,6 @@ module.exports = {
   EducationPlan,
   Version,
   User,
+  Action,
+  createAction,
 };
