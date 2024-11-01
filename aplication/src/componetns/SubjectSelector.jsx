@@ -1,5 +1,7 @@
 import { TextField, Autocomplete } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { enable, disable } from "../redux/slices";
 
 export const SubjectSelector = ({
   educationPlan,
@@ -11,11 +13,13 @@ export const SubjectSelector = ({
   const [subjects, setSubjects] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!educationPlan || !department || !semester) {
       return;
     }
+    dispatch(enable());
     window.mainApi
       .invokeMain("getSubjecByDepartment", {
         educationPlan,
@@ -35,8 +39,11 @@ export const SubjectSelector = ({
           });
         console.log(sb);
         setSubjects(sb);
+      })
+      .finally(() => {
+        dispatch(disable());
       });
-  }, [department, educationPlan, semester]);
+  }, [department, dispatch, educationPlan, semester]);
   useEffect(() => {
     if (!value || !department || !educationPlan) {
       return;

@@ -9,6 +9,7 @@ module.exports = async ({
       educationPlan,
       department,
     });
+
     if (nameCollapce) {
       subjects = subjects.map((subject) => {
         const codeSplit = subject.code.split(".");
@@ -16,7 +17,9 @@ module.exports = async ({
           const baseSubject = subjects.find(
             (item) => item.code === codeSplit[0] + "." + codeSplit[1]
           );
-          subject.name = baseSubject.name + " " + subject.name;
+          if (baseSubject) {
+            subject.name = baseSubject.name + " " + subject.name;
+          }
         }
         return subject;
       });

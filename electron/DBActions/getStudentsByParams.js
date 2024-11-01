@@ -15,6 +15,16 @@ module.exports = async ({
       course: Number.parseInt(course),
       status,
     });
+    console.log({
+      level,
+      department,
+      educationPlan,
+      course: Number.parseInt(course),
+      status,
+    });
+
+    console.log(students);
+
     return students;
   } catch (err) {
     console.log(err);

@@ -14,6 +14,7 @@ import { useSemester } from "../redux/selector";
 import { useCource } from "../redux/selector";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { enable, disable } from "../redux/slices";
 
 export const CreateStatemntDocument = () => {
   const [level, setLevel] = useState("");
@@ -32,8 +33,6 @@ export const CreateStatemntDocument = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(filePath);
-
   const onNavigate = () => {
     navigate("/fill_statement", {
       state: {
@@ -49,6 +48,7 @@ export const CreateStatemntDocument = () => {
     if (!level || !depID || !cource || !subjectID || !planID) {
       return;
     }
+    dispatch(enable());
     window.mainApi
       .invokeMain("getStudentsByParams", {
         level,
@@ -72,6 +72,9 @@ export const CreateStatemntDocument = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        dispatch(disable());
       });
   }, [level, planID, depID, cource, subjectID, dispatch, foreginer]);
 
