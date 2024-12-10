@@ -47,6 +47,15 @@ export const AllStudentList = () => {
     if (status !== "Всі") {
       params.status = status;
     }
+    if (department !== "Всі") {
+      params.department = department;
+    }
+    if (course !== "Всі") {
+      params.course = course;
+    }
+    if (level !== "Всі") {
+      params.level = level;
+    }
     window.mainApi
       .invokeMain("getAllStudents", { page, params })
       .then((info) => {
@@ -58,21 +67,10 @@ export const AllStudentList = () => {
         if (!info) {
           return;
         }
-        if (course !== "Всі") {
-          studentsArr = studentsArr.filter((item) => item.course === course);
-        }
-        if (level !== "Всі") {
-          studentsArr = studentsArr.filter((item) => item.level === level);
-        }
-        if (department !== "Всі") {
-          studentsArr = studentsArr.filter(
-            (item) => item.department.name === department
-          );
-        }
 
         studentsArr.sort((a, b) => a.sername.localeCompare(b.sername));
         setStudents(studentsArr);
-        setCountOfPages(Math.ceil(totalStudents / limit) + 1);
+        setCountOfPages(Math.ceil(totalStudents / limit));
       })
       .finally(() => {
         dispatch(disable());
@@ -93,7 +91,10 @@ export const AllStudentList = () => {
             <InputLabel>Курс</InputLabel>
             <Select
               value={course}
-              onChange={(event) => setCourse(event.target.value)}
+              onChange={(event) => {
+                setCourse(event.target.value);
+                setPage(1);
+              }}
               label="відділення"
             >
               <MenuItem value={"Всі"}>Всі</MenuItem>
@@ -109,7 +110,10 @@ export const AllStudentList = () => {
             <InputLabel>ОС</InputLabel>
             <Select
               value={level}
-              onChange={(event) => setLevel(event.target.value)}
+              onChange={(event) => {
+                setLevel(event.target.value);
+                setPage(1);
+              }}
               label="ОС"
             >
               <MenuItem value={"Всі"}>Всі</MenuItem>
@@ -123,12 +127,15 @@ export const AllStudentList = () => {
             <InputLabel>Відділення</InputLabel>
             <Select
               value={department}
-              onChange={(event) => setDepartment(event.target.value)}
+              onChange={(event) => {
+                setDepartment(event.target.value);
+                setPage(1);
+              }}
               label="Відділення"
             >
               <MenuItem value={"Всі"}>Всі</MenuItem>
               {depList.map((item) => (
-                <MenuItem value={item.name}>{item.name}</MenuItem>
+                <MenuItem value={item._id}>{item.name}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -141,7 +148,10 @@ export const AllStudentList = () => {
             label="Іноземець"
             value={foreigner}
             checked={foreigner}
-            onChange={() => setForeigner((prev) => !prev)}
+            onChange={() => {
+              setForeigner((prev) => !prev);
+              setPage(1);
+            }}
             control={<Switch />}
           />
         </Box>
