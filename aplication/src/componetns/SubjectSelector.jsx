@@ -48,6 +48,8 @@ export const SubjectSelector = ({
     if (!value || !department || !educationPlan) {
       return;
     }
+    console.log("Value id", value._id);
+
     setSubjectID(value._id);
   }, [value, educationPlan, department, setSubjectID, subjects]);
   console.log(subjectID);
@@ -57,7 +59,6 @@ export const SubjectSelector = ({
       disabled={educationPlan === ""}
       value={value}
       onChange={(event, newValue) => {
-        console.log(newValue);
         setValue(newValue);
       }}
       getOptionKey={(option) => option._id}

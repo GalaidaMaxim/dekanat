@@ -27,8 +27,13 @@ export const calculateAvarage = (subjectList, semester, contract) => {
     ) {
       avarageCount++;
       average += Number.parseInt(item.semesters[semester - 1].mark);
+      if (isNaN(average)) {
+        console.log(item.name);
+      }
     }
   });
+
+  console.log(average, avarageCount);
 
   return roundTo(average / avarageCount, 2) + (contract ? " контракт" : "");
 };

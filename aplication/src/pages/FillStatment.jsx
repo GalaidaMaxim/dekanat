@@ -59,7 +59,7 @@ export const FillStatment = () => {
     return (event) => {
       setStudents((prev) => {
         const obj = JSON.parse(JSON.stringify(prev));
-        obj[index].subjects.find((item) => item.name === name).semesters[
+        obj[index].subjects.find((item) => item._id === name).semesters[
           semester - 1
         ].mark = event.target.value;
         return obj;
@@ -112,9 +112,9 @@ export const FillStatment = () => {
               <TableCell>
                 {subject.semesters[semester - 1].assessmentType !== 1 ? (
                   <TextField
-                    onChange={markChageHandle(index, subject.name)}
+                    onChange={markChageHandle(index, subject._id)}
                     value={
-                      student.subjects.find((i) => i.name === subject.name)
+                      student.subjects.find((i) => i._id === subject._id)
                         .semesters[semester - 1].mark || ""
                     }
                     size="small"

@@ -34,6 +34,8 @@ export const CreateStatemntDocument = () => {
   const location = useLocation();
 
   const onNavigate = () => {
+    console.log(subjectID);
+
     navigate("/fill_statement", {
       state: {
         from: location.pathname,
@@ -106,6 +108,7 @@ export const CreateStatemntDocument = () => {
       setFilePath(result);
     });
   };
+  console.log(subjectID, "in fact");
 
   return (
     <Box>
