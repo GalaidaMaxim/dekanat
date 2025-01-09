@@ -30,7 +30,7 @@ export const CreateTotalMartReport = () => {
     if (!depID || sesionType === null) {
       return;
     }
-    const sesioTypeBool = "Літня" ? true : false;
+    const sesioTypeBool = sesionType === "Літня" ? true : false;
     (async () => {
       dispatch(enable());
       let studentsRes = await window.mainApi.invokeMain(
@@ -47,7 +47,11 @@ export const CreateTotalMartReport = () => {
           student.foreigner === foreigner &&
           student.level === level
       );
+      console.log(sesioTypeBool, sesionType);
+
       if (sesioTypeBool) {
+        console.log("here");
+
         studentsRes = studentsRes.filter((student) => student.course !== 4);
       }
       studentsRes.sort((a, b) => a.course - b.course);
