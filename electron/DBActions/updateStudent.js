@@ -8,11 +8,6 @@ module.exports = async (id, info) => {
     if (!result) {
       return null;
     }
-
-    await createAction({
-      info: JSON.stringify({ id, info }),
-      type: "updateStudent",
-    });
     return result;
   } catch (err) {
     console.log(err);
