@@ -1,6 +1,6 @@
 const PizZip = require("pizzip");
 const Docxtemplater = require("docxtemplater");
-const { Subjects, Departments } = require("../models");
+const { Subjects, Departments, Facultet } = require("../models");
 
 const fs = require("fs");
 const path = require("path");
@@ -27,6 +27,8 @@ module.exports = async (
     teacher = "",
     decan = "",
     filePath = "output.docx",
+    facultet,
+    remoteType,
   }
 ) => {
   // Load the docx file as binary content
@@ -34,7 +36,8 @@ module.exports = async (
     path.resolve(__dirname, "templates", "statmenTemplate.docx"),
     "binary"
   );
-
+  fc = (await Facultet.findById(facultet)).name.toUpperCase();
+  rtp = remoteType === "online" ? "ЗАОЧНЕ ВІДДІЛЕННЯ" : "ДЕННЕ ВІДДІЛЕННЯ";
   OOP = (await Departments.findById(OOP)).fullName;
   OOP = capitalizeFirstLetter(OOP);
   subject = await Subjects.findById(subject);
@@ -87,6 +90,8 @@ module.exports = async (
     teacher,
     decan,
     SUBJECT: subject.name,
+    rtp,
+    fc,
   });
 
   const buf = doc.getZip().generate({
