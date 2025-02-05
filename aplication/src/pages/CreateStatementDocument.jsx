@@ -10,11 +10,14 @@ import { SemesterSelector } from "../componetns/SemesterSelector";
 import { ForeginerSelector } from "../componetns/ForeginerSelectror";
 import { useDispatch } from "react-redux";
 import { show } from "../redux/slices";
-import { useSemester } from "../redux/selector";
+import { useRemoteType, useSemester } from "../redux/selector";
 import { useCource } from "../redux/selector";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { enable, disable } from "../redux/slices";
+import { FacultetSelector } from "../componetns/FacultetSelector";
+import { useFacultet } from "../redux/selector";
+import { RemoteTypeSelector } from "../componetns/RemoteTypeSelector";
 
 export const CreateStatemntDocument = () => {
   const [level, setLevel] = useState("");
@@ -32,6 +35,8 @@ export const CreateStatemntDocument = () => {
   const semester = useSemester();
   const navigate = useNavigate();
   const location = useLocation();
+  const facultet = useFacultet();
+  const remoteType = useRemoteType();
 
   const onNavigate = () => {
     console.log(subjectID);
@@ -92,6 +97,8 @@ export const CreateStatemntDocument = () => {
         filePath,
         teacher: examenator,
         decan,
+        facultet,
+        remoteType,
       })
       .then(() => {
         dispatch(show({ title: "Відомість створено", type: "success" }));
@@ -153,6 +160,15 @@ export const CreateStatemntDocument = () => {
               department={depID}
               semester={semester}
             />
+          </Box>
+        </Box>
+
+        <Box marginTop={2} display={"flex"} justifyContent={"space-between"}>
+          <Box width={"47%"}>
+            <FacultetSelector />
+          </Box>
+          <Box width={"47%"}>
+            <RemoteTypeSelector />
           </Box>
         </Box>
 

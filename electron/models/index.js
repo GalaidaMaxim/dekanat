@@ -5,6 +5,8 @@ const { Subjects } = require("./Subject");
 const Version = require("./Verision");
 const User = require("./User");
 const { Action, createAction } = require("./Action");
+const Facultet = require("./Facultets");
+
 module.exports = {
   Departments,
   Students,
@@ -14,4 +16,5 @@ module.exports = {
   User,
   Action,
   createAction,
+  Facultet,
 };

@@ -7,7 +7,7 @@ export const loaderSlice = createSlice({
   },
   reducers: {
     enable: (state) => {
-      state.value = true;
+      state.valueFacultetSelector = true;
     },
     disable: (state) => {
       state.value = false;
@@ -127,6 +127,18 @@ export const courseSlice = createSlice({
   },
 });
 
+export const facultetSlice = createSlice({
+  name: "facultet",
+  initialState: {
+    value: "",
+  },
+  reducers: {
+    setFacultet: (state, { payload }) => {
+      state.value = payload;
+    },
+  },
+});
+
 export const UserSlice = createSlice({
   name: "user",
   initialState: {
@@ -153,6 +165,20 @@ export const UserSlice = createSlice({
   },
 });
 
+export const remoteTypeSlice = createSlice({
+  name: "remoteType",
+  initialState: {
+    value: "",
+  },
+  reducers: {
+    setRemoteType: (state, { payload }) => {
+      console.log(payload);
+
+      state.value = payload;
+    },
+  },
+});
+
 export const { enable, disable } = loaderSlice.actions;
 export const { show, hide } = alertSlice.actions;
 export const { enableAlertAction, confirmAlertAction, cancelAlertAction } =
@@ -163,3 +189,5 @@ export const { setCourse } = courseSlice.actions;
 export const { setUpdated, setDBConnected } = connectionSlice.actions;
 export const { setUser, resetUser } = UserSlice.actions;
 export const { setStatus } = statusSlice.actions;
+export const { setFacultet } = facultetSlice.actions;
+export const { setRemoteType } = remoteTypeSlice.actions;

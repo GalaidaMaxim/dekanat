@@ -12,7 +12,7 @@ const ActionSchema = new Schema({
 
 const Action = model("Action", ActionSchema);
 const createAction = async ({ info, type }) => {
-  await Action.create({ date: Date.now(), user: process.userId, info, type });
+  return true;
 };
 
 module.exports = { Action, createAction };

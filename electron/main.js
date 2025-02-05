@@ -44,6 +44,7 @@ const {
   editUser,
   chageDBToNextYear,
   getAllStudents,
+  getFacultets,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -96,6 +97,7 @@ app.whenReady().then(async () => {
   ipcMain.handle("deleteStudent", apiMidlvare(deleteStudent));
   ipcMain.handle("deleteEducationPlan", apiMidlvare(deleteEducationPlan));
   ipcMain.handle("getStudentsByParams", apiMidlvare(getStudentsByParams));
+  ipcMain.handle("getFacultets", apiMidlvare(getFacultets));
   ipcMain.handle("deleteSubject", apiMidlvare(deleteSubject));
   ipcMain.handle("createStatment", createStatment);
   ipcMain.handle("selectFolder", openFolderSelector(mainWindow));

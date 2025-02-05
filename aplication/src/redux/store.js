@@ -9,6 +9,8 @@ import {
   connectionSlice,
   UserSlice,
   statusSlice,
+  facultetSlice,
+  remoteTypeSlice,
 } from "./slices";
 
 export const store = configureStore({
@@ -22,5 +24,7 @@ export const store = configureStore({
     connection: connectionSlice.reducer,
     user: UserSlice.reducer,
     status: statusSlice.reducer,
+    facultet: facultetSlice.reducer,
+    remoteType: remoteTypeSlice.reducer,
   },
 });

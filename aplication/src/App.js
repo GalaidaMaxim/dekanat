@@ -34,6 +34,7 @@ import { enable, disable, setDBConnected, resetUser } from "./redux/slices";
 import { useDispatch } from "react-redux";
 import { useUserType } from "./redux/selector";
 import { UserList } from "./pages/UserList.jsx";
+import { DeparmtsmtsList } from "./pages/DeparmstsList.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ function App() {
       window.mainApi.removeListener("openMongouseSetup", onMongouseSetup);
       window.mainApi.removeListener("logoutUser", logountUser);
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -247,6 +248,7 @@ function App() {
                   path="totalMarkReport"
                 />
                 <Route element={<UserList />} path="userList" />
+                <Route element={<DeparmtsmtsList />} path="/departmentsList" />
               </Routes>
             </Box>
           </Paper>

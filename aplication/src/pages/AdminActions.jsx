@@ -87,6 +87,12 @@ export const AdminActions = () => {
         <Button onClick={() => navigate("/userList")} variant="contained">
           Список коритувачів
         </Button>
+        <Button
+          onClick={() => navigate("/departmentsList")}
+          variant="contained"
+        >
+          Налаштування відділень
+        </Button>
       </Box>
     </Box>
   );

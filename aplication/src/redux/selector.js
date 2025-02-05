@@ -45,3 +45,11 @@ export const useSetupReady = () => {
 export const useUserType = () => {
   return useSelector((state) => state.user.premissions);
 };
+
+export const useFacultet = () => {
+  return useSelector((state) => state.facultet.value);
+};
+
+export const useRemoteType = () => {
+  return useSelector((state) => state.remoteType.value);
+};

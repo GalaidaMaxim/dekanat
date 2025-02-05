@@ -26,6 +26,7 @@ const logoutUser = require("./logoutUser");
 const getAllUsers = require("./getAllUsers");
 const editUser = require("./editUser");
 const deleteUser = require("./deleteUser");
+const getFacultets = require("./getFacultets");
 
 module.exports = {
   deleteStudent,
@@ -56,4 +57,5 @@ module.exports = {
   getAllUsers,
   editUser,
   deleteUser,
+  getFacultets,
 };
