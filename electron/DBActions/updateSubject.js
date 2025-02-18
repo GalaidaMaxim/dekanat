@@ -48,9 +48,11 @@ const updateSubject = async ({
 
       const semesters = student.subjects[index].semesters;
       student.subjects[index] = subject;
-      console.log(subject.department, student.department);
 
-      if (subject.department.toString() !== student.department.toString()) {
+      if (
+        subject.special &&
+        subject.department.toString() !== student.department.toString()
+      ) {
         console.log("fix plan");
 
         student.subjects = student.subjects.filter(

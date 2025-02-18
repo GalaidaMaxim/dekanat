@@ -22,6 +22,7 @@ export const LaounchWindow = ({ setType }) => {
       .invokeMain("getVersion")
       .then((data) => {
         const result = JSON.parse(data);
+        console.log(result);
         if (!result || result.current !== version) {
           dispatch(setUpdated(false));
           return;
