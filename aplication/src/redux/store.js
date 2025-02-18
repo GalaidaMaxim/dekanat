@@ -11,6 +11,7 @@ import {
   statusSlice,
   facultetSlice,
   remoteTypeSlice,
+  yearSlice,
 } from "./slices";
 
 export const store = configureStore({
@@ -26,5 +27,6 @@ export const store = configureStore({
     status: statusSlice.reducer,
     facultet: facultetSlice.reducer,
     remoteType: remoteTypeSlice.reducer,
+    year: yearSlice.reducer,
   },
 });

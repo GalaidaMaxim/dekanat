@@ -172,8 +172,18 @@ export const remoteTypeSlice = createSlice({
   },
   reducers: {
     setRemoteType: (state, { payload }) => {
-      console.log(payload);
+      state.value = payload;
+    },
+  },
+});
 
+export const yearSlice = createSlice({
+  name: "year",
+  initialState: {
+    value: "",
+  },
+  reducers: {
+    setYear: (state, { payload }) => {
       state.value = payload;
     },
   },
@@ -191,3 +201,4 @@ export const { setUser, resetUser } = UserSlice.actions;
 export const { setStatus } = statusSlice.actions;
 export const { setFacultet } = facultetSlice.actions;
 export const { setRemoteType } = remoteTypeSlice.actions;
+export const { setYear } = yearSlice.actions;

@@ -28,6 +28,8 @@ module.exports = async (
     decan = "",
     filePath = "output.docx",
     facultet,
+    number,
+    year,
     remoteType,
   }
 ) => {
@@ -64,6 +66,8 @@ module.exports = async (
     linebreaks: true,
   });
 
+  console.log(number, year);
+
   students = students.map((item, index) => {
     if (item.foreigner) {
       return {
@@ -92,6 +96,8 @@ module.exports = async (
     SUBJECT: subject.name,
     rtp,
     fc,
+    num: number,
+    year,
   });
 
   const buf = doc.getZip().generate({
@@ -103,7 +109,6 @@ module.exports = async (
   const fileName = `${c} ${OOP} ${OS} ${subject.name} ${new Date(
     Date.now()
   ).getFullYear()}.docx`;
-  console.log(fileName);
   // buf is a nodejs Buffer, you can either write it to a
   // file or res.send it with express for example.
 

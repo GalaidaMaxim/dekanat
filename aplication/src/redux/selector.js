@@ -53,3 +53,7 @@ export const useFacultet = () => {
 export const useRemoteType = () => {
   return useSelector((state) => state.remoteType.value);
 };
+
+export const useYear = () => {
+  return useSelector((state) => state.year.value);
+};

@@ -18,6 +18,8 @@ import { enable, disable } from "../redux/slices";
 import { FacultetSelector } from "../componetns/FacultetSelector";
 import { useFacultet } from "../redux/selector";
 import { RemoteTypeSelector } from "../componetns/RemoteTypeSelector";
+import { YearSelector } from "../componetns/YearSelector";
+import { useYear } from "../redux/selector";
 
 export const CreateStatemntDocument = () => {
   const [level, setLevel] = useState("");
@@ -26,6 +28,8 @@ export const CreateStatemntDocument = () => {
   const cource = useCource();
   const [subjectID, setSubjectID] = useState(null);
   const [students, setStudents] = useState([]);
+  const [number, setNumber] = useState("");
+  const year = useYear();
 
   const [filePath, setFilePath] = useState("");
   const [examenator, setExamenator] = useState("");
@@ -39,8 +43,6 @@ export const CreateStatemntDocument = () => {
   const remoteType = useRemoteType();
 
   const onNavigate = () => {
-    console.log(subjectID);
-
     navigate("/fill_statement", {
       state: {
         from: location.pathname,
@@ -99,9 +101,12 @@ export const CreateStatemntDocument = () => {
         decan,
         facultet,
         remoteType,
+        number,
+        year,
       })
       .then(() => {
         dispatch(show({ title: "Відомість створено", type: "success" }));
+        setNumber("");
       })
       .catch(() => {});
   };
@@ -172,6 +177,20 @@ export const CreateStatemntDocument = () => {
           </Box>
         </Box>
 
+        <Box marginTop={2} display={"flex"} justifyContent={"space-between"}>
+          <Box width={"47%"}>
+            <TextField
+              fullWidth
+              label={"Номер"}
+              value={number}
+              onChange={({ target }) => setNumber(target.value)}
+            />
+          </Box>
+          <Box width={"47%"}>
+            <YearSelector />
+          </Box>
+        </Box>
+
         <Box display={"flex"} justifyContent={"space-between"} mt={2}>
           <Box width={"47%"}>
             <TextField
@@ -214,7 +233,9 @@ export const CreateStatemntDocument = () => {
               !semester ||
               !decan ||
               !examenator ||
-              !filePath
+              !filePath ||
+              !year ||
+              !number
             }
             onClick={createSatement}
             variant="contained"
