@@ -14,6 +14,8 @@ import { useState } from "react";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
 import { LevelSelector } from "../componetns/LevelSelector";
 import { PlanSelector } from "../componetns/PlanSelector";
+import { RemoteTypeSelector } from "../componetns/RemoteTypeSelector";
+import { useRemoteType } from "../redux/selector";
 
 export const CreateStudent = () => {
   const [name, setName] = useState("");
@@ -24,6 +26,7 @@ export const CreateStudent = () => {
   const [course, setCourse] = useState(1);
   const [planID, setPlanID] = useState("");
   const [foreigner, setForeigner] = useState(false);
+  const remoteType = useRemoteType();
 
   const reset = () => {
     setName("");
@@ -45,6 +48,7 @@ export const CreateStudent = () => {
       educationPlan: planID.toString(),
       foreigner,
       startYear,
+      remoteType,
     };
     const result = await window.mainApi.invokeMain("createStudent", student);
     if (result) {
@@ -106,6 +110,9 @@ export const CreateStudent = () => {
                 <MenuItem value={4}>4</MenuItem>
               </Select>
             </FormControl>
+          </Grid>
+          <Grid item xs={4}>
+            <RemoteTypeSelector />
           </Grid>
           <Grid item xs={6}>
             <PlanSelector setPlanID={setPlanID} planID={planID} level={level} />

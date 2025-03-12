@@ -67,6 +67,11 @@ const StudentSchema = new Schema({
     type: String,
   },
   subjects: [SubjectSchema],
+  remoteType: {
+    type: String,
+    enum: ["ofline", "online"],
+    default: "ofline",
+  },
 });
 
 module.exports = model("student", StudentSchema);

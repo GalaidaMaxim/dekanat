@@ -142,7 +142,7 @@ function App() {
                 variant="outlined"
                 onClick={() => navigate("/")}
               >
-                Відділення
+                Профілізація
               </Button>
               <Button
                 fullWidth

@@ -18,6 +18,18 @@ import { enable, disable } from "../redux/slices";
 import { useDispatch } from "react-redux";
 import { useSemester } from "../redux/selector";
 
+const remapSubject = (subjects, sLow = 1, sHigh = 1) => {
+  return subjects.map((item) => ({
+    sLow: item.semesters[sLow - 1].include ? sLow : "",
+    sHigh: item.semesters[sHigh - 1].include ? sHigh : "",
+    name: item.name,
+    _id: item._id,
+    spec: item.code.charAt(0) === "3" ? item.aditionalSpecialityName : "",
+    students: [],
+    specStudents: [],
+  }));
+};
+
 const RenderCell = ({
   spec = true,
   firstItem = "",
@@ -98,7 +110,7 @@ export const CreateSelectubleSubjectReport = () => {
     }
     (async () => {
       dispatch(enable());
-      let subjects = JSON.parse(
+      let subjectsIncome = JSON.parse(
         await window.mainApi.invokeMain("getSubjectsByEducationPlan", {
           educationPlan: planID,
         })
@@ -108,7 +120,7 @@ export const CreateSelectubleSubjectReport = () => {
       const sLow = semester % 2 === 0 ? semester - 1 : semester;
       const sHigh = sLow + 1;
 
-      subjects = subjects.filter(
+      let subjects = subjectsIncome.filter(
         (subject) =>
           subject.semesters[sLow - 1].include ||
           subject.semesters[sHigh - 1].include
@@ -120,17 +132,10 @@ export const CreateSelectubleSubjectReport = () => {
           level,
         })
       );
-      subjects = subjects.map((item) => ({
-        sLow: item.semesters[sLow - 1].include ? sLow : "",
-        sHigh: item.semesters[sHigh - 1].include ? sHigh : "",
-        name: item.name,
-        _id: item._id,
-        spec: item.code.charAt(0) === "3" ? item.aditionalSpecialityName : "",
-        students: [],
-        specStudents: [],
-      }));
+      subjects = remapSubject(subjects, sLow, sHigh);
+      subjectsIncome = remapSubject(subjectsIncome, sLow, sHigh);
 
-      const specs = subjects.reduce((acc, item) => {
+      const specs = subjectsIncome.reduce((acc, item) => {
         if (!item.spec) {
           return acc;
         }
@@ -145,6 +150,8 @@ export const CreateSelectubleSubjectReport = () => {
         });
         return acc;
       }, []);
+      console.log(specs);
+
       students.forEach((student) => {
         subjects.forEach((subject) => {
           if (subject.spec) {

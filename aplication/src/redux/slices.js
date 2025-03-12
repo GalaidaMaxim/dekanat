@@ -168,7 +168,7 @@ export const UserSlice = createSlice({
 export const remoteTypeSlice = createSlice({
   name: "remoteType",
   initialState: {
-    value: "",
+    value: "ofline",
   },
   reducers: {
     setRemoteType: (state, { payload }) => {
