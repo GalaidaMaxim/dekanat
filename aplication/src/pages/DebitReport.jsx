@@ -67,10 +67,10 @@ export const DebitReport = () => {
       <h1>Звіт заборгованостей</h1>
       <Box>
         <Grid container spacing={1}>
-          <Grid item xs={3}>
+          <Grid item size={3}>
             <LevelSelector level={level} setLevel={setLevel} />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item size={3}>
             <DepartmentSelector
               level={level}
               setLevel={setLevel}
@@ -79,11 +79,11 @@ export const DebitReport = () => {
               disabled={!level}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item size={3}>
             <CourseSelector />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item size={6}>
             <PlanSelector
               planID={planID}
               setPlanID={setPlanID}
@@ -91,7 +91,7 @@ export const DebitReport = () => {
               disabled={!level}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item size={3}>
             <SemesterSelector />
           </Grid>
         </Grid>

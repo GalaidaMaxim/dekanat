@@ -211,13 +211,13 @@ export const CreateSelectubleSubjectReport = () => {
     <Box>
       <h2>Звіт по вибірковим предметам</h2>
       <Grid container rowSpacing={2} spacing={2}>
-        <Grid item xs={6}>
+        <Grid item size={6}>
           <LevelSelector level={level} setLevel={setLevel} />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item size={6}>
           <CourseSelector />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item size={6}>
           <PlanSelector
             level={level}
             planID={planID}
@@ -225,10 +225,10 @@ export const CreateSelectubleSubjectReport = () => {
             disabled={!level}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item size={6}>
           <SemesterSelector />
         </Grid>
-        {/* <Grid item xs={6}>
+        {/* <Grid item size={6}>
           <ForeginerSelector />
         </Grid> */}
       </Grid>

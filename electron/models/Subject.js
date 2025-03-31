@@ -41,6 +41,9 @@ const SubjectSchema = new Schema({
     type: String,
     require: true,
   },
+  internalCode: {
+    type: String,
+  },
   educationPlan: {
     type: Schema.Types.ObjectId,
     ref: "educationPlan",

@@ -43,6 +43,7 @@ export const EditSubject = () => {
   ]);
   const [depID, setdepID] = useState("");
   const [code, setCode] = useState("");
+  const [internalCode, setInternalCode] = useState("");
   const [creadits, setCredits] = useState(0);
   const [gos, setGos] = useState(false);
   const [mandatory, setMandatory] = useState(false);
@@ -72,6 +73,7 @@ export const EditSubject = () => {
       setSpesial(subject.special);
       setditionalSpecialityName(subject.aditionalSpecialityName);
       setASN(subject.aditionalSpecialityName);
+      setInternalCode(subject.internalCode);
     });
   }, [id]);
 
@@ -117,6 +119,7 @@ export const EditSubject = () => {
       code,
       educationPlan: plansID.toString(),
       aditionalSpecialityName,
+      internalCode,
     };
 
     dispatch(enable());
@@ -153,6 +156,11 @@ export const EditSubject = () => {
         value={code}
         label="Код"
         onChange={(event) => setCode(event.target.value)}
+      />
+      <TextField
+        value={internalCode}
+        label="Внутрішній код"
+        onChange={(event) => setInternalCode(event.target.value)}
       />
       <Box>
         <h3>Семестри</h3>

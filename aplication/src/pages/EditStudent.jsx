@@ -8,6 +8,7 @@ import {
   Select,
   TextField,
   FormControlLabel,
+  Grid,
 } from "@mui/material";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -15,6 +16,7 @@ import { enable, disable, show, enableAlertAction } from "../redux/slices";
 import { useDispatch } from "react-redux";
 import { MyAcordion } from "../componetns/Acordion";
 import { StudentSubjectList } from "../componetns/StudentSubjectList";
+import { RemoteTypeSelector } from "../componetns/RemoteTypeSelector";
 
 const statusList = [
   "навчається",
@@ -254,49 +256,56 @@ export const EditStudent = () => {
             </FormControl>
           </Box>
         </Box>
-        <Box alignItems={"center"} display={"flex"} gap={20}>
-          <Box>
+        <Grid container rowSpacing={6} alignItems={"center"}>
+          <Grid size={4}>
             <p>відділення: </p>
             <h3>{student.department && student.department.name}</h3>
-          </Box>
-          <Box>
+          </Grid>
+          <Grid size={4}>
             <p>освітній ступінь: </p>
             <h3>{student.level}</h3>
-          </Box>
-          <Box>
+          </Grid>
+          <Grid size={4}>
             <p>курс: </p>
             <h3>{student.course}</h3>
-          </Box>
+          </Grid>
+
           {student.status && (
-            <Box width={"150px"}>
-              <FormControl fullWidth>
-                <InputLabel>Статус</InputLabel>
-                <Select
-                  label={"Cтатус"}
-                  value={student.status}
-                  onChange={onStatusChageg}
-                >
-                  {statusList.map((item) => (
-                    <MenuItem value={item}>{item}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
+            <Grid size={4}>
+              <Box width={"140px"}>
+                <FormControl fullWidth>
+                  <InputLabel>Статус</InputLabel>
+                  <Select
+                    label={"Cтатус"}
+                    value={student.status}
+                    onChange={onStatusChageg}
+                  >
+                    {statusList.map((item) => (
+                      <MenuItem value={item}>{item}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+            </Grid>
           )}
           {student.status && (
-            <Box>
+            <Grid size={4}>
               <FormControlLabel
                 checked={student.contract}
                 label={"контракт"}
                 control={<Checkbox />}
                 onChange={onContract}
               />
-            </Box>
+            </Grid>
           )}
-        </Box>
+          <Grid size={4}>
+            <p>форма навчання: </p>
+            <h3>{student.remoteType === "online" ? "заочна" : "денна"}</h3>
+          </Grid>
+        </Grid>
       </Box>
 
-      <Box borderTop={1}>
+      <Box marginTop={3} borderTop={1}>
         <h2>Предмети</h2>
         <MyAcordion title={"Індивідульний план студента"}>
           <Box>
@@ -449,7 +458,7 @@ export const EditStudent = () => {
         </MyAcordion>
       </Box>
       <Box>
-        <h2>Номер студенського квитка</h2>
+        <h2>Код web-заліковки</h2>
         <TextField
           label="Номер"
           value={student.ticketCode}

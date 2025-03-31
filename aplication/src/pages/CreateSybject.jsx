@@ -38,6 +38,7 @@ export const CreateSubject = () => {
   const [plans, setPlans] = useState([]);
   const [depID, setdepID] = useState("");
   const [code, setCode] = useState("");
+  const [internalCode, setInternalCode] = useState("");
   const [creadits, setCredits] = useState(0);
   const [gos, setGos] = useState(false);
   const [mandatory, setMandatory] = useState(false);
@@ -108,6 +109,7 @@ export const CreateSubject = () => {
       code,
       educationPlan: plansID.toString(),
       aditionalSpecialityName,
+      internalCode,
     };
 
     if (!name || !code || !plansID) {
@@ -139,6 +141,11 @@ export const CreateSubject = () => {
         value={code}
         label="Код"
         onChange={(event) => setCode(event.target.value)}
+      />
+      <TextField
+        value={internalCode}
+        label="Внутрішній код"
+        onChange={(event) => setInternalCode(event.target.value)}
       />
       <Box>
         <h3>Семестри</h3>

@@ -5,6 +5,7 @@ const updateSubject = async ({
   id,
   name,
   code,
+  internalCode,
   department,
   level,
   credits,
@@ -20,6 +21,7 @@ const updateSubject = async ({
     const params = {
       name,
       code,
+      internalCode,
       department: department || null,
       level,
       credits,

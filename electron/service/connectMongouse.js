@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { getMongouseData } = require("../setupFile");
+const affterConnection = require("./affterConnection");
 
 const isMongouseConnected = () => {
   return { connectionState: mongoose.connection.readyState };
@@ -20,8 +21,9 @@ const connectMongouse = async () => {
       .connect(
         `mongodb+srv://${data.user}:${data.password}@cluster0.amztsfk.mongodb.net/Gliera?retryWrites=true&w=majority`
       )
-      .then(() => {
+      .then(async () => {
         console.log("MongouseConnected");
+        await affterConnection();
         resolve(true);
       })
       .catch((err) => {

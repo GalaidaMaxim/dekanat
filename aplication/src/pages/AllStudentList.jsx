@@ -24,6 +24,8 @@ import { useDispatch } from "react-redux";
 import { enable, disable, show } from "../redux/slices";
 import { StatusSelector } from "../componetns/StatusSelector";
 import { useStatus } from "../redux/selector";
+import { RemoteTypeSelector } from "../componetns/RemoteTypeSelector";
+import { useRemoteType } from "../redux/selector";
 
 export const AllStudentList = () => {
   const dispatch = useDispatch();
@@ -31,10 +33,12 @@ export const AllStudentList = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const status = useStatus();
+  const remoteType = useRemoteType();
 
   const [course, setCourse] = useState("Всі");
   const [level, setLevel] = useState("Всі");
   const [department, setDepartment] = useState("Всі");
+
   const [depList, setDepList] = useState([]);
   const [foreigner, setForeigner] = useState(false);
   const [page, setPage] = useState(1);
@@ -44,6 +48,7 @@ export const AllStudentList = () => {
     dispatch(enable());
     const params = {};
     params.foreigner = foreigner;
+    params.remoteType = remoteType;
     if (status !== "Всі") {
       params.status = status;
     }
@@ -78,7 +83,16 @@ export const AllStudentList = () => {
     window.mainApi.invokeMain("getDeparments").then((result) => {
       setDepList(JSON.parse(result));
     });
-  }, [dispatch, course, level, department, foreigner, page, status]);
+  }, [
+    dispatch,
+    course,
+    level,
+    department,
+    foreigner,
+    page,
+    status,
+    remoteType,
+  ]);
   const paginationHandle = (event, value) => {
     setPage(value);
   };
@@ -86,7 +100,7 @@ export const AllStudentList = () => {
   return (
     <Box>
       <Grid container columnGap={3}>
-        <Grid xs={1}>
+        <Grid size={1}>
           <FormControl fullWidth>
             <InputLabel>Курс</InputLabel>
             <Select
@@ -105,7 +119,7 @@ export const AllStudentList = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={2}>
+        <Grid size={2}>
           <FormControl fullWidth>
             <InputLabel>ОС</InputLabel>
             <Select
@@ -117,14 +131,15 @@ export const AllStudentList = () => {
               label="ОС"
             >
               <MenuItem value={"Всі"}>Всі</MenuItem>
+              <MenuItem value={"молодший бакалавр"}>молодший бакалавр</MenuItem>
               <MenuItem value={"бакалавр"}>бакалавр</MenuItem>
               <MenuItem value={"магістр"}>магістр</MenuItem>
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={2}>
+        <Grid size={2}>
           <FormControl fullWidth>
-            <InputLabel>Відділення</InputLabel>
+            <InputLabel>Профілізація</InputLabel>
             <Select
               value={department}
               onChange={(event) => {
@@ -140,7 +155,10 @@ export const AllStudentList = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={2}>
+        <Grid size={2}>
+          <RemoteTypeSelector />
+        </Grid>
+        <Grid size={2}>
           <StatusSelector />
         </Grid>
         <Box>

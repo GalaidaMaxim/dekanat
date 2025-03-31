@@ -69,8 +69,8 @@ const StudentSchema = new Schema({
   subjects: [SubjectSchema],
   remoteType: {
     type: String,
-    enum: ["ofline", "online"],
     default: "ofline",
+    enum: ["ofline", "online"],
   },
 });
 
