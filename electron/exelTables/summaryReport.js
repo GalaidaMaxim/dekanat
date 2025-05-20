@@ -145,7 +145,7 @@ module.exports = createSummaryReportTable = async ({
             worksheet,
             5 + subjectIndex,
             7 + studentIndex * 3,
-            intToNational(value)
+            intToNational(value, student.level)
           );
         } else {
           setCenterText(

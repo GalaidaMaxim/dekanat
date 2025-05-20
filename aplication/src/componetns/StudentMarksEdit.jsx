@@ -187,7 +187,8 @@ export const StudentMarksEdit = ({
                 {intToNational(
                   student.subjects.find((i) => i._id === item._id).semesters[
                     semester - 1
-                  ].mark
+                  ].mark,
+                  student.level
                 )}
               </TableCell>
               <TableCell>

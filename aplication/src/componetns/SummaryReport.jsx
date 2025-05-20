@@ -101,7 +101,7 @@ export const SummaryReport = ({ students, subjects, semester }) => {
                             {value}
                           </StyledTableCell>
                           <StyledTableCell color={getColor(ignore, reDelivery)}>
-                            {intToNational(value)}
+                            {intToNational(value, student.level)}
                           </StyledTableCell>
                         </Fragment>
                       );

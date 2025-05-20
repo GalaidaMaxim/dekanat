@@ -86,17 +86,18 @@ export const CreateStudent = () => {
       </Box>
       <Box padding={1}>
         <Grid container columnSpacing={{ xs: 2 }} rowGap={2}>
-          <Grid item size={2}>
+          <Grid item xs={4}>
+            <LevelSelector level={level} setLevel={setLevel} />
+          </Grid>
+          <Grid item xs={4}>
             <DepartmentSelector
               level={level}
               depID={depID}
               setdepID={setdepID}
             />
           </Grid>
-          <Grid item size={4}>
-            <LevelSelector level={level} setLevel={setLevel} />
-          </Grid>
-          <Grid item size={2}>
+
+          <Grid item xs={2}>
             <FormControl fullWidth>
               <InputLabel>Курс</InputLabel>
               <Select
@@ -111,10 +112,10 @@ export const CreateStudent = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item size={4}>
+          <Grid item xs={4}>
             <RemoteTypeSelector />
           </Grid>
-          <Grid item size={6}>
+          <Grid item xs={6}>
             <PlanSelector setPlanID={setPlanID} planID={planID} level={level} />
           </Grid>
         </Grid>
