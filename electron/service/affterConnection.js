@@ -1,3 +1,3 @@
-const { Students } = require("../models");
+const { State } = require("../models");
 
 module.exports = async () => {};

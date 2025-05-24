@@ -6,6 +6,7 @@ const Version = require("./Verision");
 const User = require("./User");
 const { Action, createAction } = require("./Action");
 const Facultet = require("./Facultets");
+const State = require("./State");
 
 module.exports = {
   Departments,
@@ -17,4 +18,5 @@ module.exports = {
   Action,
   createAction,
   Facultet,
+  State,
 };
