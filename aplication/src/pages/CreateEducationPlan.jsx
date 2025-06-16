@@ -21,6 +21,7 @@ import { enableAlertAction, enable, disable } from "../redux/slices";
 export const CreateEducationPlan = () => {
   const [level, setLevel] = useState("бакалавр");
   const [name, setName] = useState("");
+  const [credits, setCredits] = useState(0);
   const dispatch = useDispatch();
   const [educationPlanes, setEducationPlanes] = useState([]);
   const [planID, setPlanID] = useState("");
@@ -40,7 +41,12 @@ export const CreateEducationPlan = () => {
     }
     dispatch(enable());
     window.mainApi
-      .invokeMain("createEducationPlan", { level, name, copyPlan: planID })
+      .invokeMain("createEducationPlan", {
+        level,
+        name,
+        copyPlan: planID,
+        credits,
+      })
       .then((result) => {
         if (!JSON.parse(result)) {
           return;
@@ -139,7 +145,20 @@ export const CreateEducationPlan = () => {
           <h3>Навчальний план для копіювання предметів</h3>
           <PlanSelector level={level} planID={planID} setPlanID={setPlanID} />
         </Box>
-        <Button onClick={createPlan} variant={"contained"}>
+        <Box>
+          <h3>Кредити навчального плану</h3>
+          <TextField
+            type="number"
+            label="кредити плану"
+            value={credits}
+            onChange={(event) => setCredits(event.target.valueAsNumber)}
+          />
+        </Box>
+        <Button
+          sx={{ marginTop: 2 }}
+          onClick={createPlan}
+          variant={"contained"}
+        >
           Додати план
         </Button>
       </Box>

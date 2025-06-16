@@ -1,8 +1,8 @@
 const { EducationPlan, Subjects } = require("../models");
 
-module.exports = async ({ name, level, copyPlan = null }) => {
+module.exports = async ({ name, level, copyPlan = null, credits }) => {
   try {
-    const result = await EducationPlan.create({ name, level });
+    const result = await EducationPlan.create({ name, level, credits });
     if (!result) {
       return null;
     }
