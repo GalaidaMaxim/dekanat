@@ -45,6 +45,7 @@ const {
   chageDBToNextYear,
   getAllStudents,
   getFacultets,
+  setOpenForSelect,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -122,6 +123,7 @@ app.whenReady().then(async () => {
   ipcMain.handle("loginUser", apiMidlvare(loginUser));
   ipcMain.handle("getAllUsers", apiMidlvare(getAllUsers));
   ipcMain.handle("editUser", apiMidlvare(editUser));
+  ipcMain.handle("setOpenForSelect", apiMidlvare(setOpenForSelect));
 });
 
 app.on("window-all-closed", async () => {

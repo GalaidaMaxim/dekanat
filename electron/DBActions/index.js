@@ -27,6 +27,7 @@ const getAllUsers = require("./getAllUsers");
 const editUser = require("./editUser");
 const deleteUser = require("./deleteUser");
 const getFacultets = require("./getFacultets");
+const setOpenForSelect = require("./setOpenSelectSubject");
 
 module.exports = {
   deleteStudent,
@@ -58,4 +59,5 @@ module.exports = {
   editUser,
   deleteUser,
   getFacultets,
+  setOpenForSelect,
 };
