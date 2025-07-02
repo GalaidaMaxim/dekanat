@@ -66,8 +66,6 @@ module.exports = async (
     linebreaks: true,
   });
 
-  console.log(number, year);
-
   students = students.map((item, index) => {
     if (item.foreigner) {
       return {

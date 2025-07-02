@@ -39,7 +39,6 @@ export const LaounchWindow = ({ setType }) => {
     const user = JSON.parse(
       await window.mainApi.invokeMain("loginUser", { login, password })
     );
-    console.log(user);
     if (!user) {
       dispatch(
         show({

@@ -23,8 +23,6 @@ module.exports = async ({
       status,
     });
 
-    console.log(students);
-
     return students;
   } catch (err) {
     console.log(err);

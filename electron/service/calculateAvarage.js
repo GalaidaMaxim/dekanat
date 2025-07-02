@@ -28,7 +28,6 @@ const calculateAvarage = (subjectList, semester, contract) => {
       average += Number.parseInt(item.semesters[semester - 1].mark);
     }
   });
-  console.log(avarageCount);
   return average / avarageCount;
 };
 

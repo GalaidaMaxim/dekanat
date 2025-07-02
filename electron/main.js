@@ -52,7 +52,6 @@ const createFlexSubjectTable = require("./exelTables/createFlexSubjectReport");
 const createTotalMarksTable = require("./exelTables/createTotalMarksTable");
 const path = require("path");
 
-console.log(path.join(__dirname, "preload.js"));
 let mainWindow;
 
 const createWindow = () => {

@@ -10,7 +10,6 @@ export const AlertMy = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     setTimeout(() => {
-      console.log("hide");
       dispatch(hide());
     }, 3000);
   }, [dispatch]);

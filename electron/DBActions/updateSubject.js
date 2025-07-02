@@ -55,8 +55,6 @@ const updateSubject = async ({
         subject.special &&
         subject.department.toString() !== student.department.toString()
       ) {
-        console.log("fix plan");
-
         student.subjects = student.subjects.filter(
           (item) => item._id !== subject._id
         );

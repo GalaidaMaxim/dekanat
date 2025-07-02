@@ -6,7 +6,6 @@ import { setForeigner } from "../redux/slices";
 export const ForeignerSelector = () => {
   const dispatch = useDispatch();
   const foreigner = useForeigner();
-  console.log(foreigner);
   return (
     <FormControlLabel
       label="Іноземець"
