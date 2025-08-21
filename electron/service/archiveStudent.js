@@ -1,3 +1,4 @@
+const fs = require("fs/promises");
 const getSubjectLastMark = (subject) => {
   for (let i = subject.semesters.length - 1; i >= 0; i--) {
     if (subject.semesters[i].include) {
@@ -22,4 +23,5 @@ module.exports = async ({ student, pathToSave }) => {
     startYear,
     subjects: sub,
   };
+  await fs.writeFile(pathToSave, JSON.stringify(info));
 };

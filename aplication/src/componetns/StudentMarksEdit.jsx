@@ -16,6 +16,9 @@ import {
 import { intToABC, intToNational } from "../serivce/formulas";
 import { SemesterSelector } from "../componetns/SemesterSelector";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { enable, disable } from "../redux/slices";
+import { inwokeMain } from "../serivce/inwokeMain";
 
 export const StudentMarksEdit = ({
   student,
@@ -26,6 +29,7 @@ export const StudentMarksEdit = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const markInputHandle = (name) => {
     return async (event) => {
@@ -126,6 +130,21 @@ export const StudentMarksEdit = ({
         });
     };
   };
+
+  const onArchive = async () => {
+    dispatch(enable());
+    try {
+      const result = await inwokeMain({ command: "selectFolder" });
+      await inwokeMain({
+        command: "archiveStudent",
+        options: { studentID: student._id, pathToSave: result },
+      });
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+    dispatch(disable());
+  };
   return (
     <>
       <h2>Предмети</h2>
@@ -220,7 +239,7 @@ export const StudentMarksEdit = ({
         <Box
           alignItems={"flex-start"}
           display={"flex"}
-          flexDirection={"column"}
+          flexDirection={"row"}
           gap={2}
         >
           <Button
@@ -232,6 +251,9 @@ export const StudentMarksEdit = ({
             }}
           >
             Редагувати
+          </Button>
+          <Button variant="contained" onClick={onArchive}>
+            Архівувати студента
           </Button>
         </Box>
       </Box>
