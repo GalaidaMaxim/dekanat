@@ -12,10 +12,13 @@ const createSubject = async ({
   special,
   educationPlan,
   aditionalSpecialityName,
+  internalCode,
 }) => {
   try {
     let result;
     const plan = await EducationPlan.findById(educationPlan);
+    console.log(internalCode);
+
     if (department) {
       dep = await Departments.findById(department);
       if (!plan || plan.level !== level) {
@@ -33,6 +36,7 @@ const createSubject = async ({
         special,
         educationPlan: plan._id,
         aditionalSpecialityName,
+        internalCode,
       });
     } else {
       if (!plan || plan.level !== level) {
@@ -50,6 +54,7 @@ const createSubject = async ({
         special,
         educationPlan: plan._id,
         aditionalSpecialityName,
+        internalCode,
       });
     }
     if (!result) {
