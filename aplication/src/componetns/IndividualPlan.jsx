@@ -5,7 +5,12 @@ import {
   TableBody,
   TableHead,
   Box,
+  Button,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { enable, disable } from "../redux/slices";
+import { inwokeMain } from "../serivce/inwokeMain";
+
 const getSubjectLastMark = (subject) => {
   for (let i = subject.semesters.length - 1; i >= 0; i--) {
     if (subject.semesters[i].include) {
@@ -16,6 +21,24 @@ const getSubjectLastMark = (subject) => {
 };
 
 export const IndividualPlan = ({ student }) => {
+  const dispatch = useDispatch();
+  const onExport = async () => {
+    dispatch(enable());
+    try {
+      const result = await inwokeMain({ command: "selectFolder" });
+      await inwokeMain({
+        command: "createIndividualPlan",
+        options: {
+          student,
+          filePath: result,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    dispatch(disable());
+  };
+
   return (
     <>
       <h2>Індивідуальний план</h2>
@@ -95,6 +118,9 @@ export const IndividualPlan = ({ student }) => {
           }, 0)}
         </h3>
       </Box>
+      <Button onClick={onExport} variant="contained">
+        Експортувати
+      </Button>
     </>
   );
 };

@@ -8,6 +8,7 @@ const {
   isMongouseConnected,
 } = require("./service");
 const createStatment = require("./docDocumtns/createStatement");
+const createIndividualPlan = require("./docDocumtns/createIndividualPlan");
 const { createAppMenu } = require("./AppMenu");
 const {
   checkFileExisting,
@@ -126,6 +127,7 @@ app.whenReady().then(async () => {
   ipcMain.handle("editUser", apiMidlvare(editUser));
   ipcMain.handle("setOpenForSelect", apiMidlvare(setOpenForSelect));
   ipcMain.handle("archiveStudent", apiMidlvare(archiveStudent));
+  ipcMain.handle("createIndividualPlan", apiMidlvare(createIndividualPlan));
 });
 
 app.on("window-all-closed", async () => {
