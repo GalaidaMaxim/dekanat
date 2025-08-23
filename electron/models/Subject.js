@@ -85,6 +85,9 @@ const SubjectSchema = new Schema({
     type: String,
     default: "",
   },
+  sortNumber: {
+    type: Number,
+  },
 });
 
 module.exports = {

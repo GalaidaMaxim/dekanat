@@ -35,6 +35,7 @@ import { useDispatch } from "react-redux";
 import { useUserType } from "./redux/selector";
 import { UserList } from "./pages/UserList.jsx";
 import { DeparmtsmtsList } from "./pages/DeparmstsList.jsx";
+import { EducationPlan } from "./pages/EducationPlan.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -249,6 +250,7 @@ function App() {
                 />
                 <Route element={<UserList />} path="userList" />
                 <Route element={<DeparmtsmtsList />} path="/departmentsList" />
+                <Route element={<EducationPlan />} path="/allPlanSubject" />
               </Routes>
             </Box>
           </Paper>

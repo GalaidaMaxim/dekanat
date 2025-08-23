@@ -17,6 +17,7 @@ import { show } from "../redux/slices";
 import { useDispatch } from "react-redux";
 import { PlanSelector } from "../componetns/PlanSelector";
 import { enableAlertAction, enable, disable } from "../redux/slices";
+import { useNavigate } from "react-router-dom";
 
 export const CreateEducationPlan = () => {
   const [level, setLevel] = useState("бакалавр");
@@ -25,6 +26,7 @@ export const CreateEducationPlan = () => {
   const dispatch = useDispatch();
   const [educationPlanes, setEducationPlanes] = useState([]);
   const [planID, setPlanID] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.mainApi.invokeMain("getEducationPlan").then((result) => {
@@ -89,12 +91,22 @@ export const CreateEducationPlan = () => {
           <TableCell>Назва</TableCell>
           <TableCell>Освітній ступінь</TableCell>
           <TableCell></TableCell>
+          <TableCell></TableCell>
         </TableHead>
         <TableBody>
           {educationPlanes.map((item) => (
             <TableRow key={item._id}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.level}</TableCell>
+              <TableCell>
+                <Button
+                  onClick={() => {
+                    navigate("/allPlanSubject", { state: { plan: item } });
+                  }}
+                >
+                  Редагувати
+                </Button>
+              </TableCell>
               <TableCell>
                 <Button
                   onClick={() => {

@@ -18,6 +18,15 @@ const createSubject = async ({
     let result;
     const plan = await EducationPlan.findById(educationPlan);
     console.log(internalCode);
+    let subjects = await Subjects.find({ educationPlan });
+
+    subjects = subjects.filter(
+      (item) => item.code.charAt(0) === code.charAt(0)
+    );
+    const lastNumber = subjects.reduce(
+      (acc, item) => (item.sortNumber > acc ? item.sortNumber : acc),
+      1
+    );
 
     if (department) {
       dep = await Departments.findById(department);
@@ -37,6 +46,7 @@ const createSubject = async ({
         educationPlan: plan._id,
         aditionalSpecialityName,
         internalCode,
+        sortNumber: lastNumber + 1,
       });
     } else {
       if (!plan || plan.level !== level) {
@@ -55,6 +65,7 @@ const createSubject = async ({
         educationPlan: plan._id,
         aditionalSpecialityName,
         internalCode,
+        sortNumber: lastNumber + 1,
       });
     }
     if (!result) {
