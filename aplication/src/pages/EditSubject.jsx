@@ -140,7 +140,7 @@ export const EditSubject = () => {
       <Button
         onClick={() =>
           navigate(location.state.from, {
-            state: { data: location.state.data },
+            state: { data: location.state.data, plan: location.state.plan },
           })
         }
       >

@@ -88,10 +88,12 @@ export const CreateEducationPlan = () => {
       <h2>Навчальні плани</h2>
       <Table>
         <TableHead>
-          <TableCell>Назва</TableCell>
-          <TableCell>Освітній ступінь</TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
+          <TableRow>
+            <TableCell>Назва</TableCell>
+            <TableCell>Освітній ступінь</TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </TableRow>
         </TableHead>
         <TableBody>
           {educationPlanes.map((item) => (

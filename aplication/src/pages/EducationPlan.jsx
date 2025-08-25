@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { inwokeMain } from "../serivce/inwokeMain";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { useDispatch } from "react-redux";
 import { enable, disable } from "../redux/slices";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -23,11 +23,19 @@ export const EducationPlan = () => {
   const [subjects, setSubjects] = useState([]);
   const dispatch = useDispatch();
   const [departments, setDepartments] = useState([]);
+  const [addSpec, setAddSpec] = useState([]);
 
+  const onEdit = (item) => {
+    navigate(`/plans/${item._id}`, {
+      state: { from: location.pathname, plan: location.state.plan },
+    });
+  };
   useEffect(() => {
     (async () => {
       dispatch(enable());
       try {
+        console.log(location.state);
+
         let subjects = await inwokeMain({
           command: "getSubjectsByEducationPlan",
           options: { educationPlan: location.state.plan._id },
@@ -37,6 +45,17 @@ export const EducationPlan = () => {
           return item;
         });
         setSubjects(subjects);
+        const addSpec = subjects
+          .filter((sub) => sub.code.charAt(0) === "3")
+          .reduce((prev, item) => {
+            if (!prev.includes(item.aditionalSpecialityName)) {
+              prev.push(item.aditionalSpecialityName);
+            }
+            return prev;
+          }, []);
+
+        setAddSpec(addSpec);
+
         let departments = await inwokeMain({ command: "getDeparments" });
         const lvl =
           location.state.plan.level === "магістр"
@@ -94,7 +113,7 @@ export const EducationPlan = () => {
                     <IconButton>
                       <KeyboardArrowDownIcon />
                     </IconButton>
-                    <IconButton color="primary">
+                    <IconButton onClick={() => onEdit(item)} color="primary">
                       <ModeEditOutlineIcon />
                     </IconButton>
                   </TableCell>
@@ -106,7 +125,7 @@ export const EducationPlan = () => {
               </TableCell>
             </TableRow>
             {departments.map((item) => (
-              <>
+              <Fragment key={item._id}>
                 <TableRow>
                   <TableCell align="center" colSpan={5}>
                     {item.name}
@@ -131,14 +150,87 @@ export const EducationPlan = () => {
                         <IconButton>
                           <KeyboardArrowDownIcon />
                         </IconButton>
-                        <IconButton color="primary">
+                        <IconButton
+                          onClick={() => onEdit(item)}
+                          color="primary"
+                        >
                           <ModeEditOutlineIcon />
                         </IconButton>
                       </TableCell>
                     </TableRow>
                   ))}
-              </>
+              </Fragment>
             ))}
+            <TableRow>
+              <TableCell align="center" colSpan={5}>
+                Додаткові спеціалізації
+              </TableCell>
+            </TableRow>
+            {addSpec.map((item) => (
+              <Fragment key={item}>
+                <TableRow>
+                  <TableCell align="center" colSpan={5}>
+                    {item}
+                  </TableCell>
+                </TableRow>
+                {subjects
+                  .filter(
+                    (sub) =>
+                      sub.code.charAt(0) === "3" &&
+                      sub.aditionalSpecialityName === item
+                  )
+                  .sort((a, b) => a.sortNumber - b.sortNumber)
+                  .map((item) => (
+                    <TableRow key={item._id}>
+                      <TableCell width={"50px"}>{item.code}</TableCell>
+                      <TableCell width={"50px"}>{item.internalCode}</TableCell>
+                      <TableCell width={"400px"}>{item.name}</TableCell>
+                      <TableCell>{item.credits}</TableCell>
+                      <TableCell>
+                        <IconButton>
+                          <KeyboardArrowUpIcon />
+                        </IconButton>
+                        <IconButton>
+                          <KeyboardArrowDownIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => onEdit(item)}
+                          color="primary"
+                        >
+                          <ModeEditOutlineIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </Fragment>
+            ))}
+            <TableRow>
+              <TableCell align="center" colSpan={5}>
+                Вибіркові предмети
+              </TableCell>
+            </TableRow>
+            {subjects
+              .filter((sub) => sub.code.charAt(0) === "4")
+              .sort((a, b) => a.sortNumber - b.sortNumber)
+              .map((item) => (
+                <TableRow key={item._id}>
+                  <TableCell width={"50px"}>{item.code}</TableCell>
+                  <TableCell width={"50px"}>{item.internalCode}</TableCell>
+                  <TableCell width={"400px"}>{item.name}</TableCell>
+                  <TableCell>{item.credits}</TableCell>
+                  <TableCell>
+                    <IconButton>
+                      <KeyboardArrowUpIcon />
+                    </IconButton>
+                    <IconButton>
+                      <KeyboardArrowDownIcon />
+                    </IconButton>
+                    <IconButton onClick={() => onEdit(item)} color="primary">
+                      <ModeEditOutlineIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </Box>
