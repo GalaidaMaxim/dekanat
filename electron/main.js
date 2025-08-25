@@ -48,6 +48,7 @@ const {
   getFacultets,
   setOpenForSelect,
   archiveStudent,
+  changeSubjectSortNumber,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -128,6 +129,10 @@ app.whenReady().then(async () => {
   ipcMain.handle("setOpenForSelect", apiMidlvare(setOpenForSelect));
   ipcMain.handle("archiveStudent", apiMidlvare(archiveStudent));
   ipcMain.handle("createIndividualPlan", apiMidlvare(createIndividualPlan));
+  ipcMain.handle(
+    "changeSubjectSortNumber",
+    apiMidlvare(changeSubjectSortNumber)
+  );
 });
 
 app.on("window-all-closed", async () => {

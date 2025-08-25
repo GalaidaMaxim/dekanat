@@ -29,6 +29,7 @@ const deleteUser = require("./deleteUser");
 const getFacultets = require("./getFacultets");
 const setOpenForSelect = require("./setOpenSelectSubject");
 const archiveStudent = require("./archiveStudent");
+const changeSubjectSortNumber = require("./changeSubjectSortNumber");
 
 module.exports = {
   deleteStudent,
@@ -62,4 +63,5 @@ module.exports = {
   getFacultets,
   setOpenForSelect,
   archiveStudent,
+  changeSubjectSortNumber,
 };
