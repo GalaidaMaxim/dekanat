@@ -30,12 +30,26 @@ export const EducationPlan = () => {
       state: { from: location.pathname, plan: location.state.plan },
     });
   };
+
+  const editSortValue = async (subject, up) => {
+    const subjectNew = await inwokeMain({
+      command: "changeSubjectSortNumber",
+      options: { planID: subject.educationPlan, subjectID: subject._id, up },
+    });
+    if (!subjectNew) {
+      return;
+    }
+    console.log(subjectNew);
+
+    setSubjects((prev) => {
+      const arr = [...prev.filter((item) => item._id !== subjectNew._id)];
+      return [...arr, subjectNew];
+    });
+  };
   useEffect(() => {
     (async () => {
       dispatch(enable());
       try {
-        console.log(location.state);
-
         let subjects = await inwokeMain({
           command: "getSubjectsByEducationPlan",
           options: { educationPlan: location.state.plan._id },
@@ -107,10 +121,10 @@ export const EducationPlan = () => {
                   <TableCell width={"400px"}>{item.name}</TableCell>
                   <TableCell>{item.credits}</TableCell>
                   <TableCell>
-                    <IconButton>
+                    <IconButton onClick={() => editSortValue(item, false)}>
                       <KeyboardArrowUpIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={() => editSortValue(item, true)}>
                       <KeyboardArrowDownIcon />
                     </IconButton>
                     <IconButton onClick={() => onEdit(item)} color="primary">
@@ -144,10 +158,10 @@ export const EducationPlan = () => {
                       <TableCell width={"400px"}>{item.name}</TableCell>
                       <TableCell>{item.credits}</TableCell>
                       <TableCell>
-                        <IconButton>
+                        <IconButton onClick={() => editSortValue(item, false)}>
                           <KeyboardArrowUpIcon />
                         </IconButton>
-                        <IconButton>
+                        <IconButton onClick={() => editSortValue(item, true)}>
                           <KeyboardArrowDownIcon />
                         </IconButton>
                         <IconButton

@@ -93,8 +93,8 @@ export const EditSubject = () => {
     };
   };
 
-  const deleteSubject = () => {
-    window.mainApi
+  const deleteSubject = async () => {
+    await window.mainApi
       .invokeMain("deleteSubject", {
         subjectId: id,
       })
@@ -103,6 +103,9 @@ export const EditSubject = () => {
           state: { data: location.state.data },
         });
       });
+    navigate(location.state.from, {
+      state: { data: location.state.data, plan: location.state.plan },
+    });
   };
 
   const onSubmit = async () => {
@@ -130,10 +133,9 @@ export const EditSubject = () => {
     }
     if (JSON.parse(result)) {
       dispatch(disable());
-      dispatch(show({ title: "Предмет успішно доданий", type: "success" }));
+      dispatch(show({ title: "Предмет успішно оновлений", type: "success" }));
     }
     dispatch(disable());
-    navigate(location.state.from, { state: { data: location.state.data } });
   };
   return (
     <Box>

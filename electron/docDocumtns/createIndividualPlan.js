@@ -15,7 +15,9 @@ module.exports = async ({ student, filePath }) => {
     return item;
   });
 
-  let first = educationPlan.filter((item) => item.code.startsWith(1));
+  let first = educationPlan
+    .filter((item) => item.code.startsWith(1))
+    .sort((a, b) => a.sortNumber - b.sortNumber);
   first = first.map((item) => ({
     code: item.internalCode,
     name: item.name,

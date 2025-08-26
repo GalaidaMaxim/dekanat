@@ -2,12 +2,17 @@ const { Subjects } = require("../models");
 
 module.exports = async ({ planID, subjectID, up = true }) => {
   let subjects = await Subjects.find({ educationPlan: planID });
-  const mainSubject = subjects.find((item) => item._id === subjectID);
+
+  const mainSubject = subjects.find(
+    (item) => item._id.toString() === subjectID
+  );
   subjects = subjects
     .filter((item) => item.code.charAt(0) === mainSubject.code.charAt(0))
     .sort((a, b) => a.sortNumber - b.sortNumber);
 
-  const mainIndex = subjects.findIndex((item) => item._id === subjectID);
+  const mainIndex = subjects.findIndex(
+    (item) => item._id.toString() === subjectID
+  );
 
   if (up && mainIndex + 1 !== subjects.length) {
     const value = mainSubject.sortNumber;
