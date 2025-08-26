@@ -5,13 +5,70 @@ const { EducationPlan } = require("../models");
 const path = require("path");
 const fs = require("fs");
 
-const prepareSubjects = (subjectList = []) => {
+const createSemesterCell = (subject) => {
+  let min;
+  let max;
+  for (let i = 0; i < 8; i++) {
+    if (subject.semesters[i].include) {
+      min = i + 1;
+      break;
+    }
+  }
+  for (let i = 7; i >= 0; i--) {
+    if (subject.semesters[i].include) {
+      max = i + 1;
+      break;
+    }
+  }
+  if (!min || !max) {
+    return "";
+  } else if (min === max) {
+    return min;
+  } else if (min + 1 === max) {
+    return `${min}, ${max}`;
+  } else {
+    return `${min} - ${max}`;
+  }
+};
+
+const calculateAssesmnetType = (subject = []) => {
+  const types = subject.semesters
+    .filter((item) => item.include)
+    .reduce((acc, item) => {
+      if (!acc.includes(item.assessmentType)) {
+        acc.push(item.assessmentType);
+      }
+      return acc;
+    }, []);
+  return types
+    .map((item) => {
+      let formControl;
+      switch (item) {
+        case 1:
+          formControl = "залік";
+          break;
+        case 2:
+          formControl = "диф-залік";
+          break;
+        case 3:
+          formControl = "іспит";
+          break;
+        case 4:
+          formControl = "підсумкова оцінка";
+          break;
+      }
+      return formControl;
+    })
+    .join(", ");
+};
+
+const prepareSubjects = (subjectList = [], studentSubjects = []) => {
   return subjectList.map((item) => ({
     code: item.internalCode,
     name: item.name,
     cred: item.credits,
-    sem: "",
-    type: "",
+    sem: createSemesterCell(item),
+    type: calculateAssesmnetType(item),
   }));
 };
 
@@ -29,10 +86,14 @@ module.exports = async ({ student, filePath }) => {
       educationPlan: student.educationPlan,
       department: student.department._id,
     })
-  ).map((item) => {
-    item.internalCode = item.internalCode || item.code;
-    return item;
-  });
+  )
+    .map((item) => {
+      item.internalCode = item.internalCode || item.code;
+      return item;
+    })
+    .filter((item) =>
+      student.subjects.some((sub) => sub._id === item._id.toString())
+    );
 
   const addSpec = educationPlan
     .filter((sub) => sub.code.charAt(0) === "3")
