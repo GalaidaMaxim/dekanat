@@ -1,32 +1,14 @@
 const { Subjects } = require("../models");
 
-module.exports = async ({ planID, subjectID, up = true }) => {
-  let subjects = await Subjects.find({ educationPlan: planID });
+module.exports = async ({ s1ID, s2ID }) => {
+  const s1 = await Subjects.findById(s1ID);
+  const s2 = await Subjects.findById(s2ID);
 
-  const mainSubject = subjects.find(
-    (item) => item._id.toString() === subjectID
-  );
-  subjects = subjects
-    .filter((item) => item.code.charAt(0) === mainSubject.code.charAt(0))
-    .sort((a, b) => a.sortNumber - b.sortNumber);
+  const v = s1.sortNumber;
+  s1.sortNumber = s2.sortNumber;
+  s2.sortNumber = v;
+  await s1.save();
+  await s2.save();
 
-  const mainIndex = subjects.findIndex(
-    (item) => item._id.toString() === subjectID
-  );
-
-  if (up && mainIndex + 1 !== subjects.length) {
-    const value = mainSubject.sortNumber;
-    mainSubject.sortNumber = subjects[mainIndex + 1].sortNumber;
-    subjects[mainIndex + 1].sortNumber = value;
-    await subjects[mainIndex + 1].save();
-    await mainSubject.save();
-  } else if (!up && mainIndex !== 0) {
-    const value = mainSubject.sortNumber;
-    mainSubject.sortNumber = subjects[mainIndex - 1].sortNumber;
-    subjects[mainIndex - 1].sortNumber = value;
-    await subjects[mainIndex - 1].save();
-    await mainSubject.save();
-  }
-
-  return mainSubject;
+  return [s1, s2];
 };
