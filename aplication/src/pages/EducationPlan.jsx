@@ -6,16 +6,13 @@ import {
   TableRow,
   TableHead,
   TableBody,
-  IconButton,
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { inwokeMain } from "../serivce/inwokeMain";
 import { useState, useEffect, Fragment } from "react";
 import { useDispatch } from "react-redux";
 import { enable, disable } from "../redux/slices";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import { EducationPlanMember } from "../componetns/EducationPlanMember";
 
 export const EducationPlan = () => {
   const location = useLocation();
@@ -31,19 +28,24 @@ export const EducationPlan = () => {
     });
   };
 
-  const editSortValue = async (subject, up) => {
+  const editSortValue = async (s1ID, s2ID) => {
     const subjectNew = await inwokeMain({
       command: "changeSubjectSortNumber",
-      options: { planID: subject.educationPlan, subjectID: subject._id, up },
+      options: { s1ID, s2ID },
     });
     if (!subjectNew) {
       return;
     }
-    console.log(subjectNew);
 
     setSubjects((prev) => {
-      const arr = [...prev.filter((item) => item._id !== subjectNew._id)];
-      return [...arr, subjectNew];
+      const arr = [
+        ...prev.filter((item) => item._id !== s1ID && item._id !== s2ID),
+      ];
+
+      return [...arr, ...subjectNew].map((item) => {
+        item.internalCode = item.internalCode || item.code;
+        return item;
+      });
     });
   };
   useEffect(() => {
@@ -114,24 +116,15 @@ export const EducationPlan = () => {
             {subjects
               .filter((sub) => sub.code.charAt(0) === "1")
               .sort((a, b) => a.sortNumber - b.sortNumber)
-              .map((item) => (
-                <TableRow key={item._id}>
-                  <TableCell width={"50px"}>{item.code}</TableCell>
-                  <TableCell width={"50px"}>{item.internalCode}</TableCell>
-                  <TableCell width={"400px"}>{item.name}</TableCell>
-                  <TableCell>{item.credits}</TableCell>
-                  <TableCell>
-                    <IconButton onClick={() => editSortValue(item, false)}>
-                      <KeyboardArrowUpIcon />
-                    </IconButton>
-                    <IconButton onClick={() => editSortValue(item, true)}>
-                      <KeyboardArrowDownIcon />
-                    </IconButton>
-                    <IconButton onClick={() => onEdit(item)} color="primary">
-                      <ModeEditOutlineIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
+              .map((item, index, arr) => (
+                <EducationPlanMember
+                  key={item._id}
+                  item={item}
+                  index={index}
+                  arr={arr}
+                  editSortValue={editSortValue}
+                  onEdit={onEdit}
+                />
               ))}
             <TableRow>
               <TableCell align="center" colSpan={5}>
@@ -151,27 +144,15 @@ export const EducationPlan = () => {
                       sub.code.charAt(0) === "2" && sub.department === item._id
                   )
                   .sort((a, b) => a.sortNumber - b.sortNumber)
-                  .map((item) => (
-                    <TableRow key={item._id}>
-                      <TableCell width={"50px"}>{item.code}</TableCell>
-                      <TableCell width={"50px"}>{item.internalCode}</TableCell>
-                      <TableCell width={"400px"}>{item.name}</TableCell>
-                      <TableCell>{item.credits}</TableCell>
-                      <TableCell>
-                        <IconButton onClick={() => editSortValue(item, false)}>
-                          <KeyboardArrowUpIcon />
-                        </IconButton>
-                        <IconButton onClick={() => editSortValue(item, true)}>
-                          <KeyboardArrowDownIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => onEdit(item)}
-                          color="primary"
-                        >
-                          <ModeEditOutlineIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
+                  .map((item, index, arr) => (
+                    <EducationPlanMember
+                      key={item._id}
+                      item={item}
+                      index={index}
+                      arr={arr}
+                      editSortValue={editSortValue}
+                      onEdit={onEdit}
+                    />
                   ))}
               </Fragment>
             ))}
@@ -194,27 +175,15 @@ export const EducationPlan = () => {
                       sub.aditionalSpecialityName === item
                   )
                   .sort((a, b) => a.sortNumber - b.sortNumber)
-                  .map((item) => (
-                    <TableRow key={item._id}>
-                      <TableCell width={"50px"}>{item.code}</TableCell>
-                      <TableCell width={"50px"}>{item.internalCode}</TableCell>
-                      <TableCell width={"400px"}>{item.name}</TableCell>
-                      <TableCell>{item.credits}</TableCell>
-                      <TableCell>
-                        <IconButton>
-                          <KeyboardArrowUpIcon />
-                        </IconButton>
-                        <IconButton>
-                          <KeyboardArrowDownIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => onEdit(item)}
-                          color="primary"
-                        >
-                          <ModeEditOutlineIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
+                  .map((item, index, arr) => (
+                    <EducationPlanMember
+                      key={item._id}
+                      item={item}
+                      index={index}
+                      arr={arr}
+                      editSortValue={editSortValue}
+                      onEdit={onEdit}
+                    />
                   ))}
               </Fragment>
             ))}
@@ -226,24 +195,15 @@ export const EducationPlan = () => {
             {subjects
               .filter((sub) => sub.code.charAt(0) === "4")
               .sort((a, b) => a.sortNumber - b.sortNumber)
-              .map((item) => (
-                <TableRow key={item._id}>
-                  <TableCell width={"50px"}>{item.code}</TableCell>
-                  <TableCell width={"50px"}>{item.internalCode}</TableCell>
-                  <TableCell width={"400px"}>{item.name}</TableCell>
-                  <TableCell>{item.credits}</TableCell>
-                  <TableCell>
-                    <IconButton>
-                      <KeyboardArrowUpIcon />
-                    </IconButton>
-                    <IconButton>
-                      <KeyboardArrowDownIcon />
-                    </IconButton>
-                    <IconButton onClick={() => onEdit(item)} color="primary">
-                      <ModeEditOutlineIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
+              .map((item, index, arr) => (
+                <EducationPlanMember
+                  key={item._id}
+                  item={item}
+                  index={index}
+                  arr={arr}
+                  editSortValue={editSortValue}
+                  onEdit={onEdit}
+                />
               ))}
           </TableBody>
         </Table>
