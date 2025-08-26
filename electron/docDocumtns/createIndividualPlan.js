@@ -1,10 +1,29 @@
 const PizZip = require("pizzip");
 const Docxtemplater = require("docxtemplater");
 const { createPlanForDepartment } = require("../service");
+const { EducationPlan } = require("../models");
 const path = require("path");
 const fs = require("fs");
 
+const prepareSubjects = (subjectList = []) => {
+  return subjectList.map((item) => ({
+    code: item.internalCode,
+    name: item.name,
+    cred: item.credits,
+    sem: "",
+    type: "",
+  }));
+};
+
+const calculateTotalCredits = (subjects = []) => {
+  return subjects.reduce((acc, item) => {
+    acc += item.credits;
+    return acc;
+  }, 0);
+};
+
 module.exports = async ({ student, filePath }) => {
+  const plan = await EducationPlan.findById(student.educationPlan);
   let educationPlan = (
     await createPlanForDepartment({
       educationPlan: student.educationPlan,
@@ -15,21 +34,49 @@ module.exports = async ({ student, filePath }) => {
     return item;
   });
 
-  let first = educationPlan
+  const addSpec = educationPlan
+    .filter((sub) => sub.code.charAt(0) === "3")
+    .reduce((prev, item) => {
+      if (!prev.includes(item.aditionalSpecialityName)) {
+        prev.push(item.aditionalSpecialityName);
+      }
+      return prev;
+    }, []);
+
+  const first = educationPlan
     .filter((item) => item.code.startsWith(1))
     .sort((a, b) => a.sortNumber - b.sortNumber);
-  first = first.map((item) => ({
-    code: item.internalCode,
-    name: item.name,
-    cred: item.credits,
-    sem: "",
-    type: "",
-  }));
+  const firstToRender = prepareSubjects(first);
+
+  const second = educationPlan
+    .filter((item) => item.code.startsWith(2))
+    .sort((a, b) => a.sortNumber - b.sortNumber);
+  const seccondToRender = prepareSubjects(second);
+
+  const third = addSpec.map((spec) => {
+    const sub = educationPlan
+      .filter(
+        (item) =>
+          item.code.startsWith(3) && item.aditionalSpecialityName === spec
+      )
+      .sort((a, b) => a.sortNumber - b.sortNumber);
+    return {
+      addSpecName: spec,
+      T: prepareSubjects(sub),
+      total: calculateTotalCredits(sub),
+    };
+  });
+
+  const fourth = educationPlan
+    .filter((item) => item.code.startsWith(4))
+    .sort((a, b) => a.sortNumber - b.sortNumber);
+  const fourthToRender = prepareSubjects(fourth);
 
   const content = fs.readFileSync(
     path.resolve(__dirname, "templates", "personalPlanTemplate.docx"),
     "binary"
   );
+
   const zip = new PizZip(content);
   const doc = new Docxtemplater(zip, {
     paragraphLoop: true,
@@ -40,7 +87,14 @@ module.exports = async ({ student, filePath }) => {
     studentName: `${student.sername} ${student.name} ${student.secondName}`,
     OS: student.level,
     prof: student.department.name,
-    F: first,
+    F: firstToRender,
+    totalOK: calculateTotalCredits(first),
+    S: seccondToRender,
+    totalV: calculateTotalCredits(second),
+    prof: student.department.fullName,
+    addSpec: third,
+    C: fourthToRender,
+    planCredits: plan.credits,
   });
 
   const buf = doc.getZip().generate({
