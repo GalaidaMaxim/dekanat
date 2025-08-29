@@ -19,6 +19,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { enable, disable } from "../redux/slices";
 import { inwokeMain } from "../serivce/inwokeMain";
+import { calculateAvarage } from "../serivce/calculateAvarage";
 
 export const StudentMarksEdit = ({
   student,
@@ -234,6 +235,10 @@ export const StudentMarksEdit = ({
           ))}
         </TableBody>
       </Table>
+      <Box>
+        <h2>Середній бал</h2>
+        <h2>{calculateAvarage(subjects, semester, false)}</h2>
+      </Box>
       <Box paddingTop={10}>
         <h2>Операції</h2>
         <Box
