@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSemester } from "../redux/selector";
 import { StudentMarksEdit } from "../componetns/StudentMarksEdit";
 import { IndividualPlan } from "../componetns/IndividualPlan";
+import { Notes } from "../componetns/Notes";
 
 export const StudentInfo = () => {
   const { id } = useParams();
@@ -85,6 +86,7 @@ export const StudentInfo = () => {
         >
           <Tab value={"Предмети"} label="Предмети" />
           <Tab value={"Індивідуальний план"} label="Індивідуальний план" />
+          <Tab value={"Примітки"} label="Примітки" />
         </Tabs>
 
         {tabVal === "Предмети" && (
@@ -98,6 +100,9 @@ export const StudentInfo = () => {
         )}
         {tabVal === "Індивідуальний план" && (
           <IndividualPlan student={student} />
+        )}
+        {tabVal === "Примітки" && (
+          <Notes student={student} setStudent={setStudent} />
         )}
       </Box>
     </Box>

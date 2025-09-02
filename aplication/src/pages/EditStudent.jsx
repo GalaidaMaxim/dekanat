@@ -16,7 +16,6 @@ import { enable, disable, show, enableAlertAction } from "../redux/slices";
 import { useDispatch } from "react-redux";
 import { MyAcordion } from "../componetns/Acordion";
 import { StudentSubjectList } from "../componetns/StudentSubjectList";
-import { RemoteTypeSelector } from "../componetns/RemoteTypeSelector";
 
 const statusList = [
   "навчається",
@@ -25,6 +24,8 @@ const statusList = [
   "невизначений",
   "відрахований",
 ];
+
+const groupList = ["А", "Б", "В", "Г", "Д"];
 
 export const EditStudent = () => {
   const { id } = useParams();
@@ -37,6 +38,7 @@ export const EditStudent = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+  console.log(student);
 
   useEffect(() => {
     window.mainApi
@@ -130,6 +132,21 @@ export const EditStudent = () => {
         id,
         info: {
           status: value,
+        },
+      })
+      .then((result) => {
+        dispatch(show({ title: "Студент оновлений" }));
+        setStudent(JSON.parse(result));
+      });
+  };
+
+  const onGroupChange = async (event) => {
+    const { value } = event.target;
+    window.mainApi
+      .invokeMain("updateStudent", {
+        id,
+        info: {
+          group: value,
         },
       })
       .then((result) => {
@@ -303,6 +320,24 @@ export const EditStudent = () => {
             <h3>{student.remoteType === "online" ? "заочна" : "денна"}</h3>
           </Grid>
         </Grid>
+        {student.group && (
+          <Grid size={4}>
+            <Box width={"140px"}>
+              <FormControl fullWidth>
+                <InputLabel>Група</InputLabel>
+                <Select
+                  label={"Група"}
+                  value={student.group}
+                  onChange={onGroupChange}
+                >
+                  {groupList.map((item) => (
+                    <MenuItem value={item}>{item}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          </Grid>
+        )}
       </Box>
 
       <Box marginTop={3} borderTop={1}>

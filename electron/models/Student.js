@@ -50,7 +50,7 @@ const StudentSchema = new Schema({
   },
   startYear: {
     type: Number,
-    default: 2024,
+    default: 2025,
   },
   foreigner: {
     type: Boolean,
@@ -71,6 +71,12 @@ const StudentSchema = new Schema({
     type: String,
     default: "ofline",
     enum: ["ofline", "online"],
+  },
+  notes: [String],
+  group: {
+    type: String,
+    default: "А",
+    enum: ["А", "Б", "В", "Г", "Д"],
   },
 });
 

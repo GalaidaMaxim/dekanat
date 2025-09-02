@@ -23,6 +23,8 @@ const createStudent = async ({
       educationPlan,
       foreigner,
       remoteType,
+      group: "А",
+      startYear: new Date().getFullYear(),
     });
     if (!newStudent) {
       return null;

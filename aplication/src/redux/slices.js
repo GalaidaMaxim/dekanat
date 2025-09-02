@@ -7,7 +7,7 @@ export const loaderSlice = createSlice({
   },
   reducers: {
     enable: (state) => {
-      state.valueFacultetSelector = true;
+      state.value = true;
     },
     disable: (state) => {
       state.value = false;
