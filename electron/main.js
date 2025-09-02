@@ -49,6 +49,8 @@ const {
   setOpenForSelect,
   archiveStudent,
   changeSubjectSortNumber,
+  deleteUser,
+  changeUserPassword,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -69,8 +71,8 @@ const createWindow = () => {
     // icon: path.resolve(__dirname, "icon.ico"),
   });
 
-  // mainWindow.loadURL("http://localhost:3000");
-  mainWindow.loadFile("../aplication/build/index.html");
+  mainWindow.loadURL("http://localhost:3000");
+  // mainWindow.loadFile("../aplication/build/index.html");
   mainWindow.maximize();
   process.mainWindow = mainWindow;
   return mainWindow;
@@ -123,9 +125,11 @@ app.whenReady().then(async () => {
   ipcMain.handle("connectMongouse", apiMidlvare(connectMongouse));
   ipcMain.handle("isMongouseConnected", apiMidlvare(isMongouseConnected));
   ipcMain.handle("createUser", apiMidlvare(createUser));
+  ipcMain.handle("changeUserPassword", apiMidlvare(changeUserPassword));
   ipcMain.handle("loginUser", apiMidlvare(loginUser));
   ipcMain.handle("getAllUsers", apiMidlvare(getAllUsers));
   ipcMain.handle("editUser", apiMidlvare(editUser));
+  ipcMain.handle("deleteUser", apiMidlvare(deleteUser));
   ipcMain.handle("setOpenForSelect", apiMidlvare(setOpenForSelect));
   ipcMain.handle("archiveStudent", apiMidlvare(archiveStudent));
   ipcMain.handle("createIndividualPlan", apiMidlvare(createIndividualPlan));

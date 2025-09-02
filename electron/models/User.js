@@ -19,7 +19,7 @@ const UserSchema = new Schema({
   },
   premissions: {
     type: String,
-    enum: ["user", "admin"],
+    enum: ["user", "admin", "teacher"],
     default: "user",
   },
   lastLoginTime: {

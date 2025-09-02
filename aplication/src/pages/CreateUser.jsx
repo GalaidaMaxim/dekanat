@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { enable, disable } from "../redux/slices";
+import { enable, disable, show } from "../redux/slices";
 export const CreateUser = () => {
   const [type, setType] = useState("user");
   const [name, setName] = useState("");
@@ -28,6 +28,12 @@ export const CreateUser = () => {
       password,
       premissions: type,
     });
+    setLogin("");
+    setName("");
+    setSername("");
+    setPassword("");
+    setConfirm("");
+    dispatch(show({ title: "Користувач створений", type: "success" }));
     dispatch(disable());
   };
 
@@ -75,6 +81,7 @@ export const CreateUser = () => {
             >
               <MenuItem value={"user"}>Користувач</MenuItem>
               <MenuItem value={"admin"}>Адміністратор</MenuItem>
+              <MenuItem value={"teacher"}>Викладач</MenuItem>
             </Select>
           </FormControl>
         </Box>

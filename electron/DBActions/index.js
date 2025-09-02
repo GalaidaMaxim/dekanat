@@ -30,6 +30,7 @@ const getFacultets = require("./getFacultets");
 const setOpenForSelect = require("./setOpenSelectSubject");
 const archiveStudent = require("./archiveStudent");
 const changeSubjectSortNumber = require("./changeSubjectSortNumber");
+const changeUserPassword = require("./changeUserPassword");
 
 module.exports = {
   deleteStudent,
@@ -64,4 +65,5 @@ module.exports = {
   setOpenForSelect,
   archiveStudent,
   changeSubjectSortNumber,
+  changeUserPassword,
 };

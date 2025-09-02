@@ -18,11 +18,13 @@ import { dateToTime } from "../serivce/dateToTime";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import KeyIcon from "@mui/icons-material/Key";
+import { ChangePasswordModal } from "../componetns/ChangePasswordModal";
 
 export const UserList = () => {
   const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
   const [edit, setEdit] = useState([]);
+  const [editPasswordUser, setEditPasswordUser] = useState(null);
 
   const chageEdit = (index) => {
     setEdit((prev) => {
@@ -40,6 +42,20 @@ export const UserList = () => {
         id,
         params: { name, sername, login, premissions },
       },
+    });
+    dispatch(disable());
+  };
+
+  const deleteUser = async (id) => {
+    dispatch(enable());
+    await inwokeMain({
+      command: "deleteUser",
+      options: {
+        id,
+      },
+    });
+    setUsers((prev) => {
+      return [...prev].filter((item) => item._id !== id);
     });
     dispatch(disable());
   };
@@ -138,6 +154,7 @@ export const UserList = () => {
                     >
                       <MenuItem value={"admin"}>admin</MenuItem>
                       <MenuItem value={"user"}>user</MenuItem>
+                      <MenuItem value={"teacher"}>Викладач</MenuItem>
                     </Select>
                   )}{" "}
                 </TableCell>
@@ -158,10 +175,18 @@ export const UserList = () => {
                   >
                     <EditIcon />
                   </IconButton>
-                  <IconButton>
+                  <IconButton
+                    onClick={() => {
+                      setEditPasswordUser(user);
+                    }}
+                  >
                     <KeyIcon />
                   </IconButton>
-                  <IconButton>
+                  <IconButton
+                    onClick={() => {
+                      deleteUser(user._id);
+                    }}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -170,6 +195,12 @@ export const UserList = () => {
           </TableBody>
         </Table>
       </Box>
+      {editPasswordUser && (
+        <ChangePasswordModal
+          user={editPasswordUser}
+          setUser={setEditPasswordUser}
+        />
+      )}
     </Box>
   );
 };
