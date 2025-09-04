@@ -6,6 +6,7 @@ const {
   openFolderSelector,
   connectMongouse,
   isMongouseConnected,
+  openFileDialog,
 } = require("./service");
 const createStatment = require("./docDocumtns/createStatement");
 const createIndividualPlan = require("./docDocumtns/createIndividualPlan");
@@ -51,6 +52,8 @@ const {
   changeSubjectSortNumber,
   deleteUser,
   changeUserPassword,
+  getStudentsByEducationPlan,
+  readAchiveStudent,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -106,6 +109,8 @@ app.whenReady().then(async () => {
   ipcMain.handle("deleteSubject", apiMidlvare(deleteSubject));
   ipcMain.handle("createStatment", createStatment);
   ipcMain.handle("selectFolder", openFolderSelector(mainWindow));
+  ipcMain.handle("openFileDialog", openFolderSelector(openFileDialog));
+
   ipcMain.handle(
     "createSummaryReportTable",
     apiMidlvare(createSummaryReportTable)
@@ -137,6 +142,11 @@ app.whenReady().then(async () => {
     "changeSubjectSortNumber",
     apiMidlvare(changeSubjectSortNumber)
   );
+  ipcMain.handle(
+    "getStudentsByEducationPlan",
+    apiMidlvare(getStudentsByEducationPlan)
+  );
+  ipcMain.handle("readAchiveStudent", apiMidlvare(readAchiveStudent));
 });
 
 app.on("window-all-closed", async () => {

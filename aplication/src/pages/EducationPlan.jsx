@@ -21,6 +21,7 @@ export const EducationPlan = () => {
   const dispatch = useDispatch();
   const [departments, setDepartments] = useState([]);
   const [addSpec, setAddSpec] = useState([]);
+  const [stundentsOnPlan, setSutdentsOnPlan] = useState(null);
 
   const onEdit = (item) => {
     navigate(`/plans/${item._id}`, {
@@ -56,6 +57,11 @@ export const EducationPlan = () => {
           command: "getSubjectsByEducationPlan",
           options: { educationPlan: location.state.plan._id },
         });
+        const students = await inwokeMain({
+          command: "getStudentsByEducationPlan",
+          options: { educationPlan: location.state.plan._id },
+        });
+        setSutdentsOnPlan(students.length);
         subjects = subjects.map((item) => {
           item.internalCode = item.internalCode || item.code;
           return item;
@@ -96,6 +102,7 @@ export const EducationPlan = () => {
         Назад
       </Button>
       <h1>{location.state.plan.name}</h1>
+      <h2>{`кількість студентів ${stundentsOnPlan}`}</h2>
       <Box>
         <Table>
           <TableHead>

@@ -4,6 +4,7 @@ const archiveStudentFunction = require("./archiveStudent");
 const openFolderSelector = require("./openDialog");
 const { isMongouseConnected, connectMongouse } = require("./connectMongouse");
 const { encriptPassword, checkPassword } = require("./hashProcess");
+const openFileDialog = require("./openFileSelector");
 
 module.exports = {
   createPlanForDepartment,
@@ -14,4 +15,5 @@ module.exports = {
   encriptPassword,
   archiveStudentFunction,
   checkPassword,
+  openFileDialog,
 };

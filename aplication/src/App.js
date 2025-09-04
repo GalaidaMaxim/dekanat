@@ -36,6 +36,7 @@ import { useUserType } from "./redux/selector";
 import { UserList } from "./pages/UserList.jsx";
 import { DeparmtsmtsList } from "./pages/DeparmstsList.jsx";
 import { EducationPlan } from "./pages/EducationPlan.jsx";
+import { Arhive } from "./pages/Arhive.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -173,6 +174,13 @@ function App() {
               >
                 Навчальні плани
               </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => navigate("/achive")}
+              >
+                Архів
+              </Button>
             </Box>
             <Button
               sx={{
@@ -251,6 +259,7 @@ function App() {
                 <Route element={<UserList />} path="userList" />
                 <Route element={<DeparmtsmtsList />} path="/departmentsList" />
                 <Route element={<EducationPlan />} path="/allPlanSubject" />
+                <Route element={<Arhive />} path="/achive" />
               </Routes>
             </Box>
           </Paper>
