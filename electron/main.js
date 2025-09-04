@@ -54,6 +54,7 @@ const {
   changeUserPassword,
   getStudentsByEducationPlan,
   readAchiveStudent,
+  archiveYear,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -147,6 +148,7 @@ app.whenReady().then(async () => {
     apiMidlvare(getStudentsByEducationPlan)
   );
   ipcMain.handle("readAchiveStudent", apiMidlvare(readAchiveStudent));
+  ipcMain.handle("archiveYear", apiMidlvare(archiveYear));
 });
 
 app.on("window-all-closed", async () => {

@@ -33,6 +33,7 @@ const changeSubjectSortNumber = require("./changeSubjectSortNumber");
 const changeUserPassword = require("./changeUserPassword");
 const getStudentsByEducationPlan = require("./getStudentsByEducationPlan");
 const readAchiveStudent = require("./readAchivedStudent");
+const archiveYear = require("./archiveYear");
 
 module.exports = {
   deleteStudent,
@@ -70,4 +71,5 @@ module.exports = {
   changeUserPassword,
   getStudentsByEducationPlan,
   readAchiveStudent,
+  archiveYear,
 };
