@@ -9,6 +9,7 @@ import {
   Button,
   FormControlLabel,
   Switch,
+  Checkbox,
 } from "@mui/material";
 import { useState } from "react";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
@@ -16,6 +17,19 @@ import { LevelSelector } from "../componetns/LevelSelector";
 import { PlanSelector } from "../componetns/PlanSelector";
 import { RemoteTypeSelector } from "../componetns/RemoteTypeSelector";
 import { useRemoteType } from "../redux/selector";
+
+function formatDate(ts) {
+  if (!ts) {
+    return;
+  }
+  const date = new Date(ts);
+
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+
+  return `${yyyy}-${mm}-${dd}`;
+}
 
 export const CreateStudent = () => {
   const [name, setName] = useState("");
@@ -26,6 +40,11 @@ export const CreateStudent = () => {
   const [course, setCourse] = useState(1);
   const [planID, setPlanID] = useState("");
   const [foreigner, setForeigner] = useState(false);
+  const [instrument, setInstrument] = useState("");
+  const [birthday, setBirthday] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [contract, setContract] = useState(false);
+
   const remoteType = useRemoteType();
 
   const reset = () => {
@@ -49,13 +68,17 @@ export const CreateStudent = () => {
       foreigner,
       startYear,
       remoteType,
+      instrument,
+      phoneNumber,
+      birthday,
+      contract,
     };
     const result = await window.mainApi.invokeMain("createStudent", student);
     if (result) {
       reset();
     }
   };
-  console.log(depID);
+
   return (
     <form onSubmit={onSubmit}>
       <h2>Додати студента</h2>
@@ -119,16 +142,58 @@ export const CreateStudent = () => {
             <PlanSelector setPlanID={setPlanID} planID={planID} level={level} />
           </Grid>
         </Grid>
-        <Box>
-          <FormControlLabel
-            label="Іноземець"
-            value={foreigner}
-            checked={foreigner}
-            onChange={() => setForeigner((prev) => !prev)}
-            control={<Switch />}
-          />
+        <Box paddingTop={1}>
+          <Grid container columnSpacing={{ xs: 2 }} rowGap={2}>
+            <Grid item size={4}>
+              <TextField
+                fullWidth
+                label="Інструмент"
+                value={instrument}
+                onChange={(event) => setInstrument(event.target.value)}
+              />
+            </Grid>
+            <Grid item size={4}>
+              <TextField
+                fullWidth
+                label="Телефон"
+                value={phoneNumber}
+                onChange={(event) => setPhoneNumber(event.target.value)}
+              />
+            </Grid>
+            <Grid item size={12}>
+              <TextField
+                type="date"
+                label="Дата народження"
+                value={formatDate(birthday)}
+                onChange={(event) => setBirthday(event.target.valueAsNumber)}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item size={12}>
+              <FormControlLabel
+                checked={contract}
+                label={"контракт"}
+                control={<Checkbox />}
+                onChange={() => setContract((prev) => !prev)}
+              />
+            </Grid>
+          </Grid>
+          <Box>
+            <FormControlLabel
+              label="Іноземець"
+              value={foreigner}
+              checked={foreigner}
+              onChange={() => setForeigner((prev) => !prev)}
+              control={<Switch />}
+            />
+          </Box>
         </Box>
-        <Button type="submit" sx={{ marginTop: 2 }} variant="contained">
+        <Button
+          disabled={!name || !sername || !secondName || !depID || !planID}
+          type="submit"
+          sx={{ marginTop: 2 }}
+          variant="contained"
+        >
           Створити
         </Button>
       </Box>

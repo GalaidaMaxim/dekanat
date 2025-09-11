@@ -78,6 +78,11 @@ const StudentSchema = new Schema({
     default: "А",
     enum: ["А", "Б", "В", "Г", "Д"],
   },
+  birthday: { type: Number },
+  instrument: { type: String },
+  phoneNumber: {
+    type: String,
+  },
 });
 
 module.exports = model("student", StudentSchema);

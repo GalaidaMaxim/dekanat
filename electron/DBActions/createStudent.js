@@ -11,6 +11,10 @@ const createStudent = async ({
   educationPlan,
   foreigner,
   remoteType,
+  birthday,
+  instrument,
+  phoneNumber,
+  contract,
 }) => {
   try {
     const newStudent = await Students.create({
@@ -25,6 +29,10 @@ const createStudent = async ({
       remoteType,
       group: "А",
       startYear: new Date().getFullYear(),
+      birthday,
+      instrument,
+      contract,
+      phoneNumber,
     });
     if (!newStudent) {
       return null;
