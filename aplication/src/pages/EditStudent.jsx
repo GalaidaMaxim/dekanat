@@ -320,24 +320,44 @@ export const EditStudent = () => {
             <h3>{student.remoteType === "online" ? "заочна" : "денна"}</h3>
           </Grid>
         </Grid>
-        {student.group && (
-          <Grid size={4}>
-            <Box width={"140px"}>
-              <FormControl fullWidth>
-                <InputLabel>Група</InputLabel>
-                <Select
-                  label={"Група"}
-                  value={student.group}
-                  onChange={onGroupChange}
-                >
-                  {groupList.map((item) => (
-                    <MenuItem value={item}>{item}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          </Grid>
-        )}
+        <Grid>
+          {student.group && (
+            <>
+              <Grid size={4}>
+                <Box width={"140px"}>
+                  <FormControl fullWidth>
+                    <InputLabel>Група</InputLabel>
+                    <Select
+                      label={"Група"}
+                      value={student.group}
+                      onChange={onGroupChange}
+                    >
+                      {groupList.map((item) => (
+                        <MenuItem value={item}>{item}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Grid>
+              <Grid size={4}>
+                <Box width={"140px"}>
+                  <FormControl fullWidth>
+                    <InputLabel>Група</InputLabel>
+                    <Select
+                      label={"Група"}
+                      value={student.group}
+                      onChange={onGroupChange}
+                    >
+                      {groupList.map((item) => (
+                        <MenuItem value={item}>{item}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Grid>
+            </>
+          )}
+        </Grid>
       </Box>
 
       <Box marginTop={3} borderTop={1}>
