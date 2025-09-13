@@ -37,6 +37,7 @@ import { UserList } from "./pages/UserList.jsx";
 import { DeparmtsmtsList } from "./pages/DeparmstsList.jsx";
 import { EducationPlan } from "./pages/EducationPlan.jsx";
 import { Arhive } from "./pages/Arhive.jsx";
+import { Contingent } from "./pages/Contingent.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -260,6 +261,7 @@ function App() {
                 <Route element={<DeparmtsmtsList />} path="/departmentsList" />
                 <Route element={<EducationPlan />} path="/allPlanSubject" />
                 <Route element={<Arhive />} path="/achive" />
+                <Route element={<Contingent />} path="/contingent" />
               </Routes>
             </Box>
           </Paper>

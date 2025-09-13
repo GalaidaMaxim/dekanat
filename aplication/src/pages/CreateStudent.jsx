@@ -17,19 +17,7 @@ import { LevelSelector } from "../componetns/LevelSelector";
 import { PlanSelector } from "../componetns/PlanSelector";
 import { RemoteTypeSelector } from "../componetns/RemoteTypeSelector";
 import { useRemoteType } from "../redux/selector";
-
-function formatDate(ts) {
-  if (!ts) {
-    return;
-  }
-  const date = new Date(ts);
-
-  const yyyy = date.getFullYear();
-  const mm = String(date.getMonth() + 1).padStart(2, "0");
-  const dd = String(date.getDate()).padStart(2, "0");
-
-  return `${yyyy}-${mm}-${dd}`;
-}
+import { formatDate } from "../serivce/formatDate";
 
 export const CreateStudent = () => {
   const [name, setName] = useState("");

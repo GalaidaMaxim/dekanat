@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export const Reports = () => {
@@ -13,35 +13,61 @@ export const Reports = () => {
         alignItems={"flex-start"}
         gap={3}
       >
-        <Button variant="contained" onClick={() => navigate("/summary_report")}>
-          Зведені відомості
-        </Button>
-        <Button
-          onClick={() => {
-            navigate("/selectableSubjectReport", {
-              state: { from: location.pathname },
-            });
-          }}
-          variant="contained"
-        >
-          Звіт вибіркових предметів
-        </Button>
-        <Button
-          onClick={() => {
-            navigate("/debitReport", {
-              state: { from: location.pathname },
-            });
-          }}
-          variant="contained"
-        >
-          Звіт заборгованностей
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => navigate("/totalMarkReport")}
-        >
-          Тиблиця середніх балів
-        </Button>
+        <Grid container spacing={2}>
+          <Grid size={4}>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => navigate("/summary_report")}
+            >
+              Зведені відомості
+            </Button>
+          </Grid>
+          <Grid size={4}>
+            <Button
+              fullWidth
+              onClick={() => {
+                navigate("/selectableSubjectReport", {
+                  state: { from: location.pathname },
+                });
+              }}
+              variant="contained"
+            >
+              Звіт вибіркових предметів
+            </Button>
+          </Grid>
+          <Grid size={4}>
+            <Button
+              fullWidth
+              onClick={() => {
+                navigate("/debitReport", {
+                  state: { from: location.pathname },
+                });
+              }}
+              variant="contained"
+            >
+              Звіт заборгованностей
+            </Button>
+          </Grid>
+          <Grid size={4}>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => navigate("/totalMarkReport")}
+            >
+              Тиблиця середніх балів
+            </Button>
+          </Grid>
+          <Grid size={4}>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => navigate("/contingent")}
+            >
+              Контингент
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   );

@@ -1,8 +1,7 @@
 const { Students } = require("../models");
 
-module.exports = async ({ params = {}, page = 1 }) => {
+module.exports = async ({ params = {}, page = 1, limit = 6 }) => {
   try {
-    const limit = 6;
     const totalStudents = await Students.countDocuments(params);
     const result = await Students.find(params)
       .skip((page - 1) * limit)

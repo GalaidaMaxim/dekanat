@@ -7,6 +7,8 @@ import {
   Button,
   Box,
   Grid,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -15,6 +17,7 @@ import { useCource } from "../redux/selector";
 import { CourseSelector } from "../componetns/CourseSelector";
 import { useForeigner } from "../redux/selector";
 import { ForeignerSelector } from "../componetns/foreignerSelector";
+import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 
 export const StudentList = () => {
   const { id, level } = useParams();
@@ -70,6 +73,8 @@ export const StudentList = () => {
               <TableCell>Ім'я</TableCell>
               <TableCell>Курс</TableCell>
               <TableCell>Освітній ступінь</TableCell>
+              <TableCell></TableCell>
+
               <TableCell> </TableCell>
             </TableRow>
           </TableHead>
@@ -80,6 +85,23 @@ export const StudentList = () => {
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.course}</TableCell>
                 <TableCell>{item.level}</TableCell>
+                <TableCell>
+                  {(!item.birthday ||
+                    !item.instrument ||
+                    !item.phoneNumber) && (
+                    <Tooltip title="Недостатньо інформації">
+                      <IconButton
+                        onClick={() => {
+                          navigate(`/edit_student/${item._id}`, {
+                            state: { from: location.pathname },
+                          });
+                        }}
+                      >
+                        <WarningAmberOutlinedIcon color="warning" />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </TableCell>
                 <TableCell>
                   <Button
                     onClick={() => {

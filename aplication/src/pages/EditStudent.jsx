@@ -16,6 +16,7 @@ import { enable, disable, show, enableAlertAction } from "../redux/slices";
 import { useDispatch } from "react-redux";
 import { MyAcordion } from "../componetns/Acordion";
 import { StudentSubjectList } from "../componetns/StudentSubjectList";
+import { formatDate } from "../serivce/formatDate";
 
 const statusList = [
   "навчається",
@@ -99,11 +100,15 @@ export const EditStudent = () => {
     setSas(stAss);
   }, [student, subjects]);
 
-  const chageHandle = (field) => {
+  const chageHandle = (field, num = false) => {
     return (event) => {
       setStudent((prev) => {
         const newStudent = JSON.parse(JSON.stringify(prev));
-        newStudent[field] = event.target.value;
+        if (num) {
+          newStudent[field] = event.target.valueAsNumber;
+        } else {
+          newStudent[field] = event.target.value;
+        }
         return newStudent;
       });
     };
@@ -320,7 +325,7 @@ export const EditStudent = () => {
             <h3>{student.remoteType === "online" ? "заочна" : "денна"}</h3>
           </Grid>
         </Grid>
-        <Grid>
+        <Grid container rowGap={2}>
           {student.group && (
             <>
               <Grid size={4}>
@@ -340,19 +345,38 @@ export const EditStudent = () => {
                 </Box>
               </Grid>
               <Grid size={4}>
-                <Box width={"140px"}>
-                  <FormControl fullWidth>
-                    <InputLabel>Група</InputLabel>
-                    <Select
-                      label={"Група"}
-                      value={student.group}
-                      onChange={onGroupChange}
-                    >
-                      {groupList.map((item) => (
-                        <MenuItem value={item}>{item}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                <Box width="200px">
+                  <TextField
+                    fullWidth
+                    label="телефон"
+                    value={student.phoneNumber}
+                    onChange={chageHandle("phoneNumber")}
+                    onBlur={onSubmit("phoneNumber")}
+                  />
+                </Box>
+              </Grid>
+              <Grid size={4}>
+                <Box width="200px">
+                  <TextField
+                    fullWidth
+                    label="інструмент"
+                    value={student.instrument}
+                    onChange={chageHandle("instrument")}
+                    onBlur={onSubmit("instrument")}
+                  />
+                </Box>
+              </Grid>
+              <Grid size={4}>
+                <Box width="200px">
+                  <TextField
+                    fullWidth
+                    type="date"
+                    label="Дата нородження"
+                    value={formatDate(student.birthday)}
+                    onChange={chageHandle("birthday", true)}
+                    onBlur={onSubmit("birthday")}
+                    InputLabelProps={{ shrink: true }}
+                  />
                 </Box>
               </Grid>
             </>
@@ -514,12 +538,15 @@ export const EditStudent = () => {
       </Box>
       <Box>
         <h2>Код web-заліковки</h2>
-        <TextField
-          label="Номер"
-          value={student.ticketCode}
-          onChange={chageHandle("ticketCode")}
-          onBlur={onSubmit("ticketCode")}
-        />
+
+        <FormControl>
+          <TextField
+            label="Номер"
+            value={student?.ticketCode}
+            onChange={chageHandle("ticketCode")}
+            onBlur={onSubmit("ticketCode")}
+          />
+        </FormControl>
       </Box>
       <Box marginTop={4}>
         <Button
