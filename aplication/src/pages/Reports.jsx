@@ -67,6 +67,15 @@ export const Reports = () => {
               Контингент
             </Button>
           </Grid>
+          <Grid size={4}>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => navigate("/statistickEduPlan")}
+            >
+              Статистика
+            </Button>
+          </Grid>
         </Grid>
       </Box>
     </Box>
