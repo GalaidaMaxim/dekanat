@@ -195,8 +195,11 @@ export const EducationQualityStatistic = () => {
                 tickMinStep: 1,
               },
             ]}
+            yAxis={[
+              { min: 0, max: 100 }, // <-- тут задаём минимальное и максимальное значение
+            ]}
             series={[{ data: total, label: "Загальна успішність" }, ...profile]}
-            height={300}
+            height={600}
           />
         </Box>
         {students.length && (
