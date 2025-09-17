@@ -5,6 +5,8 @@ import {
   FormGroup,
   FormControlLabel,
   Grid,
+  Slider,
+  Tooltip,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { LevelSelector } from "../componetns/LevelSelector";
@@ -16,6 +18,21 @@ import { getExistingFinalMark } from "../serivce/getFinalMark";
 import { LineChart } from "@mui/x-charts";
 import { StatistickCard } from "../componetns/StatistickCard";
 import { Fragment } from "react";
+
+function ValueLabelComponent(props) {
+  const { children, value } = props;
+
+  return (
+    <Tooltip
+      enterTouchDelay={0}
+      placement="right" // показывать справа
+      title={value}
+      arrow
+    >
+      {children}
+    </Tooltip>
+  );
+}
 
 function roundTo(num, decimals = 2) {
   const factor = Math.pow(10, decimals);
@@ -56,6 +73,7 @@ export const EducationQualityStatistic = () => {
   const [students, setStudents] = useState([]);
   const [level, setLevel] = useState("");
   const [departments, setDepartments] = useState([]);
+  const [range, setRandge] = useState([0, 100]);
 
   useEffect(() => {
     if (!level) {
@@ -185,22 +203,41 @@ export const EducationQualityStatistic = () => {
             </Box>
           </FormGroup>
         </Box>
-        <Box>
-          <LineChart
-            xAxis={[
-              {
-                data: setYear,
-                label: "Роки",
-                tickValues: setYear,
-                tickMinStep: 1,
-              },
-            ]}
-            yAxis={[
-              { min: 0, max: 100 }, // <-- тут задаём минимальное и максимальное значение
-            ]}
-            series={[{ data: total, label: "Загальна успішність" }, ...profile]}
-            height={600}
-          />
+        <Box display={"flex"}>
+          <Box paddingTop={"70px"} paddingBottom={"70px"}>
+            <Slider
+              orientation="vertical"
+              value={range}
+              onChange={(event, newValue) => {
+                setRandge(newValue);
+              }}
+              valueLabelDisplay="auto"
+              disableSwap
+              min={0}
+              max={100}
+              slots={{ valueLabel: ValueLabelComponent }}
+            />
+          </Box>
+          <Box flexGrow={1}>
+            <Box width={"100%"}>
+              <LineChart
+                xAxis={[
+                  {
+                    data: setYear,
+                    label: "Роки",
+                    tickValues: setYear,
+                    tickMinStep: 1,
+                  },
+                ]}
+                yAxis={[{ min: range[0], max: range[1] }]}
+                series={[
+                  { data: total, label: "Загальна успішність" },
+                  ...profile,
+                ]}
+                height={600}
+              />
+            </Box>
+          </Box>
         </Box>
         {students.length && (
           <Box>

@@ -1,4 +1,13 @@
-import { Box, Button, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  Table,
+  TableHead,
+  TableCell,
+  TableBody,
+  TableRow,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { PlanSelector } from "../componetns/PlanSelector";
@@ -39,6 +48,7 @@ export const StatistickEduPlan = () => {
   const [students, setStudents] = useState([]);
   const [planID, setPlanID] = useState(null);
   const [subjects, setSubjects] = useState([]);
+  const [sort, setSort] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -58,6 +68,7 @@ export const StatistickEduPlan = () => {
       });
 
       setStudents(students.studentsArr);
+      setSort(0);
       setSubjects(subjects);
       dispatch(disable());
     })();
@@ -66,13 +77,19 @@ export const StatistickEduPlan = () => {
   const studentsCount = students.length;
   const subjectsCount = subjects.length;
 
-  const subjectsStatistick = subjectUseCount(
+  let subjectsStatistick = subjectUseCount(
     subjects.filter(
       (item) => item.code.charAt(0) === "3" || item.code.charAt(0) === "4"
     ),
     students
   );
+  console.log(subjectsStatistick);
 
+  if (sort === 1) {
+    subjectsStatistick = subjectsStatistick.sort((a, b) => a.count - b.count);
+  } else if (sort === -1) {
+    subjectsStatistick = subjectsStatistick.sort((a, b) => b.count - a.count);
+  }
   return (
     <Box>
       <Button
@@ -105,29 +122,42 @@ export const StatistickEduPlan = () => {
             />
           </Grid>
         </Grid>
-        <BarChart
-          layout="horizontal"
-          dataset={subjectsStatistick}
-          yAxis={[
-            {
-              dataKey: "DK",
-              tickSize: 10,
-              tickLabelStyle: {
-                fontSize: 12,
-              },
-            },
-          ]}
-          series={[
-            {
-              dataKey: "count",
-            },
-          ]}
-          barLabel={(item, context) => {
-            return `${Math.round((item.value * 100) / studentsCount)}%`;
-          }}
-          height={subjectsStatistick.length * 60}
-        />
       </Box>
+      <Box
+        display={"flex"}
+        flexDirection={"row"}
+        gap={2}
+        marginTop={2}
+        marginBottom={2}
+      >
+        <Button onClick={() => setSort(1)} variant="contained">
+          Сортувати за зостанням
+        </Button>
+        <Button onClick={() => setSort(-1)} variant="contained">
+          Сортувати за спаданням
+        </Button>
+      </Box>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell sx={{ fontWeight: 800 }}>Назва предмету</TableCell>
+            <TableCell sx={{ fontWeight: 800 }}>Кількість студентів</TableCell>
+            <TableCell sx={{ fontWeight: 800 }}>Відсоткове значення</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {subjectsStatistick.map((item) => (
+            <TableRow key={item._id}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.count}</TableCell>
+              <TableCell>{`${Math.round(
+                (item.count * 100) / studentsCount
+              )}%`}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </Box>
   );
 };
+//  `${Math.round((item.value * 100) / studentsCount)}%`
