@@ -39,7 +39,7 @@ import { EducationPlan } from "./pages/EducationPlan.jsx";
 import { Arhive } from "./pages/Arhive.jsx";
 import { Contingent } from "./pages/Contingent.jsx";
 import { StatistickEduPlan } from "./pages/StatistickEduPlan.jsx";
-
+import { EducationQualityStatistic } from "./pages/EducationQualityStatistic.jsx";
 function App() {
   const navigate = useNavigate();
   const loading = useLoading();
@@ -266,6 +266,10 @@ function App() {
                 <Route
                   element={<StatistickEduPlan />}
                   path="/statistickEduPlan"
+                />
+                <Route
+                  element={<EducationQualityStatistic />}
+                  path="/educationQualityStatistic"
                 />
               </Routes>
             </Box>

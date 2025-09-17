@@ -72,7 +72,6 @@ export const StatistickEduPlan = () => {
     ),
     students
   );
-  console.log(subjectsStatistick);
 
   return (
     <Box>

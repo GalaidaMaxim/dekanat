@@ -67,13 +67,23 @@ export const Reports = () => {
               Контингент
             </Button>
           </Grid>
+
           <Grid size={4}>
             <Button
               fullWidth
               variant="contained"
               onClick={() => navigate("/statistickEduPlan")}
             >
-              Статистика
+              Статистика навчальних планів
+            </Button>
+          </Grid>
+          <Grid size={4}>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => navigate("/educationQualityStatistic")}
+            >
+              Статистика успішності
             </Button>
           </Grid>
         </Grid>
