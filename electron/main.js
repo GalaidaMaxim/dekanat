@@ -8,7 +8,7 @@ const {
   isMongouseConnected,
   openFileDialog,
 } = require("./service");
-const createStatment = require("./docDocumtns/createStatement");
+const createStatmentDocument = require("./docDocumtns/createStatement");
 const createIndividualPlan = require("./docDocumtns/createIndividualPlan");
 const { createAppMenu } = require("./AppMenu");
 const {
@@ -55,6 +55,7 @@ const {
   getStudentsByEducationPlan,
   readAchiveStudent,
   archiveYear,
+  createStatment,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -108,7 +109,7 @@ app.whenReady().then(async () => {
   ipcMain.handle("getStudentsByParams", apiMidlvare(getStudentsByParams));
   ipcMain.handle("getFacultets", apiMidlvare(getFacultets));
   ipcMain.handle("deleteSubject", apiMidlvare(deleteSubject));
-  ipcMain.handle("createStatment", createStatment);
+  ipcMain.handle("createStatmentDocument", createStatmentDocument);
   ipcMain.handle("selectFolder", openFolderSelector(mainWindow));
   ipcMain.handle("openFileDialog", openFolderSelector(openFileDialog));
 
@@ -149,6 +150,7 @@ app.whenReady().then(async () => {
   );
   ipcMain.handle("readAchiveStudent", apiMidlvare(readAchiveStudent));
   ipcMain.handle("archiveYear", apiMidlvare(archiveYear));
+  ipcMain.handle("createStatment", apiMidlvare(createStatment));
 });
 
 app.on("window-all-closed", async () => {

@@ -60,6 +60,9 @@ const StatmentSchema = new Schema({
     default: "А",
     enum: ["А", "Б", "В", "Г", "Д"],
   },
+  foreigner: {
+    type: Boolean,
+  },
 });
 
 module.exports = model("statment", StatmentSchema);

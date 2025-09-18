@@ -20,6 +20,8 @@ import { useFacultet } from "../redux/selector";
 import { RemoteTypeSelector } from "../componetns/RemoteTypeSelector";
 import { YearSelector } from "../componetns/YearSelector";
 import { useYear } from "../redux/selector";
+import { inwokeMain } from "../serivce/inwokeMain";
+import { UserSelector } from "../componetns/UserSelector";
 
 export const CreateStatemntDocument = () => {
   const [level, setLevel] = useState("");
@@ -29,6 +31,9 @@ export const CreateStatemntDocument = () => {
   const [subjectID, setSubjectID] = useState(null);
   const [students, setStudents] = useState([]);
   const [number, setNumber] = useState("");
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState("");
+
   const year = useYear();
 
   const [filePath, setFilePath] = useState("");
@@ -87,28 +92,56 @@ export const CreateStatemntDocument = () => {
       });
   }, [level, planID, depID, cource, subjectID, dispatch, foreginer]);
 
-  const createSatement = () => {
-    window.mainApi
-      .invokeMain("createStatment", {
-        OS: level,
-        students,
-        OOP: depID,
-        c: cource,
-        S: semester,
-        subject: subjectID,
-        filePath,
-        teacher: examenator,
-        decan,
-        facultet,
-        remoteType,
-        number,
-        year,
-      })
-      .then(() => {
-        dispatch(show({ title: "Відомість створено", type: "success" }));
-        setNumber("");
-      })
-      .catch(() => {});
+  // const createSatement = () => {
+  //   window.mainApi
+  //     .invokeMain("createStatment", {
+  //       OS: level,
+  //       students,
+  //       OOP: depID,
+  //       c: cource,
+  //       S: semester,
+  //       subject: subjectID,
+  //       filePath,
+  //       teacher: examenator,
+  //       decan,
+  //       facultet,
+  //       remoteType,
+  //       number,
+  //       year,
+  //     })
+  //     .then(() => {
+  //       dispatch(show({ title: "Відомість створено", type: "success" }));
+  //       setNumber("");
+  //     })
+  //     .catch(() => {
+  //       dispatch(show({ title: "Помилка створення", type: "error" }));
+  //     });
+  // };
+
+  const createSatement = async () => {
+    dispatch(enable());
+    const statment = await inwokeMain({
+      command: "createStatment",
+      options: {
+        data: {
+          department: depID,
+          educationPlan: planID,
+          course: cource,
+          semester,
+          subject: subjectID,
+          facultet,
+          remoteType,
+          code: number,
+          year,
+          user,
+          decan,
+          foreigner: foreginer,
+        },
+      },
+    });
+    console.log(statment);
+
+    dispatch(disable());
   };
 
   const setSavePath = () => {
@@ -120,7 +153,6 @@ export const CreateStatemntDocument = () => {
       setFilePath(result);
     });
   };
-  console.log(subjectID, "in fact");
 
   return (
     <Box>
@@ -193,12 +225,7 @@ export const CreateStatemntDocument = () => {
 
         <Box display={"flex"} justifyContent={"space-between"} mt={2}>
           <Box width={"47%"}>
-            <TextField
-              fullWidth
-              label={"екзаменатор"}
-              value={examenator}
-              onChange={(event) => setExamenator(event.target.value)}
-            />
+            <UserSelector setUser={setUser} />
           </Box>
           <Box width={"47%"}>
             <TextField

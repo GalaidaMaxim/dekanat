@@ -7,7 +7,7 @@ const User = require("./User");
 const { Action, createAction } = require("./Action");
 const Facultet = require("./Facultets");
 const State = require("./State");
-
+const Statment = require("./Statement");
 module.exports = {
   Departments,
   Students,
@@ -19,4 +19,5 @@ module.exports = {
   createAction,
   Facultet,
   State,
+  Statment,
 };
