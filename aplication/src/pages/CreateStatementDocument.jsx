@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, IconButton, TextField } from "@mui/material";
 import { LevelSelector } from "../componetns/LevelSelector";
 import { useEffect, useState } from "react";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
@@ -22,6 +22,7 @@ import { YearSelector } from "../componetns/YearSelector";
 import { useYear } from "../redux/selector";
 import { inwokeMain } from "../serivce/inwokeMain";
 import { UserSelector } from "../componetns/UserSelector";
+import CloseIcon from "@mui/icons-material/Close";
 
 export const CreateStatemntDocument = () => {
   const [level, setLevel] = useState("");
@@ -32,7 +33,7 @@ export const CreateStatemntDocument = () => {
   const [students, setStudents] = useState([]);
   const [number, setNumber] = useState("");
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState("");
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const year = useYear();
 
@@ -133,25 +134,18 @@ export const CreateStatemntDocument = () => {
           remoteType,
           code: number,
           year,
-          user,
           decan,
+          users: selectedUsers.map((item) => item._id),
           foreigner: foreginer,
         },
       },
     });
-    console.log(statment);
 
     dispatch(disable());
   };
 
-  const setSavePath = () => {
-    window.mainApi.invokeMain("selectFolder").then((data) => {
-      const result = JSON.parse(data);
-      if (!result) {
-        return;
-      }
-      setFilePath(result);
-    });
+  const removeUser = (id) => {
+    setSelectedUsers((prev) => prev.filter((item) => item._id !== id));
   };
 
   return (
@@ -225,9 +219,6 @@ export const CreateStatemntDocument = () => {
 
         <Box display={"flex"} justifyContent={"space-between"} mt={2}>
           <Box width={"47%"}>
-            <UserSelector setUser={setUser} />
-          </Box>
-          <Box width={"47%"}>
             <TextField
               fullWidth
               label={"декан"}
@@ -236,15 +227,33 @@ export const CreateStatemntDocument = () => {
             />
           </Box>
         </Box>
+        {selectedUsers.length !== 0 && (
+          <Box display={"flex"} gap={2} marginTop={2}>
+            {selectedUsers.map((item) => (
+              <Box
+                display={"inline-flex"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                paddingLeft={2}
+                paddingRight={2}
+                key={item._id}
+                borderRadius={"20px"}
+                sx={{ backgroundColor: "#bdbdbd" }}
+              >
+                <Box>{`${item.sername} ${item.name}`}</Box>
+                <IconButton onClick={() => removeUser(item._id)}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+            ))}
+          </Box>
+        )}
         <Box marginTop={2}>
-          <Button variant="contained" onClick={setSavePath}>
-            Вибрати шлях для збереження
-          </Button>
-          <Box marginTop={2} borderRadius={2} border={1} padding={1}>
-            Шлях для збереження файлу:{" "}
-            <span style={{ fontWeight: 700 }}>{filePath}</span>
+          <Box width={"47%"}>
+            <UserSelector setUser={setSelectedUsers} />
           </Box>
         </Box>
+
         <Box>
           <ForeginerSelector
             label="Обрати іноземців"
@@ -259,8 +268,7 @@ export const CreateStatemntDocument = () => {
               students.length === 0 ||
               !semester ||
               !decan ||
-              !examenator ||
-              !filePath ||
+              !users.lenth === 0 ||
               !year ||
               !number
             }

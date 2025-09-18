@@ -45,11 +45,13 @@ const StatmentSchema = new Schema({
     trim: true,
     require: true,
   },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "user",
-    require: true,
-  },
+  users: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      require: true,
+    },
+  ],
   decan: {
     type: String,
     trim: true,

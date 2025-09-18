@@ -25,10 +25,15 @@ export const UserSelector = ({ setUser }) => {
 
   useEffect(() => {
     if (!value) {
-      setUser("");
       return;
     }
-    setUser(value._id);
+    setUser((prev) => {
+      if (prev.some((item) => item._id === value._id)) {
+        return [...prev];
+      }
+      return [...prev, value];
+    });
+    setValue("");
   }, [value]);
 
   return (
