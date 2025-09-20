@@ -2,7 +2,11 @@ const { Statment } = require("../models");
 module.exports = async ({ params = {}, page = 1, limit = 30 }) => {
   try {
     const count = await Statment.countDocuments({ params });
-    const statments = await Statment.find({ params })
+    const statments = await Statment.find(params)
+      .populate("educationPlan")
+      .populate("facultet")
+      .populate("department")
+      .populate("subject")
       .sort({
         code: 1,
       })

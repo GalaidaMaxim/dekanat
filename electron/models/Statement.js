@@ -22,7 +22,7 @@ const StatmentSchema = new Schema({
   },
   subject: {
     type: Schema.Types.ObjectId,
-    ref: "subject",
+    ref: "Subject",
     require: true,
   },
   facultet: {

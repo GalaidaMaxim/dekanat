@@ -57,6 +57,7 @@ const {
   archiveYear,
   createStatment,
   getStatmentsByParams,
+  deleteStatment,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -153,6 +154,7 @@ app.whenReady().then(async () => {
   ipcMain.handle("archiveYear", apiMidlvare(archiveYear));
   ipcMain.handle("createStatment", apiMidlvare(createStatment));
   ipcMain.handle("getStatmentsByParams", apiMidlvare(getStatmentsByParams));
+  ipcMain.handle("deleteStatment", apiMidlvare(deleteStatment));
 });
 
 app.on("window-all-closed", async () => {
