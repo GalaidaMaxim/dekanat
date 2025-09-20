@@ -35,6 +35,7 @@ const getStudentsByEducationPlan = require("./getStudentsByEducationPlan");
 const readAchiveStudent = require("./readAchivedStudent");
 const archiveYear = require("./archiveYear");
 const createStatment = require("./createStatement");
+const getStatmentsByParams = require("./getStatmentsByParams");
 
 module.exports = {
   deleteStudent,
@@ -74,4 +75,5 @@ module.exports = {
   readAchiveStudent,
   archiveYear,
   createStatment,
+  getStatmentsByParams,
 };

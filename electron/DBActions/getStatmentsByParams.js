@@ -1,4 +1,20 @@
 const { Statment } = require("../models");
-module.exports = async ({ params = {} }) => {
-  const statment = await Statment.countDocuments(params);
+module.exports = async ({ params = {}, page = 1, limit = 30 }) => {
+  try {
+    const count = await Statment.countDocuments({ params });
+    const statments = await Statment.find({ params })
+      .sort({
+        code: 1,
+      })
+      .skip((page - 1) * limit)
+      .limit(limit);
+    return {
+      pages: Math.ceil(count / limit),
+      statments,
+    };
+  } catch (err) {
+    console.log(err);
+
+    return false;
+  }
 };
