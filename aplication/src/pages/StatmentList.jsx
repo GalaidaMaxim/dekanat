@@ -19,6 +19,8 @@ import { LevelSelector } from "../componetns/LevelSelector";
 import { DepartmentSelector } from "../componetns/DepartmentSelector";
 import { useCource } from "../redux/selector";
 import CloseIcon from "@mui/icons-material/Close";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { useLocation } from "react-router-dom";
 
 export const StatmentList = () => {
   const navigate = useNavigate();
@@ -27,6 +29,16 @@ export const StatmentList = () => {
   const [department, setDepartment] = useState("");
   const course = useCource();
   const [statmets, setStatments] = useState([]);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state.level) {
+      setLevel(location.state.level);
+    }
+    if (location.state.department) {
+      setDepartment(location.state.department);
+    }
+  }, [location]);
 
   useEffect(() => {
     if (!department || !level || !course) {
@@ -36,7 +48,7 @@ export const StatmentList = () => {
       dispatch(enable());
       const result = await inwokeMain({
         command: "getStatmentsByParams",
-        options: { params: { department, level, course } },
+        options: { params: { department, level, course }, limit: 0 },
       });
       setStatments(result.statments);
       dispatch(disable());
@@ -49,12 +61,15 @@ export const StatmentList = () => {
       command: "deleteStatment",
       options: { id },
     });
-    console.log(result);
 
     if (result) {
       setStatments((prev) => [...prev].filter((item) => item._id !== id));
     }
     dispatch(disable());
+  };
+
+  const onEdit = async (id) => {
+    navigate(`/statmentView/${id}`, { state: { department, level } });
   };
 
   return (
@@ -93,6 +108,7 @@ export const StatmentList = () => {
               <TableCell sx={{ fontWeight: "600" }}>Предмет</TableCell>
               <TableCell sx={{ fontWeight: "600" }}>Профілізація</TableCell>
               <TableCell sx={{ fontWeight: "600" }}></TableCell>
+              <TableCell sx={{ fontWeight: "600" }}></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -101,6 +117,11 @@ export const StatmentList = () => {
                 <TableCell>{item.code}</TableCell>
                 <TableCell>{item.subject.name}</TableCell>
                 <TableCell>{item.department.name}</TableCell>
+                <TableCell>
+                  <IconButton onClick={() => onEdit(item._id)} color="primary">
+                    <RemoveRedEyeIcon />
+                  </IconButton>
+                </TableCell>
                 <TableCell>
                   <IconButton onClick={() => onDelete(item._id)} color="error">
                     <CloseIcon />

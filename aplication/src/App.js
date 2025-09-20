@@ -41,6 +41,7 @@ import { Contingent } from "./pages/Contingent.jsx";
 import { StatistickEduPlan } from "./pages/StatistickEduPlan.jsx";
 import { EducationQualityStatistic } from "./pages/EducationQualityStatistic.jsx";
 import { StatmentList } from "./pages/StatmentList.jsx";
+import { StatmentView } from "./pages/StatmentViev.jsx";
 function App() {
   const navigate = useNavigate();
   const loading = useLoading();
@@ -133,7 +134,7 @@ function App() {
                 variant="outlined"
                 onClick={() => navigate("/documentCreation")}
               >
-                Документи
+                Відомості
               </Button>
               <Button
                 fullWidth
@@ -273,6 +274,7 @@ function App() {
                   path="/educationQualityStatistic"
                 />
                 <Route element={<StatmentList />} path="/statmentList" />
+                <Route element={<StatmentView />} path="/statmentView/:id" />
               </Routes>
             </Box>
           </Paper>

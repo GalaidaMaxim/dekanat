@@ -7,6 +7,10 @@ module.exports = async ({ params = {}, page = 1, limit = 30 }) => {
       .populate("facultet")
       .populate("department")
       .populate("subject")
+      .populate({
+        path: "users", // массив ObjectId
+        select: "name sername", // только эти поля
+      })
       .sort({
         code: 1,
       })

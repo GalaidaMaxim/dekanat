@@ -93,32 +93,6 @@ export const CreateStatemntDocument = () => {
       });
   }, [level, planID, depID, cource, subjectID, dispatch, foreginer]);
 
-  // const createSatement = () => {
-  //   window.mainApi
-  //     .invokeMain("createStatment", {
-  //       OS: level,
-  //       students,
-  //       OOP: depID,
-  //       c: cource,
-  //       S: semester,
-  //       subject: subjectID,
-  //       filePath,
-  //       teacher: examenator,
-  //       decan,
-  //       facultet,
-  //       remoteType,
-  //       number,
-  //       year,
-  //     })
-  //     .then(() => {
-  //       dispatch(show({ title: "Відомість створено", type: "success" }));
-  //       setNumber("");
-  //     })
-  //     .catch(() => {
-  //       dispatch(show({ title: "Помилка створення", type: "error" }));
-  //     });
-  // };
-
   const createSatement = async () => {
     dispatch(enable());
     const statment = await inwokeMain({

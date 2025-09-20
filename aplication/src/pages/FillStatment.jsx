@@ -10,6 +10,7 @@ import {
   MenuItem,
   FormControl,
   Select,
+  Checkbox,
 } from "@mui/material";
 import { IoReturnDownBackOutline } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
@@ -92,9 +93,38 @@ export const FillStatment = () => {
     };
   };
 
+  const redeliveryHandle = (_id, index) => {
+    return async (event) => {
+      const obj = JSON.parse(JSON.stringify(students[index]));
+      obj.subjects.find((item) => item._id === _id).semesters[
+        semester - 1
+      ].reDelivery = !obj.subjects.find((item) => item._id === _id).semesters[
+        semester - 1
+      ].reDelivery;
+
+      window.mainApi
+        .invokeMain("updateStudent", {
+          id: students[index]._id,
+          info: {
+            subjects: obj.subjects,
+          },
+        })
+        .then((result) => {
+          setStudents((prev) => {
+            const arr = JSON.parse(JSON.stringify(prev));
+            arr[index] = JSON.parse(result);
+            return arr;
+          });
+          console.log(JSON.parse(result));
+        });
+    };
+  };
+
   return (
     <Box>
-      <Button onClick={() => naviage(location.state.from)}>
+      <Button
+        onClick={() => naviage(location.state.from, { state: location.state })}
+      >
         <IoReturnDownBackOutline />
       </Button>
       <h1>Заповнення відомості</h1>
@@ -103,6 +133,7 @@ export const FillStatment = () => {
           <TableRow>
             <TableCell>Студент</TableCell>
             <TableCell>Оцінка</TableCell>
+            <TableCell>Перездача</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -137,6 +168,16 @@ export const FillStatment = () => {
                     </FormControl>
                   </Box>
                 )}
+              </TableCell>
+              <TableCell>
+                <Checkbox
+                  checked={
+                    student.subjects.find((i) => i._id === subjectID).semesters[
+                      semester - 1
+                    ].reDelivery
+                  }
+                  onChange={redeliveryHandle(subjectID, index)}
+                />
               </TableCell>
             </TableRow>
           ))}

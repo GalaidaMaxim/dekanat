@@ -1,6 +1,7 @@
 const PizZip = require("pizzip");
 const Docxtemplater = require("docxtemplater");
 const { Subjects, Departments, Facultet } = require("../models");
+const { intToABC, intToNational } = require("../service/formulas");
 
 const fs = require("fs");
 const path = require("path");
@@ -73,7 +74,24 @@ module.exports = async (
         s: index + 1,
       };
     }
+    let mark = item.subjects.find((sb) => sb._id === subject._id.toString())
+      .semesters[S - 1].mark;
+    let national;
+    let ECTS;
+    if (formControl === "залік") {
+      national = "";
+      ECTS = "";
+    } else {
+      national = intToNational(Number.parseInt(mark));
+      ECTS = intToABC(Number.parseInt(mark));
+    }
+    if (!mark) {
+      mark = "";
+    }
     return {
+      national,
+      ECTS,
+      mark,
       name: `${item.sername} ${item.name.charAt(0)}. ${item.secondName.charAt(
         0
       )}.`,
@@ -104,9 +122,7 @@ module.exports = async (
     // For a 50MB output document, expect 500ms additional CPU time
     compression: "DEFLATE",
   });
-  const fileName = `${c} ${OOP} ${OS} ${subject.name} ${new Date(
-    Date.now()
-  ).getFullYear()}.docx`;
+  const fileName = `${subject.name} ${new Date(Date.now()).getFullYear()}.docx`;
   // buf is a nodejs Buffer, you can either write it to a
   // file or res.send it with express for example.
 
