@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export const DocumentCreation = () => {
@@ -6,23 +6,37 @@ export const DocumentCreation = () => {
   const location = useLocation();
   return (
     <Box>
-      <h1>Створення нормативних довументів</h1>
-      <Box
-        display={"flex"}
-        flexDirection={"column"}
-        alignItems={"flex-start"}
-        gap={3}
-      >
-        <Button
-          onClick={() => {
-            navigate("/create_statemnt_document", {
-              state: { from: location.pathname },
-            });
-          }}
-          variant="contained"
-        >
-          Створення оцінювальних відомостей
-        </Button>
+      <h1>Відомості</h1>
+      <Box>
+        <Grid gap={2} container>
+          <Grid size={4}>
+            <Button
+              fullWidth
+              onClick={() => {
+                navigate("/create_statemnt_document", {
+                  state: { from: location.pathname },
+                });
+              }}
+              variant="contained"
+            >
+              Створення відомостей
+            </Button>
+          </Grid>
+
+          <Grid size={4}>
+            <Button
+              fullWidth
+              onClick={() => {
+                navigate("/statmentList", {
+                  state: { from: location.pathname },
+                });
+              }}
+              variant="contained"
+            >
+              Список відомостей
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   );

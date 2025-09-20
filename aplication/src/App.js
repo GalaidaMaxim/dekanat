@@ -40,6 +40,7 @@ import { Arhive } from "./pages/Arhive.jsx";
 import { Contingent } from "./pages/Contingent.jsx";
 import { StatistickEduPlan } from "./pages/StatistickEduPlan.jsx";
 import { EducationQualityStatistic } from "./pages/EducationQualityStatistic.jsx";
+import { StatmentList } from "./pages/StatmentList.jsx";
 function App() {
   const navigate = useNavigate();
   const loading = useLoading();
@@ -162,13 +163,13 @@ function App() {
               >
                 Додати предмет
               </Button>
-              <Button
+              {/* <Button
                 fullWidth
                 variant="outlined"
                 onClick={() => navigate("/plans")}
               >
                 Індивідуальні плани
-              </Button>
+              </Button> */}
               <Button
                 fullWidth
                 variant="outlined"
@@ -271,6 +272,7 @@ function App() {
                   element={<EducationQualityStatistic />}
                   path="/educationQualityStatistic"
                 />
+                <Route element={<StatmentList />} path="/statmentList" />
               </Routes>
             </Box>
           </Paper>
