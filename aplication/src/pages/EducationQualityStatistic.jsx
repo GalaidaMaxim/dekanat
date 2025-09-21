@@ -66,6 +66,20 @@ const reworkStudent = (student) => {
   return result;
 };
 
+const calculateSucssefull = (students, threshold = 73) => {
+  let count = 0;
+  let mCount = 0;
+  students.forEach((student) => {
+    student.arr.forEach((mark) => {
+      if (mark > threshold) {
+        mCount++;
+      }
+      count++;
+    });
+  });
+  return roundTo((mCount / count) * 100);
+};
+
 export const EducationQualityStatistic = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -253,16 +267,16 @@ export const EducationQualityStatistic = () => {
               </Grid>
               <Grid size={3}>
                 <StatistickCard
-                  title={"Медіана"}
-                  value={calculateMedian(students)}
+                  title={"Якісна успішність"}
+                  value={`${calculateSucssefull(students)}%`}
+                  size={30}
                 />
               </Grid>
               <Grid size={3}>
                 <StatistickCard
-                  title={"Різниця"}
-                  value={roundTo(
-                    roundTo(calculateAVG(students)) - calculateMedian(students)
-                  )}
+                  title={"Абсолютна успішність"}
+                  value={`${calculateSucssefull(students, 59)}%`}
+                  size={30}
                 />
               </Grid>
               {departments
@@ -286,31 +300,25 @@ export const EducationQualityStatistic = () => {
                     </Grid>
                     <Grid size={3}>
                       <StatistickCard
-                        title={"Медіана"}
-                        value={calculateMedian(
+                        title={"Якісна успішність"}
+                        value={`${calculateSucssefull(
                           students.filter(
                             (item) => item.department._id === dep._id
                           )
-                        )}
+                        )}%`}
+                        size={30}
                       />
                     </Grid>
                     <Grid size={3}>
                       <StatistickCard
-                        title={"Різниця"}
-                        value={roundTo(
-                          roundTo(
-                            calculateAVG(
-                              students.filter(
-                                (item) => item.department._id === dep._id
-                              )
-                            )
-                          ) -
-                            calculateMedian(
-                              students.filter(
-                                (item) => item.department._id === dep._id
-                              )
-                            )
-                        )}
+                        title={"Абсолютна успішність"}
+                        value={`${calculateSucssefull(
+                          students.filter(
+                            (item) => item.department._id === dep._id
+                          ),
+                          59
+                        )}%`}
+                        size={30}
                       />
                     </Grid>
                   </Fragment>

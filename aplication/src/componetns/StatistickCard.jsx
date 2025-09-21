@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-export const StatistickCard = ({ title, value }) => {
+export const StatistickCard = ({ title, value, size = 40 }) => {
   return (
     <Box
       display={"flex"}
@@ -13,7 +13,7 @@ export const StatistickCard = ({ title, value }) => {
       <Typography sx={{ textAlign: "center", fontWeight: 500, fontSize: 24 }}>
         {title}
       </Typography>
-      <Typography sx={{ textAlign: "center", fontWeight: 900, fontSize: 40 }}>
+      <Typography sx={{ textAlign: "center", fontWeight: 900, fontSize: size }}>
         {value}
       </Typography>
     </Box>

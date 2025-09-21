@@ -8,8 +8,8 @@ module.exports = async ({ filePath, students, subjectID, semester }) => {
       path: path.join(filePath, `${subject.name} відомість.csv`),
       header: [
         { id: "sername", title: "Прізвище" },
-        { id: "secondName", title: "Побатькові" },
         { id: "name", title: "Ім'я" },
+        { id: "secondName", title: "Побатькові" },
         { id: "mark", title: "Оцінка" },
       ],
     });
