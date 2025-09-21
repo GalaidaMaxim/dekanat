@@ -10,6 +10,10 @@ const {
 } = require("./service");
 const createStatmentDocument = require("./docDocumtns/createStatement");
 const createIndividualPlan = require("./docDocumtns/createIndividualPlan");
+
+const createStatmentCSV = require("./CSVdoc/createStatmentCSV");
+const uploadStatmentCSV = require("./CSVdoc/uploadStatmentCSV");
+
 const { createAppMenu } = require("./AppMenu");
 const {
   checkFileExisting,
@@ -155,6 +159,8 @@ app.whenReady().then(async () => {
   ipcMain.handle("createStatment", apiMidlvare(createStatment));
   ipcMain.handle("getStatmentsByParams", apiMidlvare(getStatmentsByParams));
   ipcMain.handle("deleteStatment", apiMidlvare(deleteStatment));
+  ipcMain.handle("createStatmentCSV", apiMidlvare(createStatmentCSV));
+  ipcMain.handle("uploadStatmentCSV", apiMidlvare(uploadStatmentCSV));
 });
 
 app.on("window-all-closed", async () => {

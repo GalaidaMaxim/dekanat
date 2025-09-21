@@ -4,10 +4,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Grid,
   Button,
-  TableHead,
-  IconButton,
   Typography,
 } from "@mui/material";
 import { inwokeMain } from "../serivce/inwokeMain";
@@ -15,7 +12,6 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { enable, disable, show } from "../redux/slices";
-import CloseIcon from "@mui/icons-material/Close";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { StudentList } from "../componetns/StudentList";
@@ -30,17 +26,17 @@ export const StatmentView = () => {
 
   useEffect(() => {
     (async () => {
+      dispatch(enable());
       const result = await inwokeMain({
         command: "getStatmentsByParams",
         options: { params: { _id: id } },
       });
       if (result) {
-        console.log(result);
-
         setStatment(result.statments[0]);
       }
+      dispatch(disable());
     })();
-  }, [id]);
+  }, [id, dispatch]);
 
   useEffect(() => {
     if (!statment) {
@@ -57,7 +53,6 @@ export const StatmentView = () => {
       })
       .then((result) => {
         const data = JSON.parse(result);
-        console.log(data);
         if (!data) {
           return;
         }
@@ -118,6 +113,31 @@ export const StatmentView = () => {
     })();
   };
 
+  const createCSV = () => {
+    (async () => {
+      try {
+        const path = await inwokeMain({ command: "selectFolder" });
+        if (!path) {
+          return;
+        }
+
+        const result = await window.mainApi.invokeMain("createStatmentCSV", {
+          filePath: path,
+          students,
+          subjectID: statment.subject._id,
+          semester: statment.semester,
+        });
+        if (!result) {
+          return new Error();
+        }
+        dispatch(show({ title: "CSV файл створено", type: "success" }));
+      } catch (err) {
+        console.log(err);
+        dispatch(show({ title: "Помилка створення", type: "error" }));
+      }
+    })();
+  };
+
   const onNavigate = () => {
     navigate("/fill_statement", {
       state: {
@@ -128,6 +148,37 @@ export const StatmentView = () => {
         semester: statment.semester,
       },
     });
+  };
+
+  const uploadCSV = () => {
+    (async () => {
+      try {
+        const path = await inwokeMain({ command: "openFileDialog" });
+        if (!path) {
+          return;
+        }
+
+        const result = await inwokeMain({
+          command: "uploadStatmentCSV",
+          options: {
+            path,
+            subjectID: statment.subject._id,
+            semester: statment.semester,
+            level: statment.educationPlan.level,
+            course: statment.course,
+          },
+        });
+
+        if (!result) {
+          return new Error();
+        }
+        setStudents(result);
+        dispatch(show({ title: "CSV завантажено створено", type: "success" }));
+      } catch (err) {
+        console.log(err);
+        dispatch(show({ title: "Помилка завантаження", type: "error" }));
+      }
+    })();
   };
 
   return (
@@ -215,6 +266,22 @@ export const StatmentView = () => {
           onClick={onNavigate}
         >
           Заповнити відомість
+        </Button>
+        <Button
+          disabled={students.length === 0}
+          variant="contained"
+          sx={{ marginLeft: "30px" }}
+          onClick={createCSV}
+        >
+          Створити СSV
+        </Button>
+        <Button
+          disabled={students.length === 0}
+          variant="contained"
+          sx={{ marginLeft: "30px" }}
+          onClick={uploadCSV}
+        >
+          Завантажити СSV
         </Button>
       </Box>
     </Box>
