@@ -117,7 +117,7 @@ export const EducationPlan = () => {
           <TableBody>
             <TableRow>
               <TableCell align="center" colSpan={5}>
-                Перша категорія
+                I. ОБОВ’ЯЗКОВІ ОСВІТНІ КОМПОНЕНТИ
               </TableCell>
             </TableRow>
             {subjects
@@ -135,7 +135,7 @@ export const EducationPlan = () => {
               ))}
             <TableRow>
               <TableCell align="center" colSpan={5}>
-                Профільні
+                ІІ. ВИБІРКОВІ ОСВІТНІ КОМПОНЕНТИ
               </TableCell>
             </TableRow>
             {departments.map((item) => (
@@ -165,7 +165,8 @@ export const EducationPlan = () => {
             ))}
             <TableRow>
               <TableCell align="center" colSpan={5}>
-                Додаткові спеціалізації
+                ІІІ. ОСВІТНІ КОМПОНЕНТИ ЗА ВИБОРОМ ЗДОБУВАЧА ОСВІТИ ОТРИМАННЯ
+                ВИБІРКОВОЇ ПРОФЕСІЙНОЇ КВАЛІФІКАЦІЇ
               </TableCell>
             </TableRow>
             {addSpec.map((item) => (
@@ -196,7 +197,8 @@ export const EducationPlan = () => {
             ))}
             <TableRow>
               <TableCell align="center" colSpan={5}>
-                Вибіркові предмети
+                ІV. ОСВІТНІ КОМПОНЕНТИ ЗА ВИБОРОМ ЗДОБУВАЧА ОСВІТИ КАТАЛОГ
+                ВИБІРКОВИХ ДИСЦИПЛІН
               </TableCell>
             </TableRow>
             {subjects

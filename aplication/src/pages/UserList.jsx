@@ -34,13 +34,16 @@ export const UserList = () => {
     });
   };
 
-  const saveChages = async (id, { name, sername, login, premissions }) => {
+  const saveChages = async (
+    id,
+    { name, sername, secondName, login, premissions }
+  ) => {
     dispatch(enable());
     await inwokeMain({
       command: "editUser",
       options: {
         id,
-        params: { name, sername, login, premissions },
+        params: { name, sername, secondName, login, premissions },
       },
     });
     dispatch(disable());
@@ -93,9 +96,20 @@ export const UserList = () => {
                 <TableCell width={"200px"}>
                   <Box display={"flex"}>
                     {!edit[index] ? (
-                      `${user.name} ${user.sername}`
+                      `${user.sername} ${user.name} ${user.secondName}`
                     ) : (
                       <>
+                        <TextField
+                          sx={{ width: "120px" }}
+                          value={user.sername}
+                          onChange={(event) =>
+                            setUsers((prev) => {
+                              const arr = [...prev];
+                              arr[index].sername = event.target.value;
+                              return arr;
+                            })
+                          }
+                        />
                         <TextField
                           sx={{ width: "120px" }}
                           value={user.name}
@@ -109,11 +123,11 @@ export const UserList = () => {
                         />
                         <TextField
                           sx={{ width: "120px" }}
-                          value={user.sername}
+                          value={user.secondName}
                           onChange={(event) =>
                             setUsers((prev) => {
                               const arr = [...prev];
-                              arr[index].sername = event.target.value;
+                              arr[index].secondName = event.target.value;
                               return arr;
                             })
                           }

@@ -13,6 +13,8 @@ import { enable, disable, show } from "../redux/slices";
 export const CreateUser = () => {
   const [type, setType] = useState("user");
   const [name, setName] = useState("");
+  const [secondName, setSecondName] = useState("");
+
   const [sername, setSername] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +26,7 @@ export const CreateUser = () => {
     await window.mainApi.invokeMain("createUser", {
       name,
       sername,
+      secondName,
       login,
       password,
       premissions: type,
@@ -46,6 +49,11 @@ export const CreateUser = () => {
             value={name}
             onChange={({ target }) => setName(target.value)}
             label="Ім'я"
+          />
+          <TextField
+            value={secondName}
+            onChange={({ target }) => setSecondName(target.value)}
+            label="Побатькові"
           />
           <TextField
             value={sername}
@@ -90,7 +98,12 @@ export const CreateUser = () => {
           variant="contained"
           onClick={createUser}
           disabled={
-            !name || !sername || !login || !password || password !== confirm
+            !name ||
+            !secondName ||
+            !sername ||
+            !login ||
+            !password ||
+            password !== confirm
           }
         >
           Створити

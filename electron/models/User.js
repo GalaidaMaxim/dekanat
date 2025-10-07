@@ -5,6 +5,10 @@ const UserSchema = new Schema({
     type: String,
     require: true,
   },
+  secondName: {
+    type: String,
+    require: true,
+  },
   sername: {
     type: String,
     require: true,

@@ -12,7 +12,7 @@ export const LaounchWindow = ({ setType }) => {
   const dbConnected = useDBConnected();
   const updated = useUpdated();
   const dispatch = useDispatch();
-  const version = "1.3.0";
+  const version = "1.3.1";
   useEffect(() => {
     if (!dbConnected) {
       return;
