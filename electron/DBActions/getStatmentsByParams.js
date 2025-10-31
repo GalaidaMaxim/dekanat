@@ -1,6 +1,8 @@
 const { Statment } = require("../models");
 module.exports = async ({ params = {}, page = 1, limit = 30 }) => {
   try {
+    console.log(params);
+
     const count = await Statment.countDocuments({ params });
     const statments = await Statment.find(params)
       .populate("educationPlan")

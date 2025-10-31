@@ -6,6 +6,11 @@ const StatmentSchema = new Schema({
     ref: "department",
     require: true,
   },
+  level: {
+    type: String,
+    enum: ["бакалавр", "магістр", "молодший бакалавр"],
+    default: "бакалавр",
+  },
   educationPlan: {
     type: Schema.Types.ObjectId,
     ref: "educationPlan",

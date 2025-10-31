@@ -111,6 +111,7 @@ export const CreateStatemntDocument = () => {
           decan,
           users: selectedUsers.map((item) => item._id),
           foreigner: foreginer,
+          level,
         },
       },
     });

@@ -38,6 +38,8 @@ export const StatmentView = () => {
     })();
   }, [id, dispatch]);
 
+  console.log(statment?.course);
+
   useEffect(() => {
     if (!statment) {
       return;
@@ -48,7 +50,7 @@ export const StatmentView = () => {
         level: statment.educationPlan.level,
         department: statment.department._id,
         educationPlan: statment.educationPlan._id,
-        course: statment.cource,
+        course: statment.course,
         status: "навчається",
       })
       .then((result) => {
