@@ -113,7 +113,10 @@ export const StatmentList = () => {
           </TableHead>
           <TableBody>
             {statmets.map((item) => (
-              <TableRow key={item._id}>
+              <TableRow
+                sx={{ backgroundColor: item.complited ? "#00FF00" : "#FFFFFF" }}
+                key={item._id}
+              >
                 <TableCell>{item.code}</TableCell>
                 <TableCell>{item.subject.name}</TableCell>
                 <TableCell>{item.department.name}</TableCell>

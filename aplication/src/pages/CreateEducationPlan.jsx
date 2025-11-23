@@ -175,6 +175,15 @@ export const CreateEducationPlan = () => {
         >
           Додати план
         </Button>
+
+        <Box marginTop={2}>
+          <Button
+            variant="contained"
+            onClick={() => navigate("/create_subject")}
+          >
+            Додати предмет
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

@@ -141,7 +141,7 @@ function App() {
                 variant="outlined"
                 onClick={() => navigate("/students")}
               >
-                Всі студенти
+                Студенти
               </Button>
               <Button
                 fullWidth
@@ -150,27 +150,7 @@ function App() {
               >
                 Профілізація
               </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => navigate("/create_student")}
-              >
-                Додати студента
-              </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => navigate("/create_subject")}
-              >
-                Додати предмет
-              </Button>
-              {/* <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => navigate("/plans")}
-              >
-                Індивідуальні плани
-              </Button> */}
+
               <Button
                 fullWidth
                 variant="outlined"

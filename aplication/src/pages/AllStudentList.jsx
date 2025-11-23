@@ -223,6 +223,18 @@ export const AllStudentList = () => {
           onChange={paginationHandle}
         />
       </Box>
+      <Box marginTop={2}>
+        <Button
+          onClick={() => {
+            navigate(`/create_student`, {
+              state: { from: location.pathname },
+            });
+          }}
+          variant="contained"
+        >
+          Додати студента
+        </Button>
+      </Box>
     </Box>
   );
 };

@@ -70,6 +70,10 @@ const StatmentSchema = new Schema({
   foreigner: {
     type: Boolean,
   },
+  complited: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = model("statment", StatmentSchema);
