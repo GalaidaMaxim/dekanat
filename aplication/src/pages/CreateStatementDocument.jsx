@@ -39,7 +39,6 @@ export const CreateStatemntDocument = () => {
 
   const [filePath, setFilePath] = useState("");
   const [examenator, setExamenator] = useState("");
-  const [decan, setDecan] = useState("");
   const [foreginer, setForeginer] = useState(false);
   const dispatch = useDispatch();
   const semester = useSemester();
@@ -107,11 +106,10 @@ export const CreateStatemntDocument = () => {
           facultet,
           remoteType,
           code: number,
-          year,
-          decan,
           users: selectedUsers.map((item) => item._id),
           foreigner: foreginer,
           level,
+          year,
         },
       },
     });
@@ -191,7 +189,7 @@ export const CreateStatemntDocument = () => {
             <YearSelector />
           </Box>
         </Box>
-
+        {/* 
         <Box display={"flex"} justifyContent={"space-between"} mt={2}>
           <Box width={"47%"}>
             <TextField
@@ -201,7 +199,7 @@ export const CreateStatemntDocument = () => {
               onChange={(event) => setDecan(event.target.value)}
             />
           </Box>
-        </Box>
+        </Box> */}
         {selectedUsers.length !== 0 && (
           <Box display={"flex"} gap={2} marginTop={2}>
             {selectedUsers.map((item) => (
@@ -242,7 +240,6 @@ export const CreateStatemntDocument = () => {
             disabled={
               students.length === 0 ||
               !semester ||
-              !decan ||
               !users.lenth === 0 ||
               !year ||
               !number

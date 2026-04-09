@@ -11,7 +11,7 @@ module.exports = async ({ params = {}, page = 1, limit = 30 }) => {
       .populate("subject")
       .populate({
         path: "users", // массив ObjectId
-        select: "name sername", // только эти поля
+        select: "name sername secondName", // только эти поля
       })
       .sort({
         code: 1,

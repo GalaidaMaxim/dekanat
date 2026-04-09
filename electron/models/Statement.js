@@ -57,11 +57,6 @@ const StatmentSchema = new Schema({
       require: true,
     },
   ],
-  decan: {
-    type: String,
-    trim: true,
-    require: true,
-  },
   group: {
     type: String,
     default: "А",

@@ -96,7 +96,12 @@ export const StatmentView = () => {
             subject: statment.subject._id,
             filePath: path,
             teacher: statment.users
-              .map((item) => `${item.sername} ${item.name}`)
+              .map(
+                (item) =>
+                  `${item?.sername} ${item.name?.charAt(
+                    0
+                  )}. ${item.secondName?.charAt(0)}.`
+              )
               .join(", "),
             decan: statment.decan,
             facultet: statment.facultet._id,

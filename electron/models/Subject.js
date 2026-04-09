@@ -21,11 +21,7 @@ const semester = new Schema({
     type: Boolean,
     default: false,
   },
-  chageDate: {
-    type: Number,
-    default: null,
-  },
-  lastChanger: {
+  user: {
     type: Schema.Types.ObjectId,
     ref: "user",
   },
@@ -77,10 +73,7 @@ const SubjectSchema = new Schema({
     type: Boolean,
     require: true,
   },
-  coach: {
-    type: String,
-    default: "",
-  },
+
   aditionalSpecialityName: {
     type: String,
     default: "",
