@@ -61,7 +61,7 @@ export const StatmentView = () => {
 
         const st = data
           .filter((item) =>
-            item.subjects.some((sub) => sub._id === statment.subject._id)
+            item.subjects.some((sub) => sub._id === statment.subject._id),
           )
           .filter((item) => item.foreigner === statment.foreigner)
           .sort((a, b) => a.sername.localeCompare(b.sername));
@@ -99,8 +99,8 @@ export const StatmentView = () => {
               .map(
                 (item) =>
                   `${item?.sername} ${item.name?.charAt(
-                    0
-                  )}. ${item.secondName?.charAt(0)}.`
+                    0,
+                  )}. ${item.secondName?.charAt(0)}.`,
               )
               .join(", "),
             decan: statment.decan,
@@ -108,7 +108,7 @@ export const StatmentView = () => {
             remoteType: statment.remoteType,
             number: statment.code,
             year: statment.year,
-          }
+          },
         );
         console.log(result);
 

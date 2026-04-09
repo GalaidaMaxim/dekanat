@@ -12,7 +12,7 @@ export const LaounchWindow = ({ setType }) => {
   const dbConnected = useDBConnected();
   const updated = useUpdated();
   const dispatch = useDispatch();
-  const version = "1.3.2";
+  const version = "1.3.3";
   useEffect(() => {
     if (!dbConnected) {
       return;
@@ -37,7 +37,7 @@ export const LaounchWindow = ({ setType }) => {
   const loginUser = async () => {
     dispatch(enable());
     const user = JSON.parse(
-      await window.mainApi.invokeMain("loginUser", { login, password })
+      await window.mainApi.invokeMain("loginUser", { login, password }),
     );
     if (!user) {
       dispatch(
@@ -45,7 +45,7 @@ export const LaounchWindow = ({ setType }) => {
           text: "Перевірте дані",
           title: "Помилка входу",
           type: "warning",
-        })
+        }),
       );
     } else {
       dispatch(setUser(user));

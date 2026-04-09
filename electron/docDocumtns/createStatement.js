@@ -10,9 +10,9 @@ function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function deleteSlash(line = "") {
+function deleteSpecialSymbols(line = "") {
   let arr = line.split("");
-  arr = arr.filter((item) => item !== "/");
+  arr = arr.filter((item) => item !== "/" && item !== "*");
   return arr.join("");
 }
 
@@ -32,12 +32,12 @@ module.exports = async (
     number,
     year,
     remoteType,
-  }
+  },
 ) => {
   // Load the docx file as binary content
   const content = fs.readFileSync(
     path.resolve(__dirname, "templates", "statmenTemplate.docx"),
-    "binary"
+    "binary",
   );
   fc = (await Facultet.findById(facultet)).name.toUpperCase();
   rtp = remoteType === "online" ? "ЗАОЧНЕ ВІДДІЛЕННЯ" : "ДЕННЕ ВІДДІЛЕННЯ";
@@ -93,7 +93,7 @@ module.exports = async (
       ECTS,
       mark,
       name: `${item.sername} ${item.name.charAt(0)}. ${item.secondName.charAt(
-        0
+        0,
       )}.`,
       s: index + 1,
     };
@@ -126,5 +126,5 @@ module.exports = async (
   // buf is a nodejs Buffer, you can either write it to a
   // file or res.send it with express for example.
 
-  fs.writeFileSync(path.resolve(filePath, deleteSlash(fileName)), buf);
+  fs.writeFileSync(path.resolve(filePath, deleteSpecialSymbols(fileName)), buf);
 };
