@@ -15,7 +15,7 @@ import { enable, disable, show } from "../redux/slices";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { StudentList } from "../componetns/StudentList";
-
+import { StatmentTeachersModal } from "../componetns/StartmentTeachersModal";
 export const StatmentView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,6 +23,7 @@ export const StatmentView = () => {
   const { id } = useParams();
   const [statment, setStatment] = useState(null);
   const [students, setStudents] = useState([]);
+  const [teacherModal, setTeacherModal] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -61,7 +62,7 @@ export const StatmentView = () => {
 
         const st = data
           .filter((item) =>
-            item.subjects.some((sub) => sub._id === statment.subject._id),
+            item.subjects.some((sub) => sub._id === statment.subject._id)
           )
           .filter((item) => item.foreigner === statment.foreigner)
           .sort((a, b) => a.sername.localeCompare(b.sername));
@@ -99,8 +100,8 @@ export const StatmentView = () => {
               .map(
                 (item) =>
                   `${item?.sername} ${item.name?.charAt(
-                    0,
-                  )}. ${item.secondName?.charAt(0)}.`,
+                    0
+                  )}. ${item.secondName?.charAt(0)}.`
               )
               .join(", "),
             decan: statment.decan,
@@ -108,7 +109,7 @@ export const StatmentView = () => {
             remoteType: statment.remoteType,
             number: statment.code,
             year: statment.year,
-          },
+          }
         );
         console.log(result);
 
@@ -231,13 +232,14 @@ export const StatmentView = () => {
           <TableRow>
             <TableCell sx={{ fontWeight: 600 }}>Екзаменатор</TableCell>
             <TableCell>
-              <Box display={"flex"} gap={2}>
+              <Box alignItems={"center"} display={"flex"} gap={2}>
                 {statment?.users.map((item) => (
                   <Typography
                     key={item.id}
                     variant="span"
                   >{`${item.sername} ${item.name}`}</Typography>
                 ))}
+                <Button onClick={() => setTeacherModal(true)}>Змінити</Button>
               </Box>
             </TableCell>
           </TableRow>
@@ -291,6 +293,12 @@ export const StatmentView = () => {
           Завантажити СSV
         </Button>
       </Box>
+      {teacherModal && (
+        <StatmentTeachersModal
+          statment={statment}
+          onClose={() => setTeacherModal(false)}
+        />
+      )}
     </Box>
   );
 };
