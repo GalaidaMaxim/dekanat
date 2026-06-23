@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { enable, disable } from "../redux/slices";
 import { inwokeMain } from "../serivce/inwokeMain";
 
-export const UserSelector = ({ setUser }) => {
+export const UserSelector = ({ setUser = () => {} }) => {
   const [users, setUsers] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState("");
@@ -34,7 +34,7 @@ export const UserSelector = ({ setUser }) => {
       return [...prev, value];
     });
     setValue("");
-  }, [value]);
+  }, [value, setUser]);
 
   return (
     <Autocomplete
