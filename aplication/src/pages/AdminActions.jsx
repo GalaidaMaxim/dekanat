@@ -22,7 +22,7 @@ export const AdminActions = () => {
   const updateYear = async () => {
     dispatch(enable());
     const allStudents = JSON.parse(
-      await window.mainApi.invokeMain("getAllStudents")
+      await window.mainApi.invokeMain("getAllStudents"),
     );
     for (let i = 0; i < allStudents.length; i++) {
       const year = getStartYear(allStudents[i].course);
@@ -38,15 +38,25 @@ export const AdminActions = () => {
   };
 
   const toNextYear = async () => {
-    // dispatch(enable());
+    dispatch(enable());
     await window.mainApi.invokeMain("chageDBToNextYear");
+    dispatch(disable());
+  };
+
+  const toNextYearColedge = async () => {
+    // dispatch(enable());
+    console.log("Start transition");
+
+    await window.mainApi.invokeMain("changeDBToNextYearColedge");
+    console.log("Finish transition transition");
+
     // dispatch(disable());
   };
 
   const updateStatus = async () => {
     dispatch(enable());
     const allStudents = JSON.parse(
-      await window.mainApi.invokeMain("getAllStudents")
+      await window.mainApi.invokeMain("getAllStudents"),
     );
     for (let i = 0; i < allStudents.length; i++) {
       await window.mainApi.invokeMain("updateStudent", {
@@ -89,7 +99,7 @@ export const AdminActions = () => {
                 callback: toNextYear,
                 title: "Перевести заклад на наступний рік",
                 discription: "погодьте зі всіма працівниками",
-              })
+              }),
             );
           }}
           variant="contained"
@@ -130,6 +140,20 @@ export const AdminActions = () => {
           variant="contained"
         >
           Заблокувати вибіркові предмети
+        </StyledButton>
+        <StyledButton
+          onClick={() => {
+            dispatch(
+              enableAlertAction({
+                callback: toNextYearColedge,
+                title: "Перевести заклад на наступний рік",
+                discription: "погодьте зі всіма працівниками",
+              }),
+            );
+          }}
+          variant="contained"
+        >
+          Перевести заклад на наступний рік КОЛЕДЖ
         </StyledButton>
       </Box>
     </Box>

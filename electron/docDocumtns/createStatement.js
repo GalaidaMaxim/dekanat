@@ -2,6 +2,7 @@ const PizZip = require("pizzip");
 const Docxtemplater = require("docxtemplater");
 const { Subjects, Departments, Facultet } = require("../models");
 const { intToABC, intToNational } = require("../service/formulas");
+const { abreviaturizer } = require("../service");
 
 const fs = require("fs");
 const path = require("path");
@@ -10,6 +11,18 @@ function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+const deleteInfoInBraces = (line = "") => {
+  if (line.includes("(") && line.includes(")")) {
+    const start = line.indexOf("(");
+    const end = line.indexOf(")");
+
+    const result = line.slice(0, start) + line.slice(end + 1);
+
+    return deleteInfoInBraces(result);
+  }
+
+  return line;
+};
 function deleteSpecialSymbols(line = "") {
   let arr = line.split("");
   arr = arr.filter((item) => item !== "/" && item !== "*");
@@ -81,6 +94,7 @@ module.exports = async (
     if (formControl === "залік") {
       national = "";
       ECTS = "";
+      mark = mark === "Незараховано" ? "Не зараховано" : mark; //це костиль
     } else {
       national = intToNational(Number.parseInt(mark));
       ECTS = intToABC(Number.parseInt(mark));
@@ -122,9 +136,14 @@ module.exports = async (
     // For a 50MB output document, expect 500ms additional CPU time
     compression: "DEFLATE",
   });
+  subject.name = deleteInfoInBraces(subject.name);
+  if (subject.name.split(" ").length > 2) {
+    subject.name = abreviaturizer(subject.name);
+  }
   const fileName = `${number} ${subject.name} ${new Date(Date.now()).getFullYear()}.docx`;
   // buf is a nodejs Buffer, you can either write it to a
   // file or res.send it with express for example.
+  // console.log(fileName);
 
   fs.writeFileSync(path.resolve(filePath, deleteSpecialSymbols(fileName)), buf);
 };

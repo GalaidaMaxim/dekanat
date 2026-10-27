@@ -38,6 +38,7 @@ const createStatment = require("./createStatement");
 const getStatmentsByParams = require("./getStatmentsByParams");
 const deleteStatment = require("./deleteStatment");
 const updateStatment = require("./updateStatment");
+const changeDBToNextYearColedge = require("./changeDBToNextYearColedge"); //костиль
 
 module.exports = {
   deleteStudent,
@@ -80,4 +81,5 @@ module.exports = {
   getStatmentsByParams,
   deleteStatment,
   updateStatment,
+  changeDBToNextYearColedge,
 };

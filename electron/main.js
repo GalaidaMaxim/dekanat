@@ -62,6 +62,8 @@ const {
   createStatment,
   getStatmentsByParams,
   deleteStatment,
+  updateStatment,
+  changeDBToNextYearColedge,
 } = require("./DBActions");
 
 const createSummaryReportTable = require("./exelTables/summaryReport");
@@ -121,19 +123,19 @@ app.whenReady().then(async () => {
 
   ipcMain.handle(
     "createSummaryReportTable",
-    apiMidlvare(createSummaryReportTable)
+    apiMidlvare(createSummaryReportTable),
   );
   ipcMain.handle("createTotalMarksTable", apiMidlvare(createTotalMarksTable));
   ipcMain.handle(
     "getSubjectsByEducationPlan",
-    apiMidlvare(getSubejctsByEducationPlan)
+    apiMidlvare(getSubejctsByEducationPlan),
   );
   ipcMain.handle("getStudentsByCourse", apiMidlvare(getStudentsByCourse));
   ipcMain.handle("createFlexSubjectTable", apiMidlvare(createFlexSubjectTable));
   ipcMain.handle("chageDBToNextYear", apiMidlvare(chageDBToNextYear));
   ipcMain.handle(
     "setMongouseConnectionData",
-    apiMidlvare(setMongouseConnectionData)
+    apiMidlvare(setMongouseConnectionData),
   );
   ipcMain.handle("connectMongouse", apiMidlvare(connectMongouse));
   ipcMain.handle("isMongouseConnected", apiMidlvare(isMongouseConnected));
@@ -148,19 +150,25 @@ app.whenReady().then(async () => {
   ipcMain.handle("createIndividualPlan", apiMidlvare(createIndividualPlan));
   ipcMain.handle(
     "changeSubjectSortNumber",
-    apiMidlvare(changeSubjectSortNumber)
+    apiMidlvare(changeSubjectSortNumber),
   );
   ipcMain.handle(
     "getStudentsByEducationPlan",
-    apiMidlvare(getStudentsByEducationPlan)
+    apiMidlvare(getStudentsByEducationPlan),
   );
   ipcMain.handle("readAchiveStudent", apiMidlvare(readAchiveStudent));
   ipcMain.handle("archiveYear", apiMidlvare(archiveYear));
   ipcMain.handle("createStatment", apiMidlvare(createStatment));
   ipcMain.handle("getStatmentsByParams", apiMidlvare(getStatmentsByParams));
   ipcMain.handle("deleteStatment", apiMidlvare(deleteStatment));
+  ipcMain.handle("updateStatment", apiMidlvare(updateStatment));
+
   ipcMain.handle("createStatmentCSV", apiMidlvare(createStatmentCSV));
   ipcMain.handle("uploadStatmentCSV", apiMidlvare(uploadStatmentCSV));
+  ipcMain.handle(
+    "changeDBToNextYearColedge",
+    apiMidlvare(changeDBToNextYearColedge),
+  );
 });
 
 app.on("window-all-closed", async () => {
